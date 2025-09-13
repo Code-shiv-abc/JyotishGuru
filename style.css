@@ -1,0 +1,428 @@
+/* ------------------- */
+/* Custom Properties   */
+/* ------------------- */
+:root {
+    --clr-dark: #0a0e27; /* Midnight Blue */
+    --clr-light: #f0e8d8; /* Creamy White */
+    --clr-gold: #ffc700; /* Golden */
+    --clr-accent: #e779a9; /* Soft Pink/Purple for dawn */
+
+    --ff-serif: 'Playfair Display', serif;
+    --ff-sans: 'Roboto', sans-serif;
+
+    --fs-h1: 3rem;
+    --fs-h2: 2.25rem;
+    --fs-h3: 1.5rem;
+    --fs-body: 1rem;
+
+    --section-padding: 4rem 0;
+}
+
+/* ------------------- */
+/* Reset & Globals     */
+/* ------------------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--ff-sans);
+    font-size: var(--fs-body);
+    line-height: 1.6;
+    color: var(--clr-light);
+    background-color: var(--clr-dark);
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+section {
+    padding: var(--section-padding);
+}
+
+/* ------------------- */
+/* Typography          */
+/* ------------------- */
+h1, h2, h3 {
+    font-family: var(--ff-serif);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: var(--clr-gold);
+}
+
+h1 { font-size: var(--fs-h1); }
+h2 { font-size: var(--fs-h2); text-align: center; margin-bottom: 2rem; }
+h3 { font-size: var(--fs-h3); color: var(--clr-light); }
+
+p { margin-bottom: 1rem; }
+a { color: var(--clr-gold); text-decoration: none; }
+
+/* ------------------- */
+/* Buttons & Forms     */
+/* ------------------- */
+.cta-button {
+    display: inline-block;
+    background-color: var(--clr-gold);
+    color: var(--clr-dark);
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    background-color: #fff;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 600px;
+    margin: 2rem auto 0;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--clr-gold);
+    background: transparent;
+    color: var(--clr-light);
+    border-radius: 5px;
+    font-family: var(--ff-sans);
+}
+
+input::placeholder, textarea::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+form button {
+    align-self: center;
+    border: none;
+    cursor: pointer;
+}
+
+/* ------------------- */
+/* Header & Hero       */
+/* ------------------- */
+#hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.sky-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    /* Initial Dawn State - will be controlled by GSAP */
+    background: linear-gradient(180deg, #2a2a4e 0%, #5a4a78 100%);
+}
+
+.hero-content {
+    z-index: 1;
+}
+
+.hero-content .subheading {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+/* --- Zodiac Wheel --- */
+.zodiac-wheel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    height: 300px;
+    border: 2px solid rgba(255, 199, 0, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.1;
+    animation: spin 60s linear infinite;
+    z-index: 0;
+}
+
+@keyframes spin {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* --- Stars Animation --- */
+@keyframes twinkle {
+    0% { opacity: 0; }
+    50% { opacity: 0.8; }
+    100% { opacity: 0; }
+}
+
+#stars, #stars::before, #stars::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 1px;
+    background: transparent;
+    border-radius: 50%;
+}
+
+#stars {
+    box-shadow: 7vw 85vh 0px 0px #FFF, 92vw 34vh 1px 0px #FFF, 62vw 25vh 1px 0px #FFF, 2vw 2vh 0px 0px #FFF, 65vw 82vh 1px 0px #FFF, 76vw 53vh 1px 0px #FFF, 10vw 82vh 1px 1px #FFF, 88vw 68vh 0px 1px #FFF;
+    animation: twinkle 10s infinite linear;
+}
+
+#stars::before {
+    content: '';
+    box-shadow: 25vw 15vh 1px 1px #FFF, 5vw 44vh 0px 1px #FFF, 32vw 95vh 1px 1px #FFF, 42vw 82vh 0px 1px #FFF, 75vw 12vh 1px 1px #FFF, 96vw 33vh 0px 1px #FFF, 50vw 52vh 0px 1px #FFF, 18vw 8vh 0px 1px #FFF;
+    animation: twinkle 12s infinite linear;
+    animation-delay: -2s;
+}
+
+#stars::after {
+    content: '';
+    box-shadow: 15vw 25vh 0px 0px #FFF, 85vw 54vh 1px 0px #FFF, 52vw 5vh 1px 0px #FFF, 22vw 72vh 0px 0px #FFF, 45vw 22vh 1px 0px #FFF, 96vw 93vh 1px 0px #FFF, 30vw 32vh 0px 1px #FFF, 8vw 18vh 0px 1px #FFF;
+    animation: twinkle 15s infinite linear;
+    animation-delay: -5s;
+}
+
+/* ------------------- */
+/* About Section       */
+/* ------------------- */
+#about .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.profile-photo {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid var(--clr-gold);
+}
+
+.about-text {
+    text-align: center;
+}
+
+/* ------------------- */
+/* Services Section    */
+/* ------------------- */
+#services {
+    background-color: rgba(0,0,0,0.2);
+}
+
+.service-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+.service-cards .card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    border: 1px solid rgba(255, 199, 0, 0.2);
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.service-cards .card:hover {
+    transform: translateY(-10px);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.service-icon {
+    width: 60px;
+    margin: 0 auto 1rem;
+}
+
+/* ------------------- */
+/* Horoscope Section   */
+/* ------------------- */
+#horoscope-result {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.zodiac-signs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+}
+
+.zodiac-sign-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 199, 0, 0.2);
+    border-radius: 10px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--ff-serif);
+    color: var(--clr-gold);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.zodiac-sign-card:hover {
+    transform: rotate(5deg) scale(1.1);
+    box-shadow: 0 0 15px rgba(255, 199, 0, 0.5);
+}
+
+/* ------------------- */
+/* Testimonials        */
+/* ------------------- */
+.testimonial-carousel {
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.testimonial {
+    display: none;
+}
+.testimonial.active {
+    display: block;
+}
+.testimonial p {
+    font-style: italic;
+    font-size: 1.2rem;
+}
+.testimonial span {
+    display: block;
+    margin-top: 1rem;
+    font-weight: 500;
+    color: var(--clr-gold);
+}
+
+/* ------------------- */
+/* Blog Section        */
+/* ------------------- */
+.blog-posts {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+.blog-post {
+    background: rgba(0,0,0,0.2);
+    padding: 1.5rem;
+    border-radius: 10px;
+}
+.blog-post a {
+    font-weight: 500;
+}
+
+/* ------------------- */
+/* Contact Section     */
+/* ------------------- */
+#contact {
+    text-align: center;
+}
+.contact-details {
+    margin: 2rem 0;
+}
+.whatsapp-button {
+    display: inline-block;
+    background-color: #25D366;
+    color: white;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    margin-top: 1rem;
+    font-weight: 500;
+}
+.whatsapp-button:hover {
+    background-color: #128C7E;
+}
+
+/* ------------------- */
+/* Footer              */
+/* ------------------- */
+footer {
+    text-align: center;
+    padding: 2rem 0;
+    background-color: #000;
+}
+.social-media {
+    margin-bottom: 1rem;
+}
+.social-media a {
+    margin: 0 0.5rem;
+}
+.social-media img {
+    width: 24px;
+    display: inline-block;
+}
+.disclaimer {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-top: 1rem;
+}
+
+/* ------------------- */
+/* Media Queries       */
+/* ------------------- */
+@media (min-width: 768px) {
+    :root {
+        --fs-h1: 4rem;
+    }
+    #about .container {
+        flex-direction: row;
+        text-align: left;
+    }
+    .profile-photo {
+        width: 250px;
+        height: 250px;
+    }
+    .service-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .blog-posts {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .service-cards {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
