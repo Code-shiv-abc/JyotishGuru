@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JyotishGuru - Acharya Ravindra Shastri | Vedic Astrology</title>
+    <meta name="description" content="Discover your destiny with Acharya Ravindra Shastri, a renowned Vedic Astrologer and Kathakar with 15+ years of experience. Get your free horoscope, book a consultation, and find guidance.">
+    <meta name="keywords" content="Vedic Astrology, Jyotish, Horoscope, Acharya Ravindra Shastri, Kathakar, Janam Kundli, Kundali Milan, Vastu Shastra">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- SEO: JSON-LD Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Acharya Ravindra Shastri",
+      "jobTitle": "Vedic Astrologer & Kathakar",
+      "url": "https://your-github-username.github.io/JyotishGuru/",
+      "knowsAbout": ["Vedic Astrology", "Kathakatha", "Janam Kundli", "Kundali Milan", "Pooja & Rituals", "Vastu Shastra"],
+      "alumniOf": "Varanasi Sanskrit University",
+      "description": "With 15 years of experience, Acharya Ravindra Shastri provides profound guidance through Vedic Astrology and spiritual Kathakatha.",
+      "image": "https://your-github-username.github.io/JyotishGuru/assets/images/acharya-ravindra-shastri.jpg"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "Astrology Consultation",
+      "provider": {
+        "@type": "Person",
+        "name": "Acharya Ravindra Shastri"
+      },
+      "name": "Birth Chart Analysis (Janam Kundli)",
+      "description": "A detailed analysis of your birth chart to reveal insights about your life, career, health, and relationships."
+    }
+    </script>
+
+</head>
+<body>
+
+    <!-- Header & Hero Section -->
+    <header id="hero">
+        <div class="hero-content">
+            <h1>Discover Your Destiny with Acharya Ravindra Shastri</h1>
+            <p class="subheading">15+ Years of Expertise in Vedic Astrology & Kathakatha</p>
+            <a href="#services" class="cta-button">Get Your Free Horoscope</a>
+        </div>
+        <div id="stars"></div>
+        <div class="zodiac-wheel">
+            <p>Zodiac Wheel</p>
+        </div>
+        <div class="sky-gradient"></div>
+    </header>
+
+    <main>
+        <!-- About Section -->
+        <section id="about">
+            <div class="container">
+                <img src="assets/images/acharya-photo.jpg" alt="Acharya Ravindra Shastri" class="profile-photo" loading="lazy">
+                <div class="about-text">
+                    <h2>About Acharya Ravindra Shastri</h2>
+                    <p>With a profound journey spanning over <strong>15 years</strong>, Acharya Ravindra Shastri has dedicated his life to the sacred sciences of Vedic Astrology and the art of Kathakatha. His wisdom illuminates the path for those seeking clarity, purpose, and spiritual solace.</p>
+                    <p>He provides not just predictions, but also practical remedies and spiritual guidance to help you navigate life's challenges and embrace its opportunities.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services">
+            <div class="container">
+                <h2>Our Services</h2>
+                <div class="service-cards">
+                    <div class="card">
+                        <img src="assets/icons/kundli.svg" alt="Birth Chart Icon" class="service-icon">
+                        <h3>Birth Chart Analysis (Janam Kundli)</h3>
+                        <p>Unlock the secrets of your destiny with a detailed reading of your birth chart.</p>
+                        <a href="#contact" class="cta-button">Book Now</a>
+                    </div>
+                    <div class="card">
+                        <img src="assets/icons/matchmaking.svg" alt="Matchmaking Icon" class="service-icon">
+                        <h3>Kundali Milan (Matchmaking)</h3>
+                        <p>Ensure a harmonious and prosperous marital life with expert compatibility analysis.</p>
+                        <a href="#contact" class="cta-button">Book Now</a>
+                    </div>
+                    <div class="card">
+                        <img src="assets/icons/pooja.svg" alt="Pooja Icon" class="service-icon">
+                        <h3>Pooja & Rituals</h3>
+                        <p>Perform powerful Poojas and rituals to remove obstacles and attract positivity.</p>
+                        <a href="#contact" class="cta-button">Book Now</a>
+                    </div>
+                    <div class="card">
+                        <img src="assets/icons/vastu.svg" alt="Vastu Icon" class="service-icon">
+                        <h3>Vastu Shastra Consultation</h3>
+                        <p>Harmonize your home or office for success and well-being with Vastu principles.</p>
+                        <a href="#contact" class="cta-button">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Horoscope Section -->
+        <section id="horoscope">
+            <div class="container">
+                <h2>Get a Glimpse into Your Zodiac</h2>
+                <form id="horoscope-form">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="date" name="dob" placeholder="Date of Birth" required>
+                    <input type="time" name="tob" placeholder="Time of Birth" required>
+                    <input type="text" name="pob" placeholder="Place of Birth" required>
+                    <button type="submit" class="cta-button">Reveal My Zodiac</button>
+                </form>
+                <div id="horoscope-result" style="display:none;">
+                    <h3>Your Zodiac Sign is: Scorpio</h3>
+                    <p>A short, static prediction will appear here. You are passionate and resourceful.</p>
+                </div>
+                <div class="zodiac-signs-grid">
+                    <!-- 12 placeholder zodiac signs -->
+                    <div class="zodiac-sign-card">Sign</div>
+                    <div class="zodiac-sign-card">Sign</div>
+                    <div class="zodiac-sign-card">Sign</div>
+                    <div class="zodiac-sign-card">Sign</div>
+                    <div class="zodiac-sign-card">Sign</div>
+                    <div class="zodiac-sign-card">Sign</div>
+                    <div class="zodiac-sign-card">Sign</div>
+                    <div class="zodiac-sign-card">Sign</div>
+                    <div class="zodiac-sign-card">Sign</div>
+                    <div class="zodiac-sign-card">Sign</div>
+                    <div class="zodiac-sign-card">Sign</div>
+                    <div class="zodiac-sign-card">Sign</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials">
+            <div class="container">
+                <h2>What Our Clients Say</h2>
+                <div class="testimonial-carousel">
+                    <!-- Testimonial 1 -->
+                    <div class="testimonial active">
+                        <p>"Acharya Ji's guidance was a beacon of light during a very difficult time. His remedies were simple and effective."</p>
+                        <span>- Priya S., Mumbai</span>
+                    </div>
+                    <!-- Testimonial 2 -->
+                    <div class="testimonial">
+                        <p>"The Kundali Milan service was incredibly detailed. We are now happily married, thanks to his insights."</p>
+                        <span>- Rohan & Anjali K., Delhi</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Section -->
+        <section id="blog">
+            <div class="container">
+                <h2>Vedic Insights</h2>
+                <div class="blog-posts">
+                    <article class="blog-post">
+                        <h3>Mercury Retrograde Explained</h3>
+                        <p>What does it mean when Mercury is in retrograde? Learn how it affects your life and how to navigate it...</p>
+                        <a href="#">Read More</a>
+                    </article>
+                    <article class="blog-post">
+                        <h3>The Power of Saturn (Shani)</h3>
+                        <p>Understand the significance of Saturn in your horoscope and its influence on your karma and discipline...</p>
+                        <a href="#">Read More</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <div class="container">
+                <h2>Consult with Acharya Ji</h2>
+                <p>Take the first step towards a more enlightened future. Reach out for a personal consultation.</p>
+                <div class="contact-details">
+                    <p><strong>Phone:</strong> <a href="tel:+917355556366">+91 7355556366</a></p>
+                    <a href="https://wa.me/917355556366?text=Namaste%20Acharya%20Ji,%20I%20would%20like%20to%20consult." class="whatsapp-button" target="_blank">
+                        Message on WhatsApp
+                    </a>
+                </div>
+                <!-- IMPORTANT: Replace YOUR_FORMSPREE_ENDPOINT with your actual Formspree endpoint -->
+                <form id="contact-form" action="https://formspree.io/f/YOUR_FORMSPREE_ENDPOINT" method="POST">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email" required>
+                    <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+                    <button type="submit" class="cta-button">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="social-media">
+                <a href="#"><img src="assets/icons/instagram.svg" alt="Instagram"></a>
+                <a href="#"><img src="assets/icons/youtube.svg" alt="YouTube"></a>
+                <a href="https://wa.me/917355556366?text=Namaste%20Acharya%20Ji,%20I%20would%20like%20to%20consult."><img src="assets/icons/whatsapp.svg" alt="WhatsApp"></a>
+            </div>
+            <p>&copy; 2024 JyotishGuru. All Rights Reserved.</p>
+            <p class="disclaimer">Disclaimer: Astrology is a guiding tool, not a guarantee of future events.</p>
+        </div>
+    </footer>
+
+    <!-- GSAP Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+
+    <!-- Your Custom Script -->
+    <script src="script.js"></script>
+
+    <!--
+        IMPORTANT: Google Analytics Integration
+        Replace 'G-XXXXXXXXXX' with your actual Google Analytics Measurement ID.
+    -->
+    <!--
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+     -->
+
+</body>
+</html>
