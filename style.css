@@ -3,7 +3,7 @@
 /* ------------------- */
 :root {
     --clr-dark: #0a0e27; /* Midnight Blue */
-    --clr-light: #f0e8d8; /* Creamy White */
+    --clr-light: #f4f1ea; /* Brighter Creamy White for better contrast */
     --clr-gold: #ffc700; /* Golden */
     --clr-accent: #e779a9; /* Soft Pink/Purple for dawn */
 
@@ -56,6 +56,14 @@ section {
     padding: var(--section-padding);
 }
 
+.section-divider {
+    height: 1px;
+    border: 0;
+    background-image: linear-gradient(to right, rgba(255, 199, 0, 0), rgba(255, 199, 0, 0.3), rgba(255, 199, 0, 0));
+    margin: 0 auto;
+    width: 80%;
+}
+
 /* ------------------- */
 /* Typography          */
 /* ------------------- */
@@ -78,6 +86,7 @@ a { color: var(--clr-gold); text-decoration: none; }
 /* Buttons & Forms     */
 /* ------------------- */
 .cta-button {
+    position: relative;
     display: inline-block;
     background-color: var(--clr-gold);
     color: var(--clr-dark);
@@ -87,6 +96,36 @@ a { color: var(--clr-gold); text-decoration: none; }
     text-transform: uppercase;
     letter-spacing: 1px;
     transition: transform 0.3s ease, background-color 0.3s ease;
+    min-width: 150px; /* Ensure space for spinner */
+    min-height: 45px;
+}
+
+.spinner {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(0,0,0,0.2);
+    border-top-color: var(--clr-dark);
+    border-radius: 50%;
+    animation: button-spin 1s linear infinite;
+    transform: translate(-50%, -50%);
+}
+
+.cta-button.loading .spinner {
+    display: block;
+}
+
+.cta-button.loading .button-text {
+    visibility: hidden;
+}
+
+@keyframes button-spin {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
 }
 
 .cta-button:hover {
@@ -120,6 +159,13 @@ form button {
     align-self: center;
     border: none;
     cursor: pointer;
+}
+
+/* --- Accessibility Focus --- */
+:is(a, button, input[type="text"], input[type="date"], input[type="time"], input[type="email"], textarea):focus-visible {
+    outline: 2px solid var(--clr-gold);
+    outline-offset: 3px;
+    border-radius: 5px; /* Ensures outline follows rounded corners */
 }
 
 /* ------------------- */
@@ -160,17 +206,17 @@ form button {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 300px;
-    height: 300px;
-    border: 2px solid rgba(255, 199, 0, 0.2);
-    border-radius: 50%;
+    width: 400px; /* Increased size for better visibility */
+    height: 400px;
     transform: translate(-50%, -50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0.1;
+    opacity: 0.25; /* Increased opacity */
     animation: spin 60s linear infinite;
     z-index: 0;
+}
+
+.zodiac-wheel img {
+    width: 100%;
+    height: 100%;
 }
 
 @keyframes spin {
@@ -304,18 +350,26 @@ form button {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.zodiac-sign-card:hover {
+.zodiac-sign-card:hover, .zodiac-sign-card.active {
     transform: rotate(5deg) scale(1.1);
     box-shadow: 0 0 15px rgba(255, 199, 0, 0.5);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 /* ------------------- */
 /* Testimonials        */
 /* ------------------- */
+.testimonial-carousel-wrapper {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
 .testimonial-carousel {
     max-width: 700px;
     margin: 0 auto;
     text-align: center;
+    min-height: 150px; /* Prevent layout shift */
 }
 
 .testimonial {
@@ -327,12 +381,46 @@ form button {
 .testimonial p {
     font-style: italic;
     font-size: 1.2rem;
+    margin-bottom: 1rem;
 }
 .testimonial span {
     display: block;
     margin-top: 1rem;
     font-weight: 500;
     color: var(--clr-gold);
+}
+
+.carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 199, 0, 0.2);
+    color: var(--clr-light);
+    border: 1px solid rgba(255, 199, 0, 0.4);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.carousel-control:hover {
+    background-color: rgba(255, 199, 0, 0.5);
+    border-color: var(--clr-gold);
+}
+
+.carousel-control.prev {
+    left: 10px;
+}
+
+.carousel-control.next {
+    right: 10px;
 }
 
 /* ------------------- */
@@ -394,7 +482,7 @@ footer {
 }
 .disclaimer {
     font-size: 0.8rem;
-    opacity: 0.7;
+    opacity: 0.8; /* Increased opacity for better readability */
     margin-top: 1rem;
 }
 
@@ -425,4 +513,22 @@ footer {
     .service-cards {
         grid-template-columns: repeat(4, 1fr);
     }
+}
+
+/* ------------------- */
+/* Utility Classes     */
+/* ------------------- */
+.notification {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--clr-gold);
+    color: var(--clr-dark);
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    font-weight: 500;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.5s, top 0.5s;
 }
