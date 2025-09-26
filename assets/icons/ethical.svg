@@ -1,0 +1,10 @@
+<svg width="60" height="60" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="var(--clr-gold, #ffc700)">
+    <g stroke-width="3">
+        <!-- Hand -->
+        <path d="M20,80 Q30,60 50,60 Q70,60 80,80 L85,90" stroke-linecap="round"/>
+        <path d="M20,80 L15,90" stroke-linecap="round"/>
+        <!-- Heart -->
+        <path d="M50 45 C 40 30, 25 35, 35 50 C 45 65, 50 60, 50 45" fill="var(--clr-gold)" fill-opacity="0.2"/>
+        <path d="M50 45 C 60 30, 75 35, 65 50 C 55 65, 50 60, 50 45" fill="var(--clr-gold)" fill-opacity="0.2"/>
+    </g>
+</svg>
