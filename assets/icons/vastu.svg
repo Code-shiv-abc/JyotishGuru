@@ -1,0 +1,12 @@
+<svg width="60" height="60" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="var(--clr-gold, #ffc700)">
+    <g stroke-width="2">
+        <!-- Outer square -->
+        <rect x="15" y="15" width="70" height="70" rx="5"/>
+        <!-- Inner lines -->
+        <line x1="15" y1="50" x2="85" y2="50" stroke-width="1"/>
+        <line x1="50" y1="15" x2="50" y2="85" stroke-width="1"/>
+        <!-- Center house/home shape -->
+        <path d="M 50 35 L 65 50 L 35 50 Z" fill="var(--clr-gold, #ffc700)" fill-opacity="0.2"/>
+        <rect x="40" y="50" width="20" height="15" fill="var(--clr-gold, #ffc700)" fill-opacity="0.2"/>
+    </g>
+</svg>

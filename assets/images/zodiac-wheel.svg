@@ -1,0 +1,44 @@
+<svg width="300" height="300" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="rgba(255, 199, 0, 0.4)">
+  <defs>
+    <path id="circlePath" d="M 50, 50 m -38, 0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0" />
+  </defs>
+  <!-- Outer Circle -->
+  <circle cx="50" cy="50" r="48" stroke-width="0.5"/>
+  <!-- Inner Circle -->
+  <circle cx="50" cy="50" r="30" stroke-width="0.5"/>
+  <!-- Decorative Inner Circle -->
+  <circle cx="50" cy="50" r="25" stroke-width="0.2"/>
+  <!-- Sun in the middle -->
+  <circle cx="50" cy="50" r="8" fill="rgba(255, 199, 0, 0.3)" stroke-width="0.5"/>
+  <circle cx="50" cy="50" r="5" fill="rgba(255, 199, 0, 0.5)"/>
+  <!-- Dividing Lines -->
+  <g stroke-width="0.3">
+    <line x1="50" y1="2" x2="50" y2="30" />
+    <line x1="98" y1="50" x2="70" y2="50" />
+    <line x1="50" y1="98" x2="50" y2="70" />
+    <line x1="2" y1="50" x2="30" y2="50" />
+    <line x1="67.68" y1="12.32" x2="62.4" y2="28.8" transform="rotate(15, 50, 50)" />
+    <line x1="87.68" y1="32.32" x2="72.4" y2="38.8" transform="rotate(15, 50, 50)" />
+    <line x1="87.68" y1="67.68" x2="72.4" y2="61.2" transform="rotate(15, 50, 50)" />
+    <line x1="67.68" y1="87.68" x2="62.4" y2="71.2" transform="rotate(15, 50, 50)" />
+    <line x1="32.32" y1="87.68" x2="37.6" y2="71.2" transform="rotate(15, 50, 50)" />
+    <line x1="12.32" y1="67.68" x2="27.6" y2="61.2" transform="rotate(15, 50, 50)" />
+    <line x1="12.32" y1="32.32" x2="27.6" y2="38.8" transform="rotate(15, 50, 50)" />
+    <line x1="32.32" y1="12.32" x2="37.6" y2="28.8" transform="rotate(15, 50, 50)" />
+  </g>
+  <!-- Zodiac Symbols -->
+  <g fill="rgba(255, 199, 0, 0.7)" font-size="7" font-family="serif" text-anchor="middle">
+    <text dy="-35"><textPath href="#circlePath" startOffset="4.16%">♈</textPath></text>
+    <text dy="-35"><textPath href="#circlePath" startOffset="12.49%">♉</textPath></text>
+    <text dy="-35"><textPath href="#circlePath" startOffset="20.82%">♊</textPath></text>
+    <text dy="-35"><textPath href="#circlePath" startOffset="29.15%">♋</textPath></text>
+    <text dy="-35"><textPath href="#circlePath" startOffset="37.48%">♌</textPath></text>
+    <text dy="-35"><textPath href="#circlePath" startOffset="45.81%">♍</textPath></text>
+    <text dy="-35"><textPath href="#circlePath" startOffset="54.14%">♎</textPath></text>
+    <text dy="-35"><textPath href="#circlePath" startOffset="62.47%">♏</textPath></text>
+    <text dy="-35"><textPath href="#circlePath" startOffset="70.8%">♐</textPath></text>
+    <text dy="-35"><textPath href="#circlePath" startOffset="79.13%">♑</textPath></text>
+    <text dy="-35"><textPath href="#circlePath" startOffset="87.46%">♒</textPath></text>
+    <text dy="-35"><textPath href="#circlePath" startOffset="95.79%">♓</textPath></text>
+  </g>
+</svg>

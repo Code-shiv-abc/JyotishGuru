@@ -6,6 +6,7 @@
     <title>JyotishGuru - Acharya Ravindra Shastri | Vedic Astrology</title>
     <meta name="description" content="Discover your destiny with Acharya Ravindra Shastri, a renowned Vedic Astrologer and Kathakar with 15+ years of experience. Get your free horoscope, book a consultation, and find guidance.">
     <meta name="keywords" content="Vedic Astrology, Jyotish, Horoscope, Acharya Ravindra Shastri, Kathakar, Janam Kundli, Kundali Milan, Vastu Shastra">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,11 +23,11 @@
       "@type": "Person",
       "name": "Acharya Ravindra Shastri",
       "jobTitle": "Vedic Astrologer & Kathakar",
-      "url": "https://your-github-username.github.io/JyotishGuru/",
+      "url": "https://jyotishguru.com/",
       "knowsAbout": ["Vedic Astrology", "Kathakatha", "Janam Kundli", "Kundali Milan", "Pooja & Rituals", "Vastu Shastra"],
       "alumniOf": "Varanasi Sanskrit University",
       "description": "With 15 years of experience, Acharya Ravindra Shastri provides profound guidance through Vedic Astrology and spiritual Kathakatha.",
-      "image": "https://your-github-username.github.io/JyotishGuru/assets/images/acharya-ravindra-shastri.jpg"
+      "image": "https://jyotishguru.com/assets/images/acharya-ravindra-shastri.jpg"
     }
     </script>
     <script type="application/ld+json">
@@ -55,7 +56,7 @@
         </div>
         <div id="stars"></div>
         <div class="zodiac-wheel">
-            <p>Zodiac Wheel</p>
+            <img src="assets/images/zodiac-wheel.svg" alt="Animated Zodiac Wheel">
         </div>
         <div class="sky-gradient"></div>
     </header>
@@ -72,6 +73,8 @@
                 </div>
             </div>
         </section>
+
+        <hr class="section-divider">
 
         <!-- Services Section -->
         <section id="services">
@@ -106,6 +109,8 @@
             </div>
         </section>
 
+        <hr class="section-divider">
+
         <!-- Horoscope Section -->
         <section id="horoscope">
             <div class="container">
@@ -115,48 +120,58 @@
                     <input type="date" name="dob" placeholder="Date of Birth" required>
                     <input type="time" name="tob" placeholder="Time of Birth" required>
                     <input type="text" name="pob" placeholder="Place of Birth" required>
-                    <button type="submit" class="cta-button">Reveal My Zodiac</button>
+                    <button type="submit" class="cta-button">
+                        <span class="button-text">Reveal My Zodiac</span>
+                        <span class="spinner"></span>
+                    </button>
                 </form>
                 <div id="horoscope-result" style="display:none;">
-                    <h3>Your Zodiac Sign is: Scorpio</h3>
-                    <p>A short, static prediction will appear here. You are passionate and resourceful.</p>
+                    <h3>Your Zodiac Sign is: <span id="zodiac-sign-output"></span></h3>
+                    <p id="zodiac-prediction-output"></p>
                 </div>
                 <div class="zodiac-signs-grid">
-                    <!-- 12 placeholder zodiac signs -->
-                    <div class="zodiac-sign-card">Sign</div>
-                    <div class="zodiac-sign-card">Sign</div>
-                    <div class="zodiac-sign-card">Sign</div>
-                    <div class="zodiac-sign-card">Sign</div>
-                    <div class="zodiac-sign-card">Sign</div>
-                    <div class="zodiac-sign-card">Sign</div>
-                    <div class="zodiac-sign-card">Sign</div>
-                    <div class="zodiac-sign-card">Sign</div>
-                    <div class="zodiac-sign-card">Sign</div>
-                    <div class="zodiac-sign-card">Sign</div>
-                    <div class="zodiac-sign-card">Sign</div>
-                    <div class="zodiac-sign-card">Sign</div>
+                    <div class="zodiac-sign-card" role="button" tabindex="0">Aries</div>
+                    <div class="zodiac-sign-card" role="button" tabindex="0">Taurus</div>
+                    <div class="zodiac-sign-card" role="button" tabindex="0">Gemini</div>
+                    <div class="zodiac-sign-card" role="button" tabindex="0">Cancer</div>
+                    <div class="zodiac-sign-card" role="button" tabindex="0">Leo</div>
+                    <div class="zodiac-sign-card" role="button" tabindex="0">Virgo</div>
+                    <div class="zodiac-sign-card" role="button" tabindex="0">Libra</div>
+                    <div class="zodiac-sign-card" role="button" tabindex="0">Scorpio</div>
+                    <div class="zodiac-sign-card" role="button" tabindex="0">Sagittarius</div>
+                    <div class="zodiac-sign-card" role="button" tabindex="0">Capricorn</div>
+                    <div class="zodiac-sign-card" role="button" tabindex="0">Aquarius</div>
+                    <div class="zodiac-sign-card" role="button" tabindex="0">Pisces</div>
                 </div>
             </div>
         </section>
+
+        <hr class="section-divider">
 
         <!-- Testimonials Section -->
         <section id="testimonials">
             <div class="container">
                 <h2>What Our Clients Say</h2>
-                <div class="testimonial-carousel">
-                    <!-- Testimonial 1 -->
-                    <div class="testimonial active">
-                        <p>"Acharya Ji's guidance was a beacon of light during a very difficult time. His remedies were simple and effective."</p>
-                        <span>- Priya S., Mumbai</span>
+                <div class="testimonial-carousel-wrapper">
+                    <div class="testimonial-carousel">
+                        <!-- Testimonial 1 -->
+                        <div class="testimonial active">
+                            <p>"Acharya Ji's guidance was a beacon of light during a very difficult time. His remedies were simple and effective."</p>
+                            <span>- Priya S., Mumbai</span>
+                        </div>
+                        <!-- Testimonial 2 -->
+                        <div class="testimonial">
+                            <p>"The Kundali Milan service was incredibly detailed. We are now happily married, thanks to his insights."</p>
+                            <span>- Rohan & Anjali K., Delhi</span>
+                        </div>
                     </div>
-                    <!-- Testimonial 2 -->
-                    <div class="testimonial">
-                        <p>"The Kundali Milan service was incredibly detailed. We are now happily married, thanks to his insights."</p>
-                        <span>- Rohan & Anjali K., Delhi</span>
-                    </div>
+                    <button class="carousel-control prev">&lt;</button>
+                    <button class="carousel-control next">&gt;</button>
                 </div>
             </div>
         </section>
+
+        <hr class="section-divider">
 
         <!-- Blog Section -->
         <section id="blog">
@@ -166,16 +181,18 @@
                     <article class="blog-post">
                         <h3>Mercury Retrograde Explained</h3>
                         <p>What does it mean when Mercury is in retrograde? Learn how it affects your life and how to navigate it...</p>
-                        <a href="#">Read More</a>
+                        <a href="javascript:void(0);" title="Coming Soon">Read More</a>
                     </article>
                     <article class="blog-post">
                         <h3>The Power of Saturn (Shani)</h3>
                         <p>Understand the significance of Saturn in your horoscope and its influence on your karma and discipline...</p>
-                        <a href="#">Read More</a>
+                        <a href="javascript:void(0);" title="Coming Soon">Read More</a>
                     </article>
                 </div>
             </div>
         </section>
+
+        <hr class="section-divider">
 
         <!-- Contact Section -->
         <section id="contact">
@@ -203,9 +220,9 @@
     <footer>
         <div class="container">
             <div class="social-media">
-                <a href="#"><img src="assets/icons/instagram.svg" alt="Instagram"></a>
-                <a href="#"><img src="assets/icons/youtube.svg" alt="YouTube"></a>
-                <a href="https://wa.me/917355556366?text=Namaste%20Acharya%20Ji,%20I%20would%20like%20to%20consult."><img src="assets/icons/whatsapp.svg" alt="WhatsApp"></a>
+                <a href="javascript:void(0);" title="Instagram - Coming Soon"><img src="assets/icons/instagram.svg" alt="Instagram"></a>
+                <a href="javascript:void(0);" title="YouTube - Coming Soon"><img src="assets/icons/youtube.svg" alt="YouTube"></a>
+                <a href="https://wa.me/917355556366?text=Namaste%20Acharya%20Ji,%20I%20would%20like%20to%20consult." title="WhatsApp"><img src="assets/icons/whatsapp.svg" alt="WhatsApp"></a>
             </div>
             <p>&copy; 2024 JyotishGuru. All Rights Reserved.</p>
             <p class="disclaimer">Disclaimer: Astrology is a guiding tool, not a guarantee of future events.</p>
@@ -218,20 +235,6 @@
 
     <!-- Your Custom Script -->
     <script src="script.js"></script>
-
-    <!--
-        IMPORTANT: Google Analytics Integration
-        Replace 'G-XXXXXXXXXX' with your actual Google Analytics Measurement ID.
-    -->
-    <!--
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX');
-    </script>
-     -->
 
 </body>
 </html>
