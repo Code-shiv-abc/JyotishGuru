@@ -3,43 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Register GSAP plugins
     gsap.registerPlugin(ScrollTrigger);
 
-    // --- HERO SECTION ANIMATION ---
-    const heroTimeline = gsap.timeline({
-        scrollTrigger: {
-            trigger: "#hero",
-            start: "top top",
-            end: "bottom top",
-            scrub: true,
-        }
-    });
+    // GSAP animations for non-hero elements will be handled by AOS later.
 
-    heroTimeline.to('.sky-gradient', {
-        background: 'linear-gradient(180deg, #2a2a4e 0%, #5a4a78 50%, #f7b733 100%)',
-        ease: 'power1.in'
-    }).to('.sky-gradient', {
-        background: 'linear-gradient(180deg, #f7b733 0%, #fc4a1a 50%, #87CEEB 100%)',
-        ease: 'power1.in'
-    });
-
-    gsap.from('.hero-content h1', { duration: 1, y: 50, opacity: 0, ease: 'power2.out' });
-    gsap.from('.hero-content .subheading', { duration: 1, y: 50, opacity: 0, delay: 0.5, ease: 'power2.out' });
-    gsap.from('.hero-content .cta-button', { duration: 1, y: 50, opacity: 0, delay: 1, ease: 'power2.out' });
-
-    // --- SCROLL-TRIGGERED SECTION ANIMATIONS ---
-    const sections = gsap.utils.toArray('section:not(#hero)');
-    sections.forEach(section => {
-        gsap.from(section, {
-            scrollTrigger: {
-                trigger: section,
-                start: 'top 80%',
-                end: 'bottom 20%',
-                toggleActions: 'play none none none'
-            },
-            opacity: 0,
-            y: 50,
-            duration: 1,
-            ease: 'power2.out'
-        });
+    // --- INITIALIZE AOS ---
+    AOS.init({
+        duration: 800, // values from 0 to 3000, with step 50ms
+        easing: 'ease-in-out', // default easing for AOS animations
+        once: true, // whether animation should happen only once - while scrolling down
     });
 
     // --- HOROSCOPE FORM ---
