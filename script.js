@@ -12,6 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
         once: true, // whether animation should happen only once - while scrolling down
     });
 
+    // Refresh AOS after all content (including images) has loaded to prevent elements being hidden
+    window.addEventListener('load', () => {
+        AOS.refresh();
+    });
+
     // --- HOROSCOPE FORM ---
     const horoscopeForm = document.getElementById('horoscope-form');
     const horoscopeResult = document.getElementById('horoscope-result');

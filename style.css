@@ -453,6 +453,25 @@ footer {
 /* ------------------- */
 /* Utility Classes     */
 /* ------------------- */
+/*
+  AOS Bug Fix: Ensure content is visible on page load.
+  This rule makes elements visible by default. The `aos-init` class is added
+  by the AOS JavaScript library, so the second rule only applies the "hidden"
+  animation state once the library is ready.
+*/
+[data-aos] {
+  opacity: 1 !important;
+  transform: none !important;
+}
+.aos-init .aos-animate {
+  opacity: 1 !important;
+  transform: none !important;
+}
+.aos-init [data-aos]:not(.aos-animate) {
+    opacity: 0 !important;
+}
+
+
 .notification {
     position: fixed;
     top: 20px;
