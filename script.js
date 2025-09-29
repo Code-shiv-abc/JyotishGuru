@@ -1,5 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // --- RESPONSIVE NAVIGATION ---
+    const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+    const mobileNav = document.querySelector('.mobile-nav');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav a');
+
+    mobileNavToggle.addEventListener('click', () => {
+        mobileNavToggle.classList.toggle('is-active');
+        mobileNav.classList.toggle('is-active');
+    });
+
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            mobileNavToggle.classList.remove('is-active');
+            mobileNav.classList.remove('is-active');
+        });
+    });
+
+
     // Register GSAP plugins
     gsap.registerPlugin(ScrollTrigger);
 
