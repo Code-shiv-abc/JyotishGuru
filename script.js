@@ -110,19 +110,45 @@ document.addEventListener('DOMContentLoaded', () => {
     startCarousel();
 
     // Event Listeners for controls
-    nextBtn.addEventListener('click', () => {
+    const nextTestimonial = () => {
         stopCarousel();
         currentTestimonial = (currentTestimonial + 1) % testimonials.length;
         showTestimonial(currentTestimonial);
         startCarousel();
-    });
+    };
 
-    prevBtn.addEventListener('click', () => {
+    const prevTestimonial = () => {
         stopCarousel();
         currentTestimonial = (currentTestimonial - 1 + testimonials.length) % testimonials.length;
         showTestimonial(currentTestimonial);
         startCarousel();
-    });
+    };
+
+    nextBtn.addEventListener('click', nextTestimonial);
+    prevBtn.addEventListener('click', prevTestimonial);
+
+    // Swipe functionality for testimonials
+    const carouselWrapper = document.querySelector('.testimonial-carousel-wrapper');
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    carouselWrapper.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    carouselWrapper.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+        if (touchEndX < touchStartX - 50) { // Swiped left
+            nextTestimonial();
+        }
+        if (touchEndX > touchStartX + 50) { // Swiped right
+            prevTestimonial();
+        }
+    }
 
     // --- INTERACTIVE ZODIAC GRID ---
     const zodiacSignCards = document.querySelectorAll('.zodiac-sign-card');
