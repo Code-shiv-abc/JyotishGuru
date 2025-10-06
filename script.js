@@ -194,6 +194,64 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // --- SMOOTH SCROLL & ACTIVE NAV STATE ---
+    const scrollLinks = document.querySelectorAll('.desktop-nav a, .mobile-nav a, #back-to-top-btn');
+    const navLinks = document.querySelectorAll('.desktop-nav a, .mobile-nav a');
+    const sections = document.querySelectorAll('main section, header#hero');
+
+    // Smooth scrolling for navigation links
+    scrollLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            if (targetSection) {
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Intersection Observer to highlight active nav link
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.2 // A lower threshold to correctly handle the last section
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const sectionId = entry.target.id;
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${sectionId}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, observerOptions);
+
+    sections.forEach(section => {
+        observer.observe(section);
+    });
+
+
+    // --- BACK TO TOP BUTTON ---
+    const backToTopBtn = document.getElementById('back-to-top-btn');
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            backToTopBtn.classList.add('is-visible');
+        } else {
+            backToTopBtn.classList.remove('is-visible');
+        }
+    });
+
+
     // --- "COMING SOON" NOTIFICATION ---
     const blogLinks = document.querySelectorAll('#blog .blog-post a');
 

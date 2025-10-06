@@ -56,14 +56,18 @@ img {
 
 section {
     padding: var(--section-padding);
+    scroll-margin-top: 80px; /* Offset for sticky nav */
+}
+
+.divider-wrapper {
+    text-align: center;
+    margin: 2rem 0;
 }
 
 .section-divider {
-    height: 1px;
-    border: 0;
-    background-image: linear-gradient(to right, rgba(255, 215, 0, 0), rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0));
-    margin: 0 auto;
-    width: 80%;
+    width: 250px;
+    height: auto;
+    opacity: 0.7;
 }
 
 /* ------------------- */
@@ -168,6 +172,7 @@ input, textarea {
     color: var(--clr-text-primary);
     border-radius: 5px;
     font-family: var(--ff-body);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 input::placeholder, textarea::placeholder {
@@ -180,10 +185,15 @@ form button {
 }
 
 /* --- Accessibility Focus --- */
-:is(a, button, input, textarea):focus-visible {
+:is(a, button):focus-visible {
     outline: 2px solid var(--clr-accent);
     outline-offset: 3px;
-    border-radius: 5px;
+}
+
+:is(input, textarea):focus-visible {
+    outline: none;
+    border-color: var(--clr-cta-hover);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
 /* ------------------- */
@@ -219,6 +229,32 @@ form button {
     text-transform: uppercase;
     letter-spacing: 1px;
     font-size: 0.9rem;
+    color: var(--clr-text-secondary);
+    position: relative;
+}
+
+.desktop-nav a.active,
+.desktop-nav a:hover {
+    color: var(--clr-text-primary);
+}
+
+.desktop-nav a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--clr-accent);
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+}
+
+.desktop-nav a.active::after,
+.desktop-nav a:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
 }
 
 .mobile-nav-toggle {
@@ -272,6 +308,12 @@ form button {
     font-size: 1.5rem;
     margin: 1.5rem 0;
     font-family: var(--ff-heading);
+    color: var(--clr-text-secondary);
+}
+
+.mobile-nav a.active,
+.mobile-nav a:hover {
+    color: var(--clr-accent);
 }
 
 /* --- Mobile Nav Active State --- */
@@ -304,6 +346,7 @@ form button {
     position: relative;
     overflow: hidden;
     background-color: var(--clr-primary-bg);
+    scroll-margin-top: 80px; /* Offset for sticky nav */
 }
 
 /* Parallax Background Effect */
@@ -599,6 +642,31 @@ footer {
     opacity: 0 !important;
 }
 
+
+#back-to-top-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: var(--clr-accent);
+    color: #000;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 50px;
+    font-size: 1.5rem;
+    z-index: 98;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+    transform: translateY(20px);
+}
+
+#back-to-top-btn.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
 
 .notification {
     position: fixed;
