@@ -21,18 +21,51 @@ document.addEventListener('DOMContentLoaded', () => {
     // Register GSAP plugins
     gsap.registerPlugin(ScrollTrigger);
 
-    // GSAP animations for non-hero elements will be handled by AOS later.
-
-    // --- INITIALIZE AOS ---
-    AOS.init({
-        duration: 800, // values from 0 to 3000, with step 50ms
-        easing: 'ease-in-out', // default easing for AOS animations
-        once: true, // whether animation should happen only once - while scrolling down
+    // --- GSAP Animations ---
+    // Hero Section Animation
+    gsap.to('.hero-background', {
+        scrollTrigger: {
+            trigger: '#hero',
+            start: 'top top',
+            scrub: true,
+        },
+        y: '30%',
+        ease: 'none',
     });
 
-    // Refresh AOS after all content (including images) has loaded to prevent elements being hidden
-    window.addEventListener('load', () => {
-        AOS.refresh();
+    gsap.from('.hero-content h1', { duration: 1, y: 50, opacity: 0, delay: 0.2, ease: 'power3.out' });
+    gsap.from('.hero-content .subheading', { duration: 1, y: 50, opacity: 0, delay: 0.4, ease: 'power3.out' });
+    gsap.from('.hero-content .cta-button', { duration: 1, y: 50, opacity: 0, delay: 0.6, ease: 'power3.out' });
+
+    // Staggered fade-in for sections
+    document.querySelectorAll('section').forEach((section) => {
+        gsap.from(section, {
+            scrollTrigger: {
+                trigger: section,
+                start: 'top 80%',
+                toggleActions: 'play none none none',
+            },
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            ease: 'power3.out',
+        });
+    });
+
+    // Animate cards with a stagger effect
+    document.querySelectorAll('.card').forEach((card) => {
+        gsap.from(card, {
+            scrollTrigger: {
+                trigger: card,
+                start: 'top 90%',
+                toggleActions: 'play none none none',
+            },
+            opacity: 0,
+            y: 30,
+            duration: 0.8,
+            ease: 'power2.out',
+            stagger: 0.2,
+        });
     });
 
     // --- HOROSCOPE FORM ---
@@ -200,5 +233,66 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             showNotification('Coming Soon!');
         });
+    });
+
+    // --- AUTH MODAL ---
+    const authModal = document.getElementById('auth-modal');
+    const loginBtn = document.getElementById('login-btn');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    const modalTabs = document.querySelector('.modal-tabs');
+
+    const openModal = () => authModal.classList.add('active');
+    const closeModal = () => authModal.classList.remove('active');
+
+    loginBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
+    });
+
+    closeModalBtn.addEventListener('click', closeModal);
+    authModal.addEventListener('click', (e) => {
+        if (e.target === authModal) {
+            closeModal();
+        }
+    });
+
+    modalTabs.addEventListener('click', (e) => {
+        if (e.target.classList.contains('tab-link')) {
+            const tab = e.target.dataset.tab;
+
+            // Update tab links
+            document.querySelectorAll('.tab-link').forEach(link => link.classList.remove('active'));
+            e.target.classList.add('active');
+
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+        }
+    });
+
+    // Placeholder form submissions
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        showNotification('Login functionality is not yet implemented.');
+        closeModal();
+    });
+
+    document.getElementById('signup-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        showNotification('Signup functionality is not yet implemented.');
+        closeModal();
+    });
+
+    // Footer Social Icons Animation
+    gsap.from('.social-media a', {
+        scrollTrigger: {
+            trigger: 'footer',
+            start: 'top 95%',
+        },
+        y: 20,
+        opacity: 0,
+        duration: 0.5,
+        stagger: 0.1,
+        ease: 'power2.out',
     });
 });
