@@ -87,15 +87,15 @@ export default function LandingPage() {
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-mystical-gold/10 border border-mystical-gold/20 text-mystical-gold text-xs font-semibold tracking-wider mb-6">
               <Sparkles className="w-3 h-3" />
-              100% VEDIC ACCURACY
+              VEDIC EXPERT • AYODHYA
             </div>
             <h1 className="font-serif text-5xl md:text-7xl font-bold leading-tight mb-6 bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
               Discover Your <br />
               <span className="text-mystical-gold">Cosmic Destiny</span>
             </h1>
             <p className="text-slate-400 text-lg mb-10 max-w-lg mx-auto md:mx-0 leading-relaxed">
-              Unlock the secrets of the stars with our professional-grade astrology platform.
-              Ancient wisdom meets modern technology to guide your path.
+              Unlock cosmic wisdom with Acharya Shri Ravindra Shukla Shastri.
+              Based in Ayodhya Dham, he offers expert Vedic astrology consultations to guide your karmic path and inner self using 5+ years of experience.
             </p>
           </motion.div>
         </div>
