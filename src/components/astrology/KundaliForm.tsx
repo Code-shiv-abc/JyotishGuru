@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Calendar, Clock, MapPin, ArrowRight } from "lucide-react";
+import { Calendar, Clock, MapPin, ArrowRight, AlertCircle } from "lucide-react";
 import { searchLocation, LocationResult } from "@/lib/astrology";
+import { useRouter } from "next/navigation";
 
 export function KundaliForm() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     date: "",
@@ -15,9 +17,12 @@ export function KundaliForm() {
   const [locationResults, setLocationResults] = useState<LocationResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<LocationResult | null>(null);
+  const [error, setError] = useState("");
 
   const handleLocationSearch = async (query: string) => {
     setFormData((prev) => ({ ...prev, place: query }));
+    setError(""); // Clear error on typing
+
     if (query.length > 2) {
       setIsSearching(true);
       const results = await searchLocation(query);
@@ -32,11 +37,27 @@ export function KundaliForm() {
     setSelectedLocation(loc);
     setFormData((prev) => ({ ...prev, place: loc.name }));
     setLocationResults([]);
+    setError("");
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert(`Generating Chart for ${formData.name} at ${selectedLocation ? selectedLocation.name : formData.place}`);
+
+    if (!formData.name || !formData.date || !formData.time || !formData.place) {
+      setError("Please fill in all details to proceed.");
+      return;
+    }
+
+    const params = new URLSearchParams({
+      name: formData.name,
+      date: formData.date,
+      time: formData.time,
+      place: formData.place,
+      lat: selectedLocation?.lat.toString() || "0",
+      lon: selectedLocation?.lon.toString() || "0",
+    });
+
+    router.push(`/report?${params.toString()}`);
   };
 
   return (
@@ -52,6 +73,12 @@ export function KundaliForm() {
         <h3 className="font-serif text-2xl font-semibold mb-6 text-center text-white relative z-10">Get Your Free Kundali</h3>
 
         <form onSubmit={handleSubmit} className="space-y-4 relative z-10">
+          {error && (
+            <div className="bg-red-500/10 border border-red-500/20 rounded p-3 flex items-center gap-2 text-red-200 text-sm">
+              <AlertCircle className="w-4 h-4" /> {error}
+            </div>
+          )}
+
           <div className="space-y-1">
             <label className="text-xs font-medium text-slate-400 uppercase tracking-wider">Full Name</label>
             <input
