@@ -25,8 +25,19 @@ const lato = Lato({
 });
 
 export const metadata: Metadata = {
-  title: "JyotishGuru - Modern Mystical Astrology",
-  description: "Accurate Kundali generation, Daily Horoscopes, and spiritual insights.",
+  metadataBase: new URL("https://jyotishguru.com"),
+  title: "Vedic Astrologer in Ayodhya | Acharya Shri Ravindra Shukla Shastri",
+  description: "Consult Acharya Shri Ravindra Shukla Shastri, expert Vedic Astrologer in Ayodhya Dham, UP with 5+ years experience. Helping you understand your karmic path and inner self.",
+  keywords: ["Vedic Astrology", "Ayodhya Dham", "Acharya Shri Ravindra Shukla Shastri", "Kundali", "Horoscope", "Karmic Path"],
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Vedic Astrologer in Ayodhya | Acharya Shri Ravindra Shukla Shastri",
+    description: "Expert Vedic Astrology consultation in Ayodhya Dham. Understand your karmic path with Acharya Shri Ravindra Shukla Shastri.",
+    locale: "en_IN",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -39,6 +50,32 @@ export default function RootLayout({
       <body
         className={`${playfair.variable} ${merriweather.variable} ${inter.variable} ${lato.variable} antialiased font-sans`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "Acharya Shri Ravindra Shukla Shastri",
+              "jobTitle": "Vedic Astrologer",
+              "url": "https://jyotishguru.com",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Ayodhya Dham",
+                "addressRegion": "Uttar Pradesh",
+                "addressCountry": "IN",
+              },
+              "description":
+                "Helping People Understand their karmic path and their Inner self online and offline.",
+              "knowsAbout": [
+                "Vedic Astrology",
+                "Kundali",
+                "Horoscope",
+                "Karmic Path",
+              ],
+            }),
+          }}
+        />
         {children}
       </body>
     </html>
