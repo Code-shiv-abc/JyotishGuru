@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Merriweather, Inter, Lato } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
+import { WebMCPProvider } from "@/components/WebMCPProvider";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -76,6 +78,10 @@ export default function RootLayout({
             }),
           }}
         />
+        {/* Load WebMCP script using Next.js Script component */}
+        <Script src="/webmcp.js" strategy="beforeInteractive" />
+        {/* Initialize the WebMCP Provider to register tools */}
+        <WebMCPProvider />
         {children}
       </body>
     </html>
