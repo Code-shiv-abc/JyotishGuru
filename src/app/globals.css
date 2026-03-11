@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
 @theme {
-  --font-serif: var(--font-playfair), serif;
-  --font-sans: var(--font-inter), sans-serif;
+  --font-serif: var(--font-cormorant-garamond), serif;
+  --font-sans: var(--font-outfit), sans-serif;
 
-  --color-mystical-bg: #0f172a;
-  --color-mystical-black: #020617;
-  --color-mystical-gold: #fbbf24;
+  --color-mystical-bg: #0D0B1A;
+  --color-mystical-card: #1A1628;
+  --color-mystical-gold: #C9A84C;
+  --color-mystical-text: #E8E4F0;
   --color-mystical-purple: #7e22ce;
-  --color-mystical-text: #f8fafc;
 }
 
 :root {
