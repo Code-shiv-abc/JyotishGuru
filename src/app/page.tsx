@@ -36,7 +36,8 @@ export default function LandingPage() {
         duration: Math.random() * 3 + 2,
       },
     }));
-    setStars(newStars);
+    // Defer state update to next tick to avoid synchronous set-state-in-effect warning
+    setTimeout(() => setStars(newStars), 0);
   }, []);
 
   return (

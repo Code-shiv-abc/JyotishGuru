@@ -1,0 +1,14 @@
+
+> jyotish-guru@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.1 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+
+✓ Starting...
+✓ Ready in 974ms
+○ Compiling / ...
+ GET / 200 in 7.8s (compile: 7.3s, render: 540ms)
+ GET / 200 in 94ms (compile: 8ms, render: 86ms)
+ GET /report?name=Jules&date=1990-01-01&time=12%3A00&place=Ayodhya%2C+Faizabad%2C+Ayodhya%2C+Uttar+Pradesh%2C+224123%2C+India&lat=26.7990707&lon=82.2052321 200 in 1022ms (compile: 981ms, render: 40ms)
