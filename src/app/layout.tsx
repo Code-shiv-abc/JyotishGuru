@@ -6,6 +6,7 @@ import { WebMCPProvider } from "@/components/WebMCPProvider";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 const cormorantGaramond = Cormorant_Garamond({
   weight: ["300", "400", "500", "600", "700"],
@@ -117,6 +118,7 @@ export default function RootLayout({
         <main className="min-h-screen pt-20">
           {children}
         </main>
+        <Footer />
         <Analytics />
         <SpeedInsights />
       </body>
