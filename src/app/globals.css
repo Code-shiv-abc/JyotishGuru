@@ -14,9 +14,77 @@
 :root {
   --background: var(--color-mystical-bg);
   --foreground: var(--color-mystical-text);
+
+  /* Dynamic viewport height for perfect mobile rendering */
+  --vh: 100vh;
+}
+
+/* Ensure svh is used where supported */
+@supports (height: 100dvh) {
+  :root {
+    --vh: 100dvh;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+  overflow-x: hidden;
+  /* Premium text rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Text Selection */
+::selection {
+  background-color: var(--color-mystical-gold);
+  color: var(--color-mystical-bg);
+}
+
+/* Premium Scrollbar (Desktop Only) */
+@media (pointer: fine) {
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-mystical-bg);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(201, 168, 76, 0.3);
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(201, 168, 76, 0.6);
+  }
+}
+
+/* Base utility classes for high-end feel */
+@layer utilities {
+  .glass-panel {
+    @apply bg-[#1A1628]/60 backdrop-blur-md border border-[#C9A84C]/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)];
+  }
+
+  .text-gold-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#C9A84C] via-[#F3E5AB] to-[#D4A017];
+  }
+
+  .min-h-screen-dynamic {
+    min-height: var(--vh);
+  }
+
+  /* Hide scrollbar for clean UI but keep scroll functionality */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
 }
