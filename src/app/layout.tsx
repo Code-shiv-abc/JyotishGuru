@@ -7,6 +7,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import CustomCursor from "./components/CustomCursor";
 
 const cormorantGaramond = Cormorant_Garamond({
   weight: ["300", "400", "500", "600", "700"],
@@ -114,8 +115,9 @@ export default function RootLayout({
         <Script src="/webmcp.js" strategy="beforeInteractive" />
         {/* Initialize the WebMCP Provider to register tools */}
         <WebMCPProvider />
+        <CustomCursor />
         <Navbar />
-        <main className="min-h-screen pt-20">
+        <main className="min-h-screen-dynamic pt-20 flex flex-col">
           {children}
         </main>
         <Footer />
