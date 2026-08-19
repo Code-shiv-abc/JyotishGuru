@@ -8,6 +8,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import CustomCursor from "./components/CustomCursor";
+import InstallAppButton from "./components/InstallAppButton";
+import ServiceWorkerRegister from "./components/ServiceWorkerRegister";
 
 const cormorantGaramond = Cormorant_Garamond({
   weight: ["300", "400", "500", "600", "700"],
@@ -46,6 +48,16 @@ export const metadata: Metadata = {
     title: "JyotishGuru | Expert Vedic Astrologer in Ayodhya Dham",
     description: "Consult Acharya Shri Ravindra Shukla Shastri for Kundali Reading, Kundali Matching, and Horoscope Consultation in Ayodhya Dham.",
   },
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    title: "JyotishGuru",
+    statusBarStyle: "default",
+  },
+};
+
+export const viewport = {
+  themeColor: "#1A1040",
 };
 
 export default function RootLayout({
@@ -115,12 +127,14 @@ export default function RootLayout({
         <Script src="/webmcp.js" strategy="beforeInteractive" />
         {/* Initialize the WebMCP Provider to register tools */}
         <WebMCPProvider />
+        <ServiceWorkerRegister />
         <CustomCursor />
         <Navbar />
         <main className="min-h-screen-dynamic pt-20 flex flex-col">
           {children}
         </main>
         <Footer />
+        <InstallAppButton />
         <Analytics />
         <SpeedInsights />
       </body>
