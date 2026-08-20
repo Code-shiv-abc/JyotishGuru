@@ -1,9 +1,19 @@
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { Star, FileText, Heart, Search, Award, MapPin } from "lucide-react";
-import AnimatedSection from "./components/home/AnimatedSection";
-import TestimonialsCarousel from "./components/home/TestimonialsCarousel";
-import KundaliCTAForm from "./components/home/KundaliCTAForm";
+
+// Directly import HeroSection as it's above the fold
 import HeroSection from "./components/home/HeroSection";
+import AnimatedSection from "./components/home/AnimatedSection";
+
+// Dynamically import heavy components that are below the fold
+const TestimonialsCarousel = dynamic(() => import("./components/home/TestimonialsCarousel"), {
+  ssr: true,
+});
+
+const KundaliCTAForm = dynamic(() => import("./components/home/KundaliCTAForm"), {
+  ssr: true,
+});
 
 export default function Home() {
   return (
