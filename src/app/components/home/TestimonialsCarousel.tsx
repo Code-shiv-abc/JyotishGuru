@@ -43,7 +43,7 @@ export default function TestimonialsCarousel() {
               ))}
             </div>
             <p className="text-[#E8E4F0]/90 italic mb-8 leading-relaxed font-sans text-lg">
-              "{testimonial.quote}"
+              &quot;{testimonial.quote}&quot;
             </p>
           </div>
           <div>
