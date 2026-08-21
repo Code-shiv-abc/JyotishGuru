@@ -3,15 +3,15 @@ import dynamic from "next/dynamic";
 import { Star, FileText, Heart, Search, Award, MapPin } from "lucide-react";
 
 // Directly import HeroSection as it's above the fold
-import HeroSection from "./components/home/HeroSection";
-import AnimatedSection from "./components/home/AnimatedSection";
+import HeroSection from "../components/home/HeroSection";
+import AnimatedSection from "../components/home/AnimatedSection";
 
 // Dynamically import heavy components that are below the fold
-const TestimonialsCarousel = dynamic(() => import("./components/home/TestimonialsCarousel"), {
+const TestimonialsCarousel = dynamic(() => import("../components/home/TestimonialsCarousel"), {
   ssr: true,
 });
 
-const KundaliCTAForm = dynamic(() => import("./components/home/KundaliCTAForm"), {
+const KundaliCTAForm = dynamic(() => import("../components/home/KundaliCTAForm"), {
   ssr: true,
 });
 
