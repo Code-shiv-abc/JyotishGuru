@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Outfit } from "next/font/google";
 import Script from "next/script";
-import "./globals.css";
+import "../globals.css";
 import { WebMCPProvider } from "@/components/WebMCPProvider";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import CustomCursor from "./components/CustomCursor";
-import InstallAppButton from "./components/InstallAppButton";
-import ServiceWorkerRegister from "./components/ServiceWorkerRegister";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import CustomCursor from "../components/CustomCursor";
+import InstallAppButton from "../components/InstallAppButton";
+import ServiceWorkerRegister from "../components/ServiceWorkerRegister";
 
 const cormorantGaramond = Cormorant_Garamond({
   weight: ["300", "400", "500", "600", "700"],
@@ -60,16 +60,32 @@ export const viewport = {
   themeColor: "#1A1040",
 };
 
-export default function RootLayout({
+import {NextIntlClientProvider} from 'next-intl';
+import {getMessages} from 'next-intl/server';
+import {notFound} from 'next/navigation';
+import {routing} from '@/i18n/routing';
+
+export default async function RootLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }>) {
+  const { locale } = await params;
+
+  // Ensure that the incoming `locale` is valid
+  if (!routing.locales.includes(locale as "en" | "hi")) {
+    notFound();
+  }
+
+  // Providing all messages to the client
+  // side is the easiest way to get started
+  const messages = await getMessages();
+
   return (
-    <html lang="en">
-      <body
-        className={`${cormorantGaramond.variable} ${outfit.variable} antialiased font-sans`}
-      >
+    <html lang={locale} suppressHydrationWarning>
+      <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -123,18 +139,25 @@ export default function RootLayout({
             }),
           }}
         />
+      </head>
+      <body
+        className={`${cormorantGaramond.variable} ${outfit.variable} antialiased font-sans`}
+        suppressHydrationWarning
+      >
         {/* Load WebMCP script using Next.js Script component */}
-        <Script src="/webmcp.js" strategy="beforeInteractive" />
+        <Script src="/webmcp.js" />
         {/* Initialize the WebMCP Provider to register tools */}
         <WebMCPProvider />
-        <ServiceWorkerRegister />
-        <CustomCursor />
-        <Navbar />
-        <main className="min-h-screen-dynamic pt-20 flex flex-col">
-          {children}
-        </main>
-        <Footer />
-        <InstallAppButton />
+        <NextIntlClientProvider messages={messages}>
+          <ServiceWorkerRegister />
+          <CustomCursor />
+          <Navbar />
+          <main className="min-h-screen-dynamic pt-20 flex flex-col">
+            {children}
+          </main>
+          <Footer />
+          <InstallAppButton />
+        </NextIntlClientProvider>
         <Analytics />
         <SpeedInsights />
       </body>

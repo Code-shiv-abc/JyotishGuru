@@ -1,0 +1,14 @@
+{
+  "Navbar": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About",
+    "bookConsultation": "Book Consultation"
+  },
+  "Hero": {
+    "title": "Discover Your Cosmic Path",
+    "subtitle": "Expert Vedic Astrology Guidance by Acharya Shri Ravindra Shukla Shastri",
+    "cta": "Get Your Kundali",
+    "learnMore": "Learn More"
+  }
+}

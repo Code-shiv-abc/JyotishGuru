@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { Menu, X, Sparkles } from "lucide-react";
 import clsx from "clsx";
 import { motion, AnimatePresence } from "framer-motion";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -98,8 +99,10 @@ export default function Navbar() {
               })}
             </nav>
 
-            {/* Desktop CTA */}
-            <div className="hidden md:block">
+            <div className="hidden md:flex items-center space-x-4">
+              <LanguageSwitcher />
+
+              {/* Desktop CTA */}
               <Link
                 href="/book"
                 className="group relative inline-flex items-center justify-center px-6 py-2 bg-[#C9A84C] text-[#0D0B1A] rounded-full font-sans font-semibold overflow-hidden transition-transform active:scale-95"
@@ -109,8 +112,9 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* Mobile Menu Button */}
-            <div className="md:hidden flex items-center relative z-50">
+            {/* Mobile Menu Button & Language Switcher */}
+            <div className="md:hidden flex items-center gap-3 relative z-50">
+              <LanguageSwitcher />
               <button
                 onClick={toggleMenu}
                 className="text-[#E8E4F0] hover:text-[#C9A84C] focus:outline-none p-2 rounded-full bg-[#1A1628]/50 backdrop-blur-sm border border-[#C9A84C]/20"
