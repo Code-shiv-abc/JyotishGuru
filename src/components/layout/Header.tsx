@@ -12,7 +12,7 @@ export function Header() {
         <Link href="#" className="hover:text-mystical-gold transition-colors" title="Daily Horoscope Predictions">Daily Horoscope</Link>
         <Link href="#" className="hover:text-mystical-gold transition-colors" title="Free Janam Kundali Generation">Free Kundali</Link>
         <Link href="#" className="hover:text-mystical-gold transition-colors" title="Vedic Kundali Matching">Kundali Matching</Link>
-        <Link href="#" className="hover:text-mystical-gold transition-colors" title="About Acharya Shri Ravindra Shukla Shastri">About Acharya</Link>
+        <Link href="#" className="hover:text-mystical-gold transition-colors" title="About Acharya Shri Pankaj Shukla">About Acharya</Link>
       </nav>
       <button className="bg-mystical-purple/20 border border-mystical-purple/50 text-mystical-purple hover:bg-mystical-purple hover:text-white px-5 py-2 rounded-full transition-all text-sm font-medium">
         Sign In

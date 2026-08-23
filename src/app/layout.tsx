@@ -30,14 +30,14 @@ export const metadata: Metadata = {
     default: "JyotishGuru | Expert Vedic Astrologer in Ayodhya Dham",
     template: "%s | JyotishGuru",
   },
-  description: "Consult Acharya Shri Ravindra Shukla Shastri, an expert Vedic Astrologer based in Ayodhya Dham, India. Services include Kundali Reading, Kundali Matching, and Horoscope Consultation.",
-  keywords: ["Vedic Astrology", "Ayodhya Dham", "Acharya Shri Ravindra Shukla Shastri", "Kundali", "Horoscope", "Kundali Matching", "JyotishGuru"],
+  description: "Consult Acharya Shri Pankaj Shukla, an expert Vedic Astrologer based in Ayodhya Dham, India. Services include Kundali Reading, Kundali Matching, and Horoscope Consultation.",
+  keywords: ["Vedic Astrology", "Ayodhya Dham", "Acharya Shri Pankaj Shukla", "Kundali", "Horoscope", "Kundali Matching", "JyotishGuru"],
   alternates: {
     canonical: "https://jyotishguru.in",
   },
   openGraph: {
     title: "JyotishGuru | Expert Vedic Astrologer in Ayodhya Dham",
-    description: "Expert Vedic Astrology consultation in Ayodhya Dham. Understand your karmic path with Acharya Shri Ravindra Shukla Shastri.",
+    description: "Expert Vedic Astrology consultation in Ayodhya Dham. Understand your karmic path with Acharya Shri Pankaj Shukla.",
     url: "https://jyotishguru.in",
     siteName: "JyotishGuru",
     locale: "en_IN",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "JyotishGuru | Expert Vedic Astrologer in Ayodhya Dham",
-    description: "Consult Acharya Shri Ravindra Shukla Shastri for Kundali Reading, Kundali Matching, and Horoscope Consultation in Ayodhya Dham.",
+    description: "Consult Acharya Shri Pankaj Shukla for Kundali Reading, Kundali Matching, and Horoscope Consultation in Ayodhya Dham.",
   },
   manifest: "/manifest.webmanifest",
   appleWebApp: {
@@ -91,7 +91,7 @@ export default function RootLayout({
                 {
                   "@type": "Person",
                   "@id": "https://jyotishguru.in/#person",
-                  "name": "Acharya Shri Ravindra Shukla Shastri",
+                  "name": "Acharya Shri Pankaj Shukla",
                   "jobTitle": "Vedic Astrologer",
                   "url": "https://jyotishguru.in",
                   "worksFor": {

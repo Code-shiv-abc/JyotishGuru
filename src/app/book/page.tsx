@@ -2,7 +2,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Book a Consultation",
-  description: "Schedule a Vedic astrology consultation with Acharya Shri Ravindra Shukla Shastri.",
+  description: "Schedule a Vedic astrology consultation with Acharya Shri Pankaj Shukla.",
 };
 
 export default function BookPage() {

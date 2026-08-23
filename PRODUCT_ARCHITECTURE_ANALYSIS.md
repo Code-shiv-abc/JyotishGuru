@@ -8,7 +8,7 @@ This document provides a comprehensive product and technical architectural analy
 ### 1.1 UI/UX & Design Language
 **Current State:**
 - The application employs a "Modern Mystical" design language featuring Deep Midnight Blue (`#0f172a`), Stardust Gold (`#fbbf24`), and Ethereal Purple (`#7e22ce`).
-- The hero section contains a clear value proposition: "Discover Your Cosmic Destiny" with Acharya Shri Ravindra Shukla Shastri.
+- The hero section contains a clear value proposition: "Discover Your Cosmic Destiny" with Acharya Shri Pankaj Shukla.
 - A functional "Get Your Free Kundali" form is prominent above the fold.
 - Ambient background animations (Framer Motion stars) create a thematic atmosphere.
 

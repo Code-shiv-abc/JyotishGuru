@@ -2,7 +2,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Vedic Astrology Blog",
-  description: "Read the latest articles, insights, and teachings on Vedic Astrology by Acharya Shri Ravindra Shukla Shastri.",
+  description: "Read the latest articles, insights, and teachings on Vedic Astrology by Acharya Shri Pankaj Shukla.",
 };
 
 const blogPosts = [

@@ -64,7 +64,7 @@ export default function Home() {
               { href: "/kundali", icon: FileText, title: "Free Kundali", desc: "Reveal your birth chart and uncover the planetary positions at your exact time of birth." },
               { href: "/kundali-matching", icon: Heart, title: "Kundali Matching", desc: "Find your cosmic soulmate using the traditional Ashtakoot Guna Milan system for marital harmony." },
               { href: "/horoscope", icon: Star, title: "Daily Horoscope", desc: "Your daily celestial guidance based on Vedic planetary transits tailored to your moon sign." },
-              { href: "/book", icon: Search, title: "Personal Consultation", desc: "1-on-1 with Acharya Shri Ravindra Shukla Shastri for deep insights into your life path, career, and karmic journey." }
+              { href: "/book", icon: Search, title: "Personal Consultation", desc: "1-on-1 with Acharya Shri Pankaj Shukla for deep insights into your life path, career, and karmic journey." }
             ].map((service, i) => (
               <AnimatedSection key={i} delay={i * 0.1}>
                 <Link href={service.href} className="block group h-full">
@@ -148,7 +148,7 @@ export default function Home() {
 
                 <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-[#E8E4F0] mb-4 leading-tight">
                   Acharya Shri <br className="hidden md:block"/>
-                  <span className="text-gold-gradient">Ravindra Shukla Shastri</span>
+                  <span className="text-gold-gradient">Pankaj Shukla</span>
                 </h2>
 
                 <h3 className="text-xl text-[#E8E4F0]/50 font-serif italic mb-8">Expert Vedic Astrologer</h3>

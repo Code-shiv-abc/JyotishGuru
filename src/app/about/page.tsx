@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About Acharya Shri Ravindra Shukla Shastri",
-  description: "Learn about the experience and expertise of Acharya Shri Ravindra Shukla Shastri in Vedic Astrology.",
+  title: "About Acharya Shri Pankaj Shukla",
+  description: "Learn about the experience and expertise of Acharya Shri Pankaj Shukla in Vedic Astrology.",
 };
 
 export default function AboutPage() {
@@ -27,10 +27,10 @@ export default function AboutPage() {
 
           <div className="space-y-6 text-[#E8E4F0]/90 text-lg leading-relaxed text-center md:text-left">
             <h2 className="text-3xl font-serif font-bold text-[#C9A84C]">
-              Acharya Shri Ravindra Shukla Shastri
+              Acharya Shri Pankaj Shukla
             </h2>
             <p>
-              Based in the holy city of Ayodhya Dham, Acharya Shri Ravindra Shukla Shastri is a distinguished Vedic Astrologer dedicated to helping individuals find their karmic path.
+              Based in the holy city of Ayodhya Dham, Acharya Shri Pankaj Shukla is a distinguished Vedic Astrologer dedicated to helping individuals find their karmic path.
             </p>
             <p>
               With extensive knowledge in ancient Vedic scriptures and years of practical experience, Acharya Ji provides profound insights into life's challenges, career guidance, relationship compatibility, and spiritual growth.
