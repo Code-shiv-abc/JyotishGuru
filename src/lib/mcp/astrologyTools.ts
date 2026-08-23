@@ -102,7 +102,7 @@ export const astrologyTools = [
       return {
         content: [{
           type: 'text',
-          text: `Basic Compatibility Check between ${args.person1Rashi} and ${args.person2Rashi}:\n\nWhile rashi compatibility provides a general overview, a true Vedic compatibility check (Guna Milan) requires the exact birth time and place of both individuals to compare Nakshatras and full charts. For a precise reading, consult Acharya Shri Ravindra Shukla Shastri on jyotishguru.com.`
+          text: `Basic Compatibility Check between ${args.person1Rashi} and ${args.person2Rashi}:\n\nWhile rashi compatibility provides a general overview, a true Vedic compatibility check (Guna Milan) requires the exact birth time and place of both individuals to compare Nakshatras and full charts. For a precise reading, consult Acharya Shri Pankaj Shukla on jyotishguru.com.`
         }]
       };
     }

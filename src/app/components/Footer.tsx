@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Sparkles, Instagram, Youtube, Facebook, MapPin, Mail } from "lucide-react";
+import { Sparkles, Instagram, Youtube, Facebook, MapPin, Mail, MessageCircle, Phone } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -16,10 +16,13 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-[#E8E4F0]/70 text-sm leading-relaxed max-w-sm">
-              Authentic Vedic astrology from the sacred land of Ayodhya Dham. Discover your cosmic destiny with Acharya Shri Ravindra Shukla Shastri.
+              Authentic Vedic astrology from the sacred land of Ayodhya Dham. Discover your cosmic destiny with Acharya Shri Pankaj Shukla.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 rounded-full bg-[#1A1628] flex items-center justify-center text-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#0D0B1A] transition-colors border border-[#C9A84C]/20">
+              <a href="https://wa.me/917233972105" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-[#1A1628] flex items-center justify-center text-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#0D0B1A] transition-colors border border-[#C9A84C]/20" title="WhatsApp">
+                <MessageCircle className="w-5 h-5" />
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-[#1A1628] flex items-center justify-center text-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#0D0B1A] transition-colors border border-[#C9A84C]/20" title="Instagram">
                 <Instagram className="w-5 h-5" />
               </a>
               <a href="#" className="w-10 h-10 rounded-full bg-[#1A1628] flex items-center justify-center text-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#0D0B1A] transition-colors border border-[#C9A84C]/20">
@@ -66,6 +69,10 @@ export default function Footer() {
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-[#C9A84C] shrink-0 mt-0.5" />
                 <span>Ayodhya Dham,<br />Uttar Pradesh, India</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <Phone className="w-5 h-5 text-[#C9A84C] shrink-0" />
+                <a href="tel:+917233972105" className="hover:text-[#C9A84C] transition-colors">+91 7233972105</a>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-[#C9A84C] shrink-0" />
