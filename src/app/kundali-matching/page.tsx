@@ -1,8 +1,18 @@
 import { Metadata } from "next";
+import { SITE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Kundali Matching (Ashtakoot Guna Milan)",
+  title: "Kundali Matching (Ashtakoot Guna Milan) | JyotishGuru",
   description: "Check compatibility for marriage using traditional Vedic Astrology Kundali Matching.",
+  alternates: {
+    canonical: `${SITE_URL}/kundali-matching`,
+  },
+  openGraph: {
+    title: "Kundali Matching (Ashtakoot Guna Milan) | JyotishGuru",
+    description: "Check compatibility for marriage using traditional Vedic Astrology Kundali Matching.",
+    url: `${SITE_URL}/kundali-matching`,
+  },
+
 };
 
 export default function KundaliMatchingPage() {
@@ -25,15 +35,15 @@ export default function KundaliMatchingPage() {
           </div>
         </div>
 
-        {/* Boy's Details */}
+        {/* Boy&apos;s Details */}
         <div className="bg-[#1A1628] border border-[#C9A84C]/20 rounded-2xl p-8 relative z-10">
           <h2 className="text-2xl font-serif font-bold text-[#C9A84C] mb-6 border-b border-[#C9A84C]/20 pb-4">
-            Boy's Details
+            Boy&apos;s Details
           </h2>
           <form className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-[#E8E4F0] mb-2">Name</label>
-              <input type="text" className="w-full bg-[#0D0B1A] border border-[#C9A84C]/20 rounded-lg px-4 py-3 text-[#E8E4F0] focus:outline-none focus:border-[#C9A84C]/50 transition-colors" placeholder="Groom's Name" />
+              <input type="text" className="w-full bg-[#0D0B1A] border border-[#C9A84C]/20 rounded-lg px-4 py-3 text-[#E8E4F0] focus:outline-none focus:border-[#C9A84C]/50 transition-colors" placeholder="Groom&apos;s Name" />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -52,15 +62,15 @@ export default function KundaliMatchingPage() {
           </form>
         </div>
 
-        {/* Girl's Details */}
+        {/* Girl&apos;s Details */}
         <div className="bg-[#1A1628] border border-[#C9A84C]/20 rounded-2xl p-8 relative z-10 mt-8 lg:mt-0">
           <h2 className="text-2xl font-serif font-bold text-[#C9A84C] mb-6 border-b border-[#C9A84C]/20 pb-4">
-            Girl's Details
+            Girl&apos;s Details
           </h2>
           <form className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-[#E8E4F0] mb-2">Name</label>
-              <input type="text" className="w-full bg-[#0D0B1A] border border-[#C9A84C]/20 rounded-lg px-4 py-3 text-[#E8E4F0] focus:outline-none focus:border-[#C9A84C]/50 transition-colors" placeholder="Bride's Name" />
+              <input type="text" className="w-full bg-[#0D0B1A] border border-[#C9A84C]/20 rounded-lg px-4 py-3 text-[#E8E4F0] focus:outline-none focus:border-[#C9A84C]/50 transition-colors" placeholder="Bride&apos;s Name" />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>

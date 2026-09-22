@@ -1,8 +1,20 @@
 import { Metadata } from "next";
+import { SITE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Daily Horoscope",
+  title: "Daily Horoscope | JyotishGuru",
   description: "Read your daily horoscope and discover what the stars have in store for your zodiac sign.",
+  alternates: {
+    canonical: `${SITE_URL}/horoscope`,
+  },
+  openGraph: {
+    title: "Daily Horoscope | JyotishGuru",
+    description: "Read your daily horoscope and discover what the stars have in store for your zodiac sign.",
+    url: `${SITE_URL}/horoscope`,
+  },
+  robots: {
+    index: false,
+  },
 };
 
 const rashis = [
