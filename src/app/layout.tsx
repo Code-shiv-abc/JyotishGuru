@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Outfit } from "next/font/google";
+import { SITE_URL } from "@/lib/constants";
 import Script from "next/script";
 import "./globals.css";
 import { WebMCPProvider } from "@/components/WebMCPProvider";
@@ -25,7 +26,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://jyotishguru.in"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "JyotishGuru | Expert Vedic Astrologer in Ayodhya Dham",
     template: "%s | JyotishGuru",
@@ -33,12 +34,12 @@ export const metadata: Metadata = {
   description: "Consult Acharya Shri Pankaj Shukla, an expert Vedic Astrologer based in Ayodhya Dham, India. Services include Kundali Reading, Kundali Matching, and Horoscope Consultation.",
   keywords: ["Vedic Astrology", "Ayodhya Dham", "Acharya Shri Pankaj Shukla", "Kundali", "Horoscope", "Kundali Matching", "JyotishGuru"],
   alternates: {
-    canonical: "https://jyotishguru.in",
+    canonical: SITE_URL,
   },
   openGraph: {
     title: "JyotishGuru | Expert Vedic Astrologer in Ayodhya Dham",
     description: "Expert Vedic Astrology consultation in Ayodhya Dham. Understand your karmic path with Acharya Shri Pankaj Shukla.",
-    url: "https://jyotishguru.in",
+    url: SITE_URL,
     siteName: "JyotishGuru",
     locale: "en_IN",
     type: "website",
@@ -78,9 +79,9 @@ export default function RootLayout({
               "@graph": [
                 {
                   "@type": "LocalBusiness",
-                  "@id": "https://jyotishguru.in/#organization",
+                  "@id": `${SITE_URL}/#organization`,
                   "name": "JyotishGuru",
-                  "url": "https://jyotishguru.in",
+                  "url": SITE_URL,
                   "address": {
                     "@type": "PostalAddress",
                     "addressLocality": "Ayodhya Dham",
@@ -90,33 +91,33 @@ export default function RootLayout({
                 },
                 {
                   "@type": "Person",
-                  "@id": "https://jyotishguru.in/#person",
+                  "@id": `${SITE_URL}/#person`,
                   "name": "Acharya Shri Pankaj Shukla",
                   "jobTitle": "Vedic Astrologer",
-                  "url": "https://jyotishguru.in",
+                  "url": SITE_URL,
                   "worksFor": {
-                    "@id": "https://jyotishguru.in/#organization",
+                    "@id": `${SITE_URL}/#organization`,
                   },
                 },
                 {
                   "@type": "Service",
                   "name": "Kundali Reading",
                   "provider": {
-                    "@id": "https://jyotishguru.in/#organization",
+                    "@id": `${SITE_URL}/#organization`,
                   },
                 },
                 {
                   "@type": "Service",
                   "name": "Kundali Matching",
                   "provider": {
-                    "@id": "https://jyotishguru.in/#organization",
+                    "@id": `${SITE_URL}/#organization`,
                   },
                 },
                 {
                   "@type": "Service",
                   "name": "Horoscope Consultation",
                   "provider": {
-                    "@id": "https://jyotishguru.in/#organization",
+                    "@id": `${SITE_URL}/#organization`,
                   },
                 },
               ],

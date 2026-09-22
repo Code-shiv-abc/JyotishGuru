@@ -1,8 +1,18 @@
 import { Metadata } from "next";
+import { SITE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Book a Consultation",
+  title: "Book a Consultation | JyotishGuru",
   description: "Schedule a Vedic astrology consultation with Acharya Shri Pankaj Shukla.",
+  alternates: {
+    canonical: `${SITE_URL}/book`,
+  },
+  openGraph: {
+    title: "Book a Consultation | JyotishGuru",
+    description: "Schedule a Vedic astrology consultation with Acharya Shri Pankaj Shukla.",
+    url: `${SITE_URL}/book`,
+  },
+
 };
 
 export default function BookPage() {

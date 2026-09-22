@@ -1,8 +1,18 @@
 import { Metadata } from "next";
+import { SITE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Free Kundali Generation",
+  title: "Free Kundali Generation | JyotishGuru",
   description: "Generate your free comprehensive Vedic Astrology Kundali (Birth Chart).",
+  alternates: {
+    canonical: `${SITE_URL}/kundali`,
+  },
+  openGraph: {
+    title: "Free Kundali Generation | JyotishGuru",
+    description: "Generate your free comprehensive Vedic Astrology Kundali (Birth Chart).",
+    url: `${SITE_URL}/kundali`,
+  },
+
 };
 
 export default function KundaliPage() {

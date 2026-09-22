@@ -1,8 +1,18 @@
 import { Metadata } from "next";
+import { SITE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Vedic Astrology Blog",
+  title: "Vedic Astrology Blog | JyotishGuru",
   description: "Read the latest articles, insights, and teachings on Vedic Astrology by Acharya Shri Pankaj Shukla.",
+  alternates: {
+    canonical: `${SITE_URL}/blog`,
+  },
+  openGraph: {
+    title: "Vedic Astrology Blog | JyotishGuru",
+    description: "Read the latest articles, insights, and teachings on Vedic Astrology by Acharya Shri Pankaj Shukla.",
+    url: `${SITE_URL}/blog`,
+  },
+
 };
 
 const blogPosts = [
@@ -66,9 +76,8 @@ export default function BlogPage() {
                 {post.excerpt}
               </p>
               <div className="border-t border-[#C9A84C]/10 pt-6">
-                <button className="text-[#C9A84C] font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
-                  Read Article
-                  <span>→</span>
+                <button disabled className="text-[#E8E4F0]/40 font-semibold flex items-center gap-2 cursor-not-allowed">
+                  Coming Soon
                 </button>
               </div>
             </div>

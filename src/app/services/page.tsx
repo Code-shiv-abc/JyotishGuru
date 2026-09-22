@@ -1,8 +1,18 @@
 import { Metadata } from "next";
+import { SITE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Vedic Astrology Services",
-  description: "Explore Vedic astrology services including Kundali Reading, Match Making, Horoscope Consultation, and Gemstone Advice.",
+  title: "Astrology Services | JyotishGuru",
+  description: "Explore our Vedic Astrology services including Kundali Reading, Kundali Matching, and more.",
+  alternates: {
+    canonical: `${SITE_URL}/services`,
+  },
+  openGraph: {
+    title: "Astrology Services | JyotishGuru",
+    description: "Explore our Vedic Astrology services including Kundali Reading, Kundali Matching, and more.",
+    url: `${SITE_URL}/services`,
+  },
+
 };
 
 const services = [
@@ -46,7 +56,7 @@ export default function ServicesPage() {
           Vedic Astrology Services
         </h1>
         <p className="text-lg text-[#E8E4F0]/80 max-w-2xl mx-auto">
-          Discover traditional, accurate, and insightful astrological guidance tailored to your life's unique journey.
+          Discover traditional, accurate, and insightful astrological guidance tailored to your life&apos;s unique journey.
         </p>
       </div>
 

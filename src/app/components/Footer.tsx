@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Sparkles, Instagram, Youtube, Facebook, MapPin, Mail, MessageCircle, Phone } from "lucide-react";
+import { Sparkles, MapPin, Mail, MessageCircle, Phone } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -21,15 +21,6 @@ export default function Footer() {
             <div className="flex gap-4">
               <a href="https://wa.me/917233972105" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-[#1A1628] flex items-center justify-center text-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#0D0B1A] transition-colors border border-[#C9A84C]/20" title="WhatsApp">
                 <MessageCircle className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-[#1A1628] flex items-center justify-center text-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#0D0B1A] transition-colors border border-[#C9A84C]/20" title="Instagram">
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-[#1A1628] flex items-center justify-center text-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#0D0B1A] transition-colors border border-[#C9A84C]/20">
-                <Youtube className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-[#1A1628] flex items-center justify-center text-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#0D0B1A] transition-colors border border-[#C9A84C]/20">
-                <Facebook className="w-5 h-5" />
               </a>
             </div>
           </div>
@@ -89,8 +80,8 @@ export default function Footer() {
             © 2026 JyotishGuru. All rights reserved.
           </p>
           <div className="flex gap-6 text-[#E8E4F0]/50 text-sm">
-            <Link href="#" className="hover:text-[#C9A84C] transition-colors">Privacy Policy</Link>
-            <Link href="#" className="hover:text-[#C9A84C] transition-colors">Terms of Service</Link>
+            <Link href="/privacy-policy" className="hover:text-[#C9A84C] transition-colors">Privacy Policy</Link>
+            <Link href="/terms-of-service" className="hover:text-[#C9A84C] transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>

@@ -1,8 +1,18 @@
 import { Metadata } from "next";
+import { SITE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "About Acharya Shri Pankaj Shukla",
+  title: "About Acharya Shri Pankaj Shukla | JyotishGuru",
   description: "Learn about the experience and expertise of Acharya Shri Pankaj Shukla in Vedic Astrology.",
+  alternates: {
+    canonical: `${SITE_URL}/about`,
+  },
+  openGraph: {
+    title: "About Acharya Shri Pankaj Shukla | JyotishGuru",
+    description: "Learn about the experience and expertise of Acharya Shri Pankaj Shukla in Vedic Astrology.",
+    url: `${SITE_URL}/about`,
+  },
+
 };
 
 export default function AboutPage() {
@@ -33,10 +43,10 @@ export default function AboutPage() {
               Based in the holy city of Ayodhya Dham, Acharya Shri Pankaj Shukla is a distinguished Vedic Astrologer dedicated to helping individuals find their karmic path.
             </p>
             <p>
-              With extensive knowledge in ancient Vedic scriptures and years of practical experience, Acharya Ji provides profound insights into life's challenges, career guidance, relationship compatibility, and spiritual growth.
+              With extensive knowledge in ancient Vedic scriptures and years of practical experience, Acharya Ji provides profound insights into life&apos;s challenges, career guidance, relationship compatibility, and spiritual growth.
             </p>
             <p className="font-semibold text-[#E8E4F0] border-l-4 border-[#C9A84C] pl-4 italic">
-              "Astrology is not about changing your destiny, but understanding it to navigate life with wisdom and grace."
+              &quot;Astrology is not about changing your destiny, but understanding it to navigate life with wisdom and grace.&quot;
             </p>
           </div>
         </div>
