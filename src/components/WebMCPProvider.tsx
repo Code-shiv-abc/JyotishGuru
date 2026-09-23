@@ -6,7 +6,7 @@ import { astrologyTools } from "@/lib/mcp/astrologyTools";
 // Extend the Window interface to recognize WebMCP from the external script
 declare global {
   interface Window {
-    WebMCP?: any;
+    WebMCP?: unknown;
     WebMCPLoaded?: boolean;
   }
 }

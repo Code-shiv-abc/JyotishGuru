@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { SITE_URL } from "@/lib/constants";
+import KundaliForm from "./KundaliForm";
 
 export const metadata: Metadata = {
   title: "Free Kundali Generation | JyotishGuru",
@@ -12,7 +13,6 @@ export const metadata: Metadata = {
     description: "Generate your free comprehensive Vedic Astrology Kundali (Birth Chart).",
     url: `${SITE_URL}/kundali`,
   },
-
 };
 
 export default function KundaliPage() {
@@ -26,81 +26,7 @@ export default function KundaliPage() {
           Enter your birth details below to generate your comprehensive Vedic Astrology birth chart.
         </p>
       </div>
-
-      <div className="bg-[#1A1628] border border-[#C9A84C]/20 rounded-2xl p-8 shadow-2xl">
-        <form className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-[#E8E4F0] mb-2">
-                Full Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                className="w-full bg-[#0D0B1A] border border-[#C9A84C]/20 rounded-lg px-4 py-3 text-[#E8E4F0] focus:outline-none focus:border-[#C9A84C]/50 transition-colors"
-                placeholder="Enter your name"
-              />
-            </div>
-            <div>
-              <label htmlFor="gender" className="block text-sm font-medium text-[#E8E4F0] mb-2">
-                Gender
-              </label>
-              <select
-                id="gender"
-                className="w-full bg-[#0D0B1A] border border-[#C9A84C]/20 rounded-lg px-4 py-3 text-[#E8E4F0] focus:outline-none focus:border-[#C9A84C]/50 transition-colors appearance-none"
-              >
-                <option value="">Select gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div>
-              <label htmlFor="dob" className="block text-sm font-medium text-[#E8E4F0] mb-2">
-                Date of Birth
-              </label>
-              <input
-                type="date"
-                id="dob"
-                className="w-full bg-[#0D0B1A] border border-[#C9A84C]/20 rounded-lg px-4 py-3 text-[#E8E4F0] focus:outline-none focus:border-[#C9A84C]/50 transition-colors [color-scheme:dark]"
-              />
-            </div>
-            <div>
-              <label htmlFor="tob" className="block text-sm font-medium text-[#E8E4F0] mb-2">
-                Time of Birth
-              </label>
-              <input
-                type="time"
-                id="tob"
-                className="w-full bg-[#0D0B1A] border border-[#C9A84C]/20 rounded-lg px-4 py-3 text-[#E8E4F0] focus:outline-none focus:border-[#C9A84C]/50 transition-colors [color-scheme:dark]"
-              />
-            </div>
-            <div>
-              <label htmlFor="pob" className="block text-sm font-medium text-[#E8E4F0] mb-2">
-                Place of Birth
-              </label>
-              <input
-                type="text"
-                id="pob"
-                className="w-full bg-[#0D0B1A] border border-[#C9A84C]/20 rounded-lg px-4 py-3 text-[#E8E4F0] focus:outline-none focus:border-[#C9A84C]/50 transition-colors"
-                placeholder="City, State"
-              />
-            </div>
-          </div>
-
-          <div className="pt-6">
-            <button
-              type="button"
-              className="w-full bg-[#C9A84C] text-[#0D0B1A] py-4 rounded-lg font-sans font-bold text-lg hover:bg-[#b09141] transition-colors shadow-lg shadow-[#C9A84C]/20"
-            >
-              Generate Kundali
-            </button>
-          </div>
-        </form>
-      </div>
+      <KundaliForm />
     </div>
   );
 }
