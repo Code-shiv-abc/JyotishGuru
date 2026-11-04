@@ -16,12 +16,14 @@ interface PlaceAutoCompleteProps {
   onSelect: (place: Place) => void;
   placeholder?: string;
   className?: string;
+  id?: string;
 }
 
 export default function PlaceAutoComplete({
   onSelect,
   placeholder = "City, State",
   className = "",
+  id,
 }: PlaceAutoCompleteProps) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Place[]>([]);
@@ -82,6 +84,7 @@ export default function PlaceAutoComplete({
   return (
     <div className="relative w-full" ref={wrapperRef}>
       <input
+        id={id}
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
