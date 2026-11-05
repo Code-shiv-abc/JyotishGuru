@@ -41,11 +41,21 @@ export default function PlaceAutoComplete({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Cache for open-meteo responses
+  const cacheRef = useRef<Record<string, Place[]>>({});
+
   useEffect(() => {
     const fetchPlaces = async () => {
       if (query.trim().length < 2) {
         setResults([]);
         setIsOpen(false);
+        return;
+      }
+
+      const cacheKey = query.trim().toLowerCase();
+      if (cacheRef.current[cacheKey]) {
+        setResults(cacheRef.current[cacheKey]);
+        setIsOpen(true);
         return;
       }
 
@@ -57,9 +67,11 @@ export default function PlaceAutoComplete({
         const data = await response.json();
 
         if (data.results) {
+          cacheRef.current[cacheKey] = data.results;
           setResults(data.results);
           setIsOpen(true);
         } else {
+          cacheRef.current[cacheKey] = [];
           setResults([]);
           setIsOpen(false);
         }
@@ -81,6 +93,16 @@ export default function PlaceAutoComplete({
     onSelect(place);
   };
 
+  const handleBlur = () => {
+    // Timeout to allow click on dropdown list item to register before blurring
+    setTimeout(() => {
+      if (isOpen && results.length > 0) {
+        handleSelect(results[0]);
+      }
+      setIsOpen(false);
+    }, 200);
+  };
+
   return (
     <div className="relative w-full" ref={wrapperRef}>
       <input
@@ -93,6 +115,7 @@ export default function PlaceAutoComplete({
         onFocus={() => {
           if (results.length > 0) setIsOpen(true);
         }}
+        onBlur={handleBlur}
       />
       {isLoading && (
         <div className="absolute right-3 top-3 text-[#C9A84C]/50">

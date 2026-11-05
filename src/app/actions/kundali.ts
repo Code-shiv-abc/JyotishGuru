@@ -1,5 +1,8 @@
 "use server";
 
+import { computeVedicKundali, FullKundaliData } from "@/lib/vedic-ephemeris";
+import { DateTime } from "luxon";
+
 export async function generateKundali(data: {
   name: string;
   gender: string;
@@ -8,33 +11,24 @@ export async function generateKundali(data: {
   lat: number;
   lon: number;
   timezone: string;
-}) {
-  const workerUrl = process.env.KUNDALI_WORKER_URL;
-  const apiKey = process.env.KUNDALI_WORKER_API_KEY;
-
-  if (!workerUrl) {
-    throw new Error("KUNDALI_WORKER_URL is not configured.");
-  }
-
+}): Promise<FullKundaliData> {
   try {
-    const response = await fetch(`${workerUrl}/kundali`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...(apiKey && { "Authorization": `Bearer ${apiKey}` }),
-      },
-      body: JSON.stringify(data),
-    });
+    // Parse local date & time using the provided timezone, then convert to UTC
+    const localDateTimeString = `${data.dob}T${data.tob}`;
+    const localDateTime = DateTime.fromISO(localDateTimeString, { zone: data.timezone });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Worker Error: ${response.status} - ${errorText}`);
+    if (!localDateTime.isValid) {
+      throw new Error("Invalid date, time, or timezone provided.");
     }
 
-    return await response.json();
+    const utcDate = localDateTime.toJSDate();
+
+    // Call our internal zero-cost ephemeris engine
+    const kundaliData = computeVedicKundali(utcDate, data.lat, data.lon);
+
+    return kundaliData;
   } catch (error) {
     console.error("Failed to generate kundali:", error);
-    // Throw standard error for UI to catch
     throw new Error(error instanceof Error ? error.message : "Failed to generate Kundali");
   }
 }

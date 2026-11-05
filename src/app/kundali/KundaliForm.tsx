@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import PlaceAutoComplete from "@/app/components/PlaceAutoComplete";
 import { generateKundali } from "@/app/actions/kundali";
+import NorthIndianChart from "@/app/components/kundali/NorthIndianChart";
+import { FullKundaliData } from "@/lib/vedic-ephemeris";
 
 export default function KundaliForm() {
   const [formData, setFormData] = useState({
@@ -15,7 +17,7 @@ export default function KundaliForm() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<Record<string, unknown> | null>(null); // Ideally type this based on Worker response
+  const [result, setResult] = useState<FullKundaliData | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,35 +31,16 @@ export default function KundaliForm() {
     setResult(null);
 
     try {
-      // Mock worker endpoint local test block (optional override)
-      if (process.env.NODE_ENV === "development" && !process.env.KUNDALI_WORKER_URL) {
-          // Simulate network delay
-          await new Promise(resolve => setTimeout(resolve, 1500));
-          setResult({
-              ascendant: "Aries",
-              planets: [
-                  { name: "Sun", rasi: "Leo", house: 5 },
-                  { name: "Moon", rasi: "Cancer", house: 4 },
-                  { name: "Mars", rasi: "Aries", house: 1 },
-                  // ... more planets
-              ],
-              houses: [
-                 { house: 1, sign: "Aries" },
-                 { house: 2, sign: "Taurus" },
-              ]
-          });
-      } else {
-        const response = await generateKundali({
-            name: formData.name,
-            gender: formData.gender,
-            dob: formData.dob,
-            tob: formData.tob,
-            lat: location.lat,
-            lon: location.lon,
-            timezone: location.timezone,
-        });
-        setResult(response);
-      }
+      const response = await generateKundali({
+          name: formData.name,
+          gender: formData.gender,
+          dob: formData.dob,
+          tob: formData.tob,
+          lat: location.lat,
+          lon: location.lon,
+          timezone: location.timezone,
+      });
+      setResult(response);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "An unexpected error occurred.");
     } finally {
@@ -174,12 +157,51 @@ export default function KundaliForm() {
         <div className="bg-[#1A1628] border border-[#C9A84C]/20 rounded-2xl p-8 shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-500">
           <h2 className="text-3xl font-serif font-bold text-[#C9A84C] mb-6 text-center">Your Cosmic Blueprint</h2>
 
+          {/* North Indian Charts */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <div className="bg-[#0D0B1A] p-6 rounded-xl border border-[#C9A84C]/10">
+               <NorthIndianChart
+                  title="Lagna Chart (D1)"
+                  houses={Array.from({ length: 12 }, (_, i) => {
+                      const houseNum = i + 1;
+                      const planetsInHouse = result.planets
+                          .filter(p => p.house === houseNum)
+                          .map(p => p.name);
+
+                      // Calculate the sign number for the house
+                      // The sign in house 1 is the ascendant rashi index + 1 (because index is 0-11, signs are 1-12)
+                      const signIndex = (result.ascendant.rashiIndex + houseNum - 1) % 12;
+                      const signNum = signIndex + 1;
+
+                      return {
+                          houseNumber: houseNum,
+                          signNumber: signNum,
+                          planets: planetsInHouse
+                      };
+                  })}
+               />
+            </div>
+            {/* Navamsha can be similarly mapped once Navamsha specific house positions are included in ephemeris output. For now we just show Lagna or a placeholder for D9 */}
+            <div className="bg-[#0D0B1A] p-6 rounded-xl border border-[#C9A84C]/10 flex flex-col items-center justify-center">
+                 <h4 className="text-xl font-serif text-[#C9A84C] mb-4 text-center font-bold">Navamsha Chart (D9)</h4>
+                 <div className="text-[#E8E4F0]/60 text-center text-sm">
+                    Detailed Navamsha calculations pending integration.
+                 </div>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
                 <h3 className="text-xl font-serif text-[#E8E4F0] mb-4 border-b border-[#C9A84C]/20 pb-2">Basic Details</h3>
                 <ul className="space-y-2 text-[#E8E4F0]/80">
-                    <li><strong className="text-[#C9A84C]">Ascendant (Lagna):</strong> {result.ascendant as string}</li>
+                    <li><strong className="text-[#C9A84C]">Ascendant (Lagna):</strong> {result.ascendant.rashi} ({result.ascendant.degreeInSign})</li>
+                    <li><strong className="text-[#C9A84C]">Nakshatra:</strong> {result.ascendant.nakshatra} (Pada {result.ascendant.pada})</li>
+                    <li><strong className="text-[#C9A84C]">Moon Nakshatra:</strong> {result.moonNakshatra}</li>
+                    <li><strong className="text-[#C9A84C]">Current Mahadasha:</strong> {result.currentMahadasha}</li>
                 </ul>
+
+                <h3 className="text-xl font-serif text-[#E8E4F0] mt-8 mb-4 border-b border-[#C9A84C]/20 pb-2">Manglik Dosha</h3>
+                <p className="text-[#E8E4F0]/80">{result.manglik.summary}</p>
             </div>
 
             <div>
@@ -190,14 +212,16 @@ export default function KundaliForm() {
                             <tr>
                                 <th className="px-4 py-2 rounded-tl-lg">Planet</th>
                                 <th className="px-4 py-2">Sign</th>
+                                <th className="px-4 py-2">Degree</th>
                                 <th className="px-4 py-2 rounded-tr-lg">House</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {(result.planets as Record<string, string | number>[])?.map((p: Record<string, string | number>, i: number) => (
+                            {result.planets.map((p, i) => (
                                 <tr key={i} className="border-b border-[#C9A84C]/10 last:border-0 hover:bg-[#0D0B1A]/50">
                                     <td className="px-4 py-2 font-medium">{p.name}</td>
-                                    <td className="px-4 py-2">{p.rasi}</td>
+                                    <td className="px-4 py-2">{p.rashi}</td>
+                                    <td className="px-4 py-2">{p.degreeInSign}</td>
                                     <td className="px-4 py-2">{p.house}</td>
                                 </tr>
                             ))}
