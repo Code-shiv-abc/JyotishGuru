@@ -60,13 +60,19 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-serif font-bold text-[#C9A84C] mb-4">5. Data Retention & Third Parties</h2>
-            <p>Your astrological data is retained only as long as necessary to fulfill the requested services. We do not sell, trade, or otherwise transfer your personally identifiable information to outside parties without your consent, except where required by law.</p>
+            <h2 className="text-2xl font-serif font-bold text-[#C9A84C] mb-4">5. Data Retention, Third Parties & DPDP Act 2023 Compliance</h2>
+            <p>Your astrological data is retained only as long as necessary to fulfill the requested services. In compliance with the Digital Personal Data Protection (DPDP) Act 2023 of India, we transparently disclose our use of the following third-party services:</p>
+            <ul className="list-disc pl-6 mt-2 space-y-2">
+              <li><strong>Open-Meteo:</strong> Used for city geocoding to determine accurate coordinates for astrological calculations. No personally identifiable information is sent to this service.</li>
+              <li><strong>Vercel Analytics & Speed Insights:</strong> Used for monitoring website performance and traffic. Data is anonymized and aggregated.</li>
+              <li><strong>WhatsApp Communication:</strong> Consultation booking forms and inquiries may initiate a direct WhatsApp message to our service number. By proceeding, you consent to communicate via WhatsApp, governed by WhatsApp&apos;s privacy terms.</li>
+            </ul>
+            <p className="mt-4">We do not sell, trade, or otherwise transfer your personally identifiable information to outside parties without your explicit consent, except where required by law.</p>
           </section>
 
           <section>
             <h2 className="text-2xl font-serif font-bold text-[#C9A84C] mb-4">6. Contact Us</h2>
-            <p>If you have any questions regarding this privacy policy, you may contact us at contact@jyotishguru.in.</p>
+            <p>If you have any questions regarding this privacy policy, or wish to exercise your data rights under the DPDP Act 2023, you may contact us at contact@jyotishguru.in.</p>
           </section>
         </div>
       </div>

@@ -31,7 +31,7 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#1A1628] via-[#0D0B1A] to-[#0D0B1A] opacity-80" />
 
         {/* Animated Particles/Stars (Performance optimized: using fewer CSS animated stars, and more static texture) */}
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 mix-blend-screen animate-[pulse_4s_ease-in-out_infinite]" />
+        <div className="absolute inset-0 bg-[url('/images/stardust.png')] opacity-20 mix-blend-screen animate-[pulse_4s_ease-in-out_infinite]" />
 
         {/* Rotating Mandala SVG Background */}
         <div className="absolute inset-0 flex items-center justify-center opacity-[0.05] text-[#C9A84C] animate-[spin_120s_linear_infinite]">
