@@ -208,6 +208,38 @@ export default function KundaliMatchingForm() {
               </div>
             ))}
           </div>
+
+          {/* Post-Calculation Consultation Upsell Banner */}
+          <div className="mt-8 p-6 md:p-8 bg-gradient-to-r from-[#1A1040] via-[#1A1628] to-[#0D0B1A] border border-[#C9A84C]/40 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="space-y-2 text-center md:text-left">
+              <span className="inline-block text-xs font-bold uppercase tracking-widest text-[#C9A84C]">
+                Personalized Vedic Remedy Session
+              </span>
+              <h3 className="text-2xl font-serif font-bold text-[#E8E4F0]">
+                Want Acharya Ji to Interpret Your Dasha &amp; Planetary Yogas?
+              </h3>
+              <p className="text-sm text-[#E8E4F0]/75 max-w-xl">
+                Automated charts show planetary placements, but true clarity comes from examining your Navamsha, active Mahadasha, and personalized spiritual remedies.
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+              <a
+                href="/book?service=kundali"
+                className="px-6 py-3.5 bg-[#C9A84C] text-[#0D0B1A] font-bold rounded-full text-sm text-center hover:bg-[#d9b85c] transition-colors"
+              >
+                Book 1-on-1 Reading (₹1,100)
+              </a>
+              <a
+                href="https://wa.me/917233972105?text=Namaste%20Acharya%20Ji%2C%20I%20just%20generated%20my%20Kundali%20on%20JyotishGuru%20and%20would%20like%20a%20personal%20consultation."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3.5 border border-[#C9A84C]/50 text-[#E8E4F0] font-semibold rounded-full text-sm text-center hover:bg-white/5 transition-colors"
+              >
+                Chat on WhatsApp
+              </a>
+            </div>
+          </div>
+
         </div>
       )}
     </div>
