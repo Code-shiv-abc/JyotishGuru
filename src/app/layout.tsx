@@ -80,12 +80,20 @@ export default function RootLayout({
                   "@id": `${SITE_URL}/#organization`,
                   "name": "JyotishGuru",
                   "url": SITE_URL,
+                  "telephone": "+91-7233972105",
+                  "email": "contact@jyotishguru.in",
+                  "priceRange": "₹500 - ₹1,500",
                   "address": {
                     "@type": "PostalAddress",
                     "addressLocality": "Ayodhya Dham",
                     "addressRegion": "Uttar Pradesh",
                     "addressCountry": "IN",
                   },
+                  "geo": {
+                    "@type": "GeoCoordinates",
+                    "latitude": 26.7922,
+                    "longitude": 82.1998
+                  }
                 },
                 {
                   "@type": "Person",
@@ -103,6 +111,11 @@ export default function RootLayout({
                   "provider": {
                     "@id": `${SITE_URL}/#organization`,
                   },
+                  "offers": {
+                    "@type": "Offer",
+                    "price": "501",
+                    "priceCurrency": "INR"
+                  }
                 },
                 {
                   "@type": "Service",
@@ -110,6 +123,11 @@ export default function RootLayout({
                   "provider": {
                     "@id": `${SITE_URL}/#organization`,
                   },
+                  "offers": {
+                    "@type": "Offer",
+                    "price": "501",
+                    "priceCurrency": "INR"
+                  }
                 },
                 {
                   "@type": "Service",
@@ -117,6 +135,11 @@ export default function RootLayout({
                   "provider": {
                     "@id": `${SITE_URL}/#organization`,
                   },
+                  "offers": {
+                    "@type": "Offer",
+                    "price": "501",
+                    "priceCurrency": "INR"
+                  }
                 },
               ],
             }),
