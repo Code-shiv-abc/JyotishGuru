@@ -183,7 +183,7 @@ export default function Home() {
       <section className="relative py-32 overflow-hidden border-t border-[#C9A84C]/10">
         {/* Deep, rich background */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#1A1628] via-[#0D0B1A] to-[#0D0B1A] z-0"></div>
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 mix-blend-screen z-0 animate-[pulse_6s_ease-in-out_infinite]"></div>
+        <div className="absolute inset-0 bg-[url('/images/stardust.png')] opacity-20 mix-blend-screen z-0 animate-[pulse_6s_ease-in-out_infinite]"></div>
 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <AnimatedSection className="text-center mb-16 glass-panel p-8 md:p-12 rounded-[2.5rem]">
