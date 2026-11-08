@@ -20,6 +20,7 @@ export default function Footer() {
     <footer className="bg-[#0D0B1A] border-t border-[#C9A84C]/20 pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-12">
+
           {/* Brand Column */}
           <div className="space-y-6">
             <Link href="/" className="flex items-center gap-2">
@@ -29,15 +30,16 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-[#E8E4F0]/75 text-sm leading-relaxed max-w-sm">
-              Authentic Parashari Vedic astrology from the sacred land of Ayodhya Dham. Discover your cosmic destiny with Acharya Shri Pankaj Shukla.
+              Authentic Vedic astrology from the sacred land of Ayodhya Dham. Discover your cosmic destiny with Acharya Shri Ravindra Shukla Shatri.
             </p>
             <div className="flex gap-4">
               <a
-                href="https://wa.me/917233972105?text=Namaste%20Acharya%20Ji%2C%20I%20would%20like%20to%20inquire%20about%20a%20Vedic%20astrology%20consultation."
+                href="https://wa.me/918009124454?text=Namaste%20Acharya%20Shri%20Ravindra%20Shukla%20Shatri%20Ji%2C%20I%20would%20like%20to%20inquire%20about%20a%20Vedic%20astrology%20consultation."
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Chat with Acharya Shri Pankaj Shukla on WhatsApp"
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#1A1628] text-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#0D0B1A] transition-colors border border-[#C9A84C]/30 text-xs font-semibold tracking-wider uppercase"
+                aria-label="Chat with Acharya Shri Ravindra Shukla Shatri on WhatsApp"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#1A1628] flex items-center justify-center text-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#0D0B1A] transition-colors border border-[#C9A84C]/30 text-xs font-semibold uppercase tracking-wider"
+                title="WhatsApp +91 80091 24454"
               >
                 <MessageCircle className="w-4 h-4" aria-hidden="true" />
                 <span>WhatsApp Consult</span>
@@ -64,7 +66,7 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <h3 className="font-serif font-bold text-xl text-[#E8E4F0] mb-6">Sacred Services</h3>
+            <h3 className="font-serif font-bold text-xl text-[#E8E4F0] mb-6">Services</h3>
             <ul className="space-y-4">
               {serviceLinks.map((item) => (
                 <li key={item.href}>
@@ -82,15 +84,15 @@ export default function Footer() {
           {/* Contact Info */}
           <div>
             <h3 className="font-serif font-bold text-xl text-[#E8E4F0] mb-6">Contact</h3>
-            <ul className="space-y-5 text-sm text-[#E8E4F0]/75">
+            <ul className="space-y-6 text-sm text-[#E8E4F0]/75">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-[#C9A84C] shrink-0 mt-0.5" aria-hidden="true" />
                 <span>Ayodhya Dham,<br />Uttar Pradesh, India</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-[#C9A84C] shrink-0" aria-hidden="true" />
-                <a href="tel:+917233972105" className="hover:text-[#C9A84C] transition-colors">
-                  +91 72339 72105
+                <a href="tel:+918009124454" className="hover:text-[#C9A84C] transition-colors">
+                  +91 80091 24454
                 </a>
               </li>
               <li className="flex items-center gap-3">
@@ -101,6 +103,7 @@ export default function Footer() {
               </li>
             </ul>
           </div>
+
         </div>
 
         {/* Copyright */}
@@ -109,12 +112,8 @@ export default function Footer() {
             © {new Date().getFullYear()} JyotishGuru. All rights reserved.
           </p>
           <div className="flex gap-6 text-[#E8E4F0]/70 text-sm">
-            <Link href="/privacy-policy" className="hover:text-[#C9A84C] transition-colors">
-              Privacy Policy
-            </Link>
-            <Link href="/terms-of-service" className="hover:text-[#C9A84C] transition-colors">
-              Terms of Service
-            </Link>
+            <Link href="/privacy-policy" className="hover:text-[#C9A84C] transition-colors">Privacy Policy</Link>
+            <Link href="/terms-of-service" className="hover:text-[#C9A84C] transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>
