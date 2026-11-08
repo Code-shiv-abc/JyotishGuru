@@ -42,12 +42,12 @@ export default function KundaliCTAForm() {
       viewport={{ once: true }}
       transition={{ duration: 0.8 }}
       onSubmit={handleSubmit}
-      className="bg-[#0D0B1A] border border-[#C9A84C]/30 p-6 md:p-8 rounded-2xl shadow-2xl max-w-4xl mx-auto text-left"
+      className="bg-[#0D0B1A] border border-[#C9A84C]/30 p-6 md:p-8 rounded-2xl shadow-2xl max-w-4xl mx-auto backdrop-blur-sm bg-opacity-90 text-left"
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div>
           <label htmlFor="cta-name" className="block text-xs font-semibold text-[#E8E4F0]/80 uppercase tracking-wider mb-2">
-            Full Name
+            Name
           </label>
           <input
             id="cta-name"
@@ -106,7 +106,7 @@ export default function KundaliCTAForm() {
       </div>
       <button
         type="submit"
-        className="w-full bg-gradient-to-r from-[#C9A84C] to-[#D4A017] hover:brightness-110 text-[#0D0B1A] py-4 rounded-xl font-sans font-bold text-lg transition-all shadow-lg shadow-[#C9A84C]/20 cursor-pointer"
+        className="w-full bg-gradient-to-r from-[#C9A84C] to-[#D4A017] hover:brightness-110 text-[#0D0B1A] py-4 rounded-xl font-sans font-bold text-lg transition-all shadow-lg cursor-pointer"
       >
         Generate My Free Janam Kundali →
       </button>
