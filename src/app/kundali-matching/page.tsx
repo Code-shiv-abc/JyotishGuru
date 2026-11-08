@@ -4,13 +4,13 @@ import KundaliMatchingForm from "./KundaliMatchingForm";
 
 export const metadata: Metadata = {
   title: "Kundali Matching (Ashtakoot Guna Milan) | JyotishGuru",
-  description: "Check compatibility for marriage using traditional Vedic Astrology Kundali Matching.",
+  description: "Check 36-Guna Ashtakoot & Manglik compatibility for marriage with Acharya Shri Ravindra Shukla Shatri.",
   alternates: {
     canonical: `${SITE_URL}/kundali-matching`,
   },
   openGraph: {
     title: "Kundali Matching (Ashtakoot Guna Milan) | JyotishGuru",
-    description: "Check compatibility for marriage using traditional Vedic Astrology Kundali Matching.",
+    description: "Check 36-Guna Ashtakoot & Manglik compatibility for marriage with Acharya Shri Ravindra Shukla Shatri.",
     url: `${SITE_URL}/kundali-matching`,
   },
 };
