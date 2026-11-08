@@ -20,6 +20,7 @@ export default function CustomCursor() {
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       setIsDesktop(finePointer && !reducedMotion);
     };
+
     checkPointer();
     window.addEventListener("resize", checkPointer);
 
@@ -64,16 +65,18 @@ export default function CustomCursor() {
     <>
       <motion.div
         style={{ x: springRingX, y: springRingY, translateX: "-50%", translateY: "-50%" }}
+        className="fixed top-0 left-0 w-8 h-8 border border-[#C9A84C]/50 rounded-full pointer-events-none z-[100] flex items-center justify-center mix-blend-difference"
         animate={{
           scale: isClicking ? 0.8 : isHovering ? 1.5 : 1,
           backgroundColor: isHovering ? "rgba(201, 168, 76, 0.12)" : "transparent",
         }}
-        className="fixed top-0 left-0 w-8 h-8 border border-[#C9A84C]/50 rounded-full pointer-events-none z-[100] mix-blend-difference"
       />
       <motion.div
         style={{ x: cursorX, y: cursorY, translateX: "-50%", translateY: "-50%" }}
-        animate={{ scale: isHovering ? 0 : 1 }}
         className="fixed top-0 left-0 w-2 h-2 bg-[#C9A84C] rounded-full pointer-events-none z-[100] mix-blend-difference"
+        animate={{
+          scale: isHovering ? 0 : 1,
+        }}
       />
     </>
   );
