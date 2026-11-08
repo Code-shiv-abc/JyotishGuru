@@ -36,7 +36,10 @@ export default function PlaceAutoComplete({
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (initialValue) setQuery(initialValue);
+    if (initialValue) {
+      setQuery(initialValue);
+      setHasSelected(true);
+    }
   }, [initialValue]);
 
   useEffect(() => {
@@ -63,6 +66,7 @@ export default function PlaceAutoComplete({
           `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query.trim())}&count=5&language=en&format=json`
         );
         const data = await response.json();
+
         if (data.results && data.results.length > 0) {
           setResults(data.results);
           setIsOpen(true);
@@ -91,7 +95,6 @@ export default function PlaceAutoComplete({
     onSelect(place);
   };
 
-  // Auto-select top match on blur if user typed a valid city but didn't click the dropdown
   const handleBlur = () => {
     setTimeout(() => {
       if (!hasSelected && results.length > 0) {
