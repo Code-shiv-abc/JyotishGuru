@@ -31,7 +31,7 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#1A1628] via-[#0D0B1A] to-[#0D0B1A] opacity-80" />
 
         {/* Animated Particles/Stars (Performance optimized: using fewer CSS animated stars, and more static texture) */}
-        <div className="absolute inset-0 bg-[url('/images/stardust.png')] opacity-20 mix-blend-screen animate-[pulse_4s_ease-in-out_infinite]" />
+        <div className="absolute inset-0 opacity-20 mix-blend-screen animate-[pulse_4s_ease-in-out_infinite]" style={{ backgroundImage: "radial-gradient(#C9A84C 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
 
         {/* Rotating Mandala SVG Background */}
         <div className="absolute inset-0 flex items-center justify-center opacity-[0.05] text-[#C9A84C] animate-[spin_120s_linear_infinite]">
@@ -88,7 +88,7 @@ export default function HeroSection() {
           transition={{ duration: 1, delay: 0.8 }}
           className="text-lg md:text-2xl text-[#E8E4F0]/70 mb-10 font-sans max-w-2xl mx-auto leading-relaxed font-light"
         >
-          Authentic Vedic astrology consultation from the sacred land of Ayodhya Dham. Align with the stars.
+          Consult Acharya Shri Ravindra Shukla Shatri from the sacred land of Ayodhya Dham for precision Parashari Kundali analysis, Ashtakoot matching, and Vedic remedies.
         </motion.p>
 
         {/* Action Buttons */}
