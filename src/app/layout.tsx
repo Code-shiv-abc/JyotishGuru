@@ -26,17 +26,28 @@ const outfit = Outfit({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "JyotishGuru | Expert Vedic Astrologer in Ayodhya Dham",
+    default: "JyotishGuru | Acharya Shri Ravindra Shukla Shatri — Vedic Astrologer in Ayodhya Dham",
     template: "%s | JyotishGuru",
   },
-  description: "Consult Acharya Shri Pankaj Shukla, an expert Vedic Astrologer based in Ayodhya Dham, India. Services include Kundali Reading, Kundali Matching, and Horoscope Consultation.",
-  keywords: ["Vedic Astrology", "Ayodhya Dham", "Acharya Shri Pankaj Shukla", "Kundali", "Horoscope", "Kundali Matching", "JyotishGuru"],
+  description:
+    "Consult Acharya Shri Ravindra Shukla Shatri, an expert Vedic Astrologer based in Ayodhya Dham, India. Services include Janam Kundali Reading, Ashtakoot Kundali Matching, and Horoscope Consultation.",
+  keywords: [
+    "Vedic Astrology",
+    "Ayodhya Dham",
+    "Acharya Shri Ravindra Shukla Shatri",
+    "Ravindra Shukla Shatri",
+    "Kundali",
+    "Horoscope",
+    "Kundali Matching",
+    "JyotishGuru",
+  ],
   alternates: {
     canonical: SITE_URL,
   },
   openGraph: {
-    title: "JyotishGuru | Expert Vedic Astrologer in Ayodhya Dham",
-    description: "Expert Vedic Astrology consultation in Ayodhya Dham. Understand your karmic path with Acharya Shri Pankaj Shukla.",
+    title: "JyotishGuru | Acharya Shri Ravindra Shukla Shatri — Vedic Astrologer in Ayodhya Dham",
+    description:
+      "Expert Vedic Astrology consultation in Ayodhya Dham. Understand your karmic path with Acharya Shri Ravindra Shukla Shatri.",
     url: SITE_URL,
     siteName: "JyotishGuru",
     locale: "en_IN",
@@ -44,8 +55,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "JyotishGuru | Expert Vedic Astrologer in Ayodhya Dham",
-    description: "Consult Acharya Shri Pankaj Shukla for Kundali Reading, Kundali Matching, and Horoscope Consultation in Ayodhya Dham.",
+    title: "JyotishGuru | Acharya Shri Ravindra Shukla Shatri — Vedic Astrologer in Ayodhya Dham",
+    description:
+      "Consult Acharya Shri Ravindra Shukla Shatri for Kundali Reading, Kundali Matching, and Horoscope Consultation in Ayodhya Dham.",
   },
   manifest: "/manifest.webmanifest",
   appleWebApp: {
@@ -80,7 +92,7 @@ export default function RootLayout({
                   "@id": `${SITE_URL}/#organization`,
                   "name": "JyotishGuru",
                   "url": SITE_URL,
-                  "telephone": "+91-7233972105",
+                  "telephone": "+91-80091-24454",
                   "email": "contact@jyotishguru.in",
                   "priceRange": "₹500 - ₹1,500",
                   "address": {
@@ -92,15 +104,16 @@ export default function RootLayout({
                   "geo": {
                     "@type": "GeoCoordinates",
                     "latitude": 26.7922,
-                    "longitude": 82.1998
-                  }
+                    "longitude": 82.1998,
+                  },
                 },
                 {
                   "@type": "Person",
                   "@id": `${SITE_URL}/#person`,
-                  "name": "Acharya Shri Pankaj Shukla",
-                  "jobTitle": "Vedic Astrologer",
-                  "url": SITE_URL,
+                  "name": "Acharya Shri Ravindra Shukla Shatri",
+                  "jobTitle": "Vedic Astrologer & Shastri",
+                  "telephone": "+91-80091-24454",
+                  "url": `${SITE_URL}/about`,
                   "worksFor": {
                     "@id": `${SITE_URL}/#organization`,
                   },
@@ -111,11 +124,6 @@ export default function RootLayout({
                   "provider": {
                     "@id": `${SITE_URL}/#organization`,
                   },
-                  "offers": {
-                    "@type": "Offer",
-                    "price": "501",
-                    "priceCurrency": "INR"
-                  }
                 },
                 {
                   "@type": "Service",
@@ -123,11 +131,6 @@ export default function RootLayout({
                   "provider": {
                     "@id": `${SITE_URL}/#organization`,
                   },
-                  "offers": {
-                    "@type": "Offer",
-                    "price": "501",
-                    "priceCurrency": "INR"
-                  }
                 },
                 {
                   "@type": "Service",
@@ -135,11 +138,6 @@ export default function RootLayout({
                   "provider": {
                     "@id": `${SITE_URL}/#organization`,
                   },
-                  "offers": {
-                    "@type": "Offer",
-                    "price": "501",
-                    "priceCurrency": "INR"
-                  }
                 },
               ],
             }),
