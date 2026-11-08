@@ -1,97 +1,123 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { SITE_URL } from "@/lib/constants";
-import { MapPin, Phone, MessageCircle, Award, BookOpen, Sparkles } from "lucide-react";
+import { Sparkles, Clock, Video, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "About Acharya Shri Ravindra Shukla Shatri | JyotishGuru",
-  description: "Learn about the lineage, Shastri credentials, and Vedic Astrology expertise of Acharya Shri Ravindra Shukla Shatri in Ayodhya Dham.",
+  title: "Vedic Astrology Consultation Services | JyotishGuru",
+  description: "Explore Vedic Astrology consultation services with Acharya Shri Ravindra Shukla Shatri including Kundali Reading, Kundali Matching, Career & Finance, and Vedic Remedies.",
   alternates: {
-    canonical: `${SITE_URL}/about`,
+    canonical: `${SITE_URL}/services`,
   },
   openGraph: {
-    title: "About Acharya Shri Ravindra Shukla Shatri | JyotishGuru",
-    description: "Learn about the experience and Vedic Astrology expertise of Acharya Shri Ravindra Shukla Shatri in Ayodhya Dham.",
-    url: `${SITE_URL}/about`,
+    title: "Vedic Astrology Consultation Services | JyotishGuru",
+    description: "Book 1-on-1 Vedic Astrology consultations with Acharya Shri Ravindra Shukla Shatri.",
+    url: `${SITE_URL}/services`,
   },
 };
 
-export default function AboutPage() {
+const services = [
+  {
+    slug: "kundali",
+    title: "Kundali Reading",
+    duration: "45 Mins",
+    mode: "Video / Phone",
+    description: "Detailed Parashari analysis of your Lagna, Navamsha (D-9), Vimshottari Dasha cycles, and life path with Acharya Shri Ravindra Shukla Shatri.",
+    price: "₹1100",
+  },
+  {
+    slug: "matching",
+    title: "Kundali Matching (Guna Milan)",
+    duration: "45 Mins",
+    mode: "Video / Phone",
+    description: "Comprehensive marriage compatibility analysis based on the traditional 36-Guna Ashtakoot system, Manglik check, and Nadi Dosha remedies.",
+    price: "₹1500",
+  },
+  {
+    slug: "career",
+    title: "Career & Finance Consultation",
+    duration: "30 Mins",
+    mode: "Video / Phone",
+    description: "Strategic guidance on professional life, job transitions, business prospects, and financial stability using Dashamsha (D-10) charts.",
+    price: "₹1200",
+  },
+  {
+    slug: "relationship",
+    title: "Relationship & Marriage",
+    duration: "30 Mins",
+    mode: "Video / Phone",
+    description: "Compassionate Vedic insights into love life, marital harmony, and spiritual remedies for resolving family and relationship challenges.",
+    price: "₹1200",
+  },
+  {
+    slug: "muhurat",
+    title: "Muhurat Calculation",
+    duration: "20 Mins",
+    mode: "WhatsApp / Phone",
+    description: "Finding the most auspicious Panchang electional window for marriage, Griha Pravesh, business launch, or property purchase.",
+    price: "₹500",
+  },
+  {
+    slug: "remedies",
+    title: "Gemstone & Remedy Consultation",
+    duration: "30 Mins",
+    mode: "Video / Phone",
+    description: "Personalized advice on gemstones (Ratna), Beej Mantras, and Vedic Upayas to mitigate planetary doshas and strengthen benefic yogas.",
+    price: "₹800",
+  },
+];
+
+export default function ServicesPage() {
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div className="text-center mb-16">
         <h1 className="text-4xl md:text-5xl font-serif font-bold text-[#C9A84C] mb-6">
-          About Acharya Ji
+          Vedic Astrology Services
         </h1>
-        <div className="w-24 h-1 bg-[#C9A84C]/50 mx-auto rounded-full"></div>
+        <p className="text-lg text-[#E8E4F0]/80 max-w-2xl mx-auto">
+          Discover traditional, accurate, and insightful astrological guidance with Acharya Shri Ravindra Shukla Shatri tailored to your life&apos;s unique journey.
+        </p>
       </div>
 
-      <div className="bg-[#1A1628] border border-[#C9A84C]/25 rounded-3xl p-8 md:p-12 shadow-2xl overflow-hidden relative">
-        <div className="absolute top-0 right-0 -mt-16 -mr-16 w-64 h-64 bg-[#C9A84C]/5 rounded-full blur-3xl pointer-events-none"></div>
-
-        <div className="flex flex-col md:flex-row gap-12 items-center">
-          <div className="w-52 h-52 md:w-64 md:h-64 rounded-full border-4 border-[#C9A84C]/35 flex-shrink-0 bg-[#0D0B1A] flex flex-col items-center justify-center overflow-hidden relative shadow-lg shadow-[#C9A84C]/10 p-6 text-center">
-            <span className="text-6xl text-[#C9A84C] font-serif mb-2">ॐ</span>
-            <span className="text-xs uppercase tracking-widest text-[#E8E4F0]/75 font-semibold">Ayodhya Dham</span>
-          </div>
-
-          <div className="space-y-6 text-[#E8E4F0]/90 text-lg leading-relaxed text-center md:text-left">
-            <div className="inline-flex items-center gap-2 bg-[#0D0B1A] border border-[#C9A84C]/30 px-4 py-1.5 rounded-full text-xs text-[#C9A84C] uppercase tracking-widest font-semibold">
-              <MapPin className="w-3.5 h-3.5" />
-              <span>Sacred Land of Ayodhya Dham</span>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {services.map((service) => (
+          <div
+            key={service.slug}
+            className="bg-[#1A1628] border border-[#C9A84C]/20 rounded-2xl p-8 hover:border-[#C9A84C]/60 transition-colors shadow-lg flex flex-col justify-between group"
+          >
+            <div>
+              <div className="flex items-center justify-between mb-6">
+                <div className="w-12 h-12 rounded-full bg-[#0D0B1A] border border-[#C9A84C]/25 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Sparkles className="w-5 h-5 text-[#C9A84C]" aria-hidden="true" />
+                </div>
+                <div className="flex items-center gap-2 text-xs text-[#E8E4F0]/75 bg-[#0D0B1A] px-3 py-1.5 rounded-full border border-[#C9A84C]/20">
+                  <Clock className="w-3.5 h-3.5 text-[#C9A84C]" aria-hidden="true" />
+                  <span>{service.duration}</span>
+                  <span>•</span>
+                  <Video className="w-3.5 h-3.5 text-[#C9A84C]" aria-hidden="true" />
+                  <span>{service.mode}</span>
+                </div>
+              </div>
+              <h2 className="text-2xl font-serif font-bold text-[#E8E4F0] mb-3">
+                {service.title}
+              </h2>
+              <p className="text-[#E8E4F0]/75 mb-8 leading-relaxed text-sm">
+                {service.description}
+              </p>
             </div>
 
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#C9A84C]">
-              Acharya Shri Ravindra Shukla Shatri
-            </h2>
-
-            <p>
-              Based in the holy city of Ayodhya Dham, <strong>Acharya Shri Ravindra Shukla Shatri</strong> is a distinguished Vedic Astrologer and Dharma Shastri dedicated to helping individuals and families navigate their karmic path with clarity and grace.
-            </p>
-            <p>
-              Trained in classical Sanskrit Jyotish scriptures (including <em>Brihat Parashara Hora Shastra</em> and <em>Muhurta Chintamani</em>), Acharya Ji specializes in precision Janam Kundali analysis, Ashtakoot &amp; Manglik marriage compatibility, Dashamsha career guidance, and authentic Vedic Upayas (remedies).
-            </p>
-            <p className="font-semibold text-[#E8E4F0] border-l-4 border-[#C9A84C] pl-4 italic text-base md:text-lg">
-              &quot;Astrology is not about fearing planetary periods, but understanding your karmic blueprint so you can act with wisdom, devotion, and right timing.&quot;
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 text-left">
-              <div className="bg-[#0D0B1A] border border-[#C9A84C]/20 rounded-xl p-4">
-                <Award className="w-5 h-5 text-[#C9A84C] mb-2" />
-                <div className="font-serif font-bold text-[#E8E4F0]">Parashari Jyotish</div>
-                <div className="text-xs text-[#E8E4F0]/70">Lagna, Navamsha &amp; Vimshottari Dasha</div>
-              </div>
-              <div className="bg-[#0D0B1A] border border-[#C9A84C]/20 rounded-xl p-4">
-                <BookOpen className="w-5 h-5 text-[#C9A84C] mb-2" />
-                <div className="font-serif font-bold text-[#E8E4F0]">Shastri Lineage</div>
-                <div className="text-xs text-[#E8E4F0]/70">Traditional Ayodhya Dham Scholarship</div>
-              </div>
-              <div className="bg-[#0D0B1A] border border-[#C9A84C]/20 rounded-xl p-4">
-                <Sparkles className="w-5 h-5 text-[#C9A84C] mb-2" />
-                <div className="font-serif font-bold text-[#E8E4F0]">Authentic Upayas</div>
-                <div className="text-xs text-[#E8E4F0]/70">Mantras, Gemstones &amp; Muhurat</div>
-              </div>
-            </div>
-
-            <div className="pt-6 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+            <div className="flex items-center justify-between border-t border-[#C9A84C]/15 pt-6">
+              <span className="text-2xl font-serif font-bold text-[#C9A84C]">{service.price}</span>
               <Link
-                href="/book"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#C9A84C] text-[#0D0B1A] rounded-full font-bold text-base hover:bg-[#d9b85c] transition-colors"
+                href={`/book?service=${service.slug}`}
+                className="inline-flex items-center gap-2 text-sm font-bold text-[#0D0B1A] bg-[#C9A84C] hover:bg-[#d9b85c] transition-colors px-5 py-2.5 rounded-full shadow-md"
               >
-                <span>Schedule 1-on-1 Consultation</span>
+                <span>Book Now</span>
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </Link>
-              <a
-                href="https://wa.me/918009124454?text=Namaste%20Acharya%20Shri%20Ravindra%20Shukla%20Shatri%20Ji%2C%20I%20would%20like%20to%20book%20a%20consultation."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-[#C9A84C]/40 text-[#E8E4F0] rounded-full font-semibold text-base hover:bg-white/5 transition-colors"
-              >
-                <MessageCircle className="w-5 h-5 text-[#C9A84C]" />
-                <span>WhatsApp: +91 80091 24454</span>
-              </a>
             </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );
