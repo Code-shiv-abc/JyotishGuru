@@ -2,11 +2,9 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Star, FileText, Heart, Search, Award, MapPin } from "lucide-react";
 
-// Directly import HeroSection as it's above the fold
 import HeroSection from "./components/home/HeroSection";
 import AnimatedSection from "./components/home/AnimatedSection";
 
-// Dynamically import components below the fold
 const TestimonialsCarousel = dynamic(() => import("./components/home/TestimonialsCarousel"), {
   ssr: true,
 });
@@ -21,7 +19,7 @@ export default function Home() {
       {/* 1. HERO SECTION */}
       <HeroSection />
 
-      {/* 2. TRUST BAR (Glassmorphism + Subtle Gradient) */}
+      {/* 2. TRUST BAR */}
       <section className="relative z-20 -mt-10 mb-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimatedSection>
           <div className="glass-panel rounded-3xl overflow-hidden">
