@@ -1,11 +1,10 @@
 import { MetadataRoute } from 'next';
 import { SITE_URL } from '@/lib/constants';
-import { BLOG_POSTS } from '@/lib/blog-data';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = SITE_URL;
 
-  const staticRoutes: MetadataRoute.Sitemap = [
+  return [
     { url: `${baseUrl}/`, lastModified: new Date(), changeFrequency: 'weekly', priority: 1.0 },
     { url: `${baseUrl}/kundali`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.95 },
     { url: `${baseUrl}/kundali-matching`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.95 },
@@ -17,13 +16,4 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/privacy-policy`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.4 },
     { url: `${baseUrl}/terms-of-service`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.4 },
   ];
-
-  const blogRoutes: MetadataRoute.Sitemap = BLOG_POSTS.map((post) => ({
-    url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly',
-    priority: 0.75,
-  }));
-
-  return [...staticRoutes, ...blogRoutes];
 }
