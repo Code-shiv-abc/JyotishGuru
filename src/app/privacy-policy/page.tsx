@@ -60,7 +60,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-serif font-bold text-[#C9A84C] mb-4">5. Data Retention & Third Parties</h2>
+            <h2 className="text-2xl font-serif font-bold text-[#C9A84C] mb-4">5. Data Retention &amp; Third Parties</h2>
             <p>Your astrological data is calculated in real time to generate your charts. City search queries use the Open-Meteo Geocoding API to determine latitude, longitude, and timezone, and anonymous performance metrics are processed via Vercel Analytics. We never sell or trade your personal birth data to third-party marketers.</p>
           </section>
 
