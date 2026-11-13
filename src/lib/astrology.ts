@@ -1,13 +1,5 @@
 // src/lib/astrology.ts
 // High-End Enterprise-Grade Vedic Astronomical & Parashari Calculation Engine ($0 Zero-Dependency)
-// Includes:
-// 1. Multi-Ayanamsha Support (Chitra Paksha Lahiri, Raman, KP Krishnamurti, Suryasiddhanta)
-// 2. VSOP87 / Meeus Solar, Lunar & Planetary Ephemeris + True/Mean Rahu-Ketu + Central-Difference Speeds
-// 3. Sripati Bhava Chalit Cusps + 8 Key Shodashvarga Divisional Charts (D-1, D-2, D-3, D-4, D-7, D-9, D-10, D-12)
-// 4. Jaimini Chara Karakas (Atmakaraka to Darakaraka) & Planetary Avasthas (Baladi)
-// 5. Parashari Shadbala (6-Fold Strength in Rupas & Percentage) & Sarvashtakavarga (SAV 12-House Bindu Matrix)
-// 6. 120-Year Vimshottari Mahadasha & Antardasha Tree + Classical Yoga/Dosha Scanner + Vedic Remedy Engine
-// 7. Enterprise Adapter Hook: Drop-in support for external Swiss Ephemeris microservice if configured in future
 
 export type AyanamshaSystem = "LAHIRI" | "RAMAN" | "KP" | "SURYASIDDHANTA";
 
@@ -111,9 +103,6 @@ export function getJulianDay(date: Date): number {
   return date.getTime() / 86400000 + 2440587.5;
 }
 
-/**
- * Multi-System Ayanamsha Calculator (Chitra Paksha Lahiri, B.V. Raman, KP New, Suryasiddhanta)
- */
 export function getAyanamsha(jd: number, system: AyanamshaSystem = "LAHIRI"): number {
   const T = (jd - 2451545.0) / 36525.0;
   const omega = normalizeDeg(125.04455501 - 1934.1361849 * T + 0.0020762 * T * T);
@@ -279,9 +268,6 @@ export function getSiderealAngles(jd: number, lat: number, lon: number, ayanamsh
   };
 }
 
-/**
- * Shodashvarga Divisional Chart Calculator (D-1, D-2, D-3, D-4, D-7, D-9, D-10, D-12)
- */
 export function getVargaRashiIndex(siderealLon: number, division: 1 | 2 | 3 | 4 | 7 | 9 | 10 | 12): number {
   const rashiIndex = Math.floor(siderealLon / 30);
   const degInSign = siderealLon % 30;
@@ -289,15 +275,11 @@ export function getVargaRashiIndex(siderealLon: number, division: 1 | 2 | 3 | 4 
 
   if (division === 1) return rashiIndex;
   if (division === 2) {
-    // Parashari Hora (D-2): Odd signs 0-15° = Sun (Leo=4), 15-30° = Moon (Cancer=3); Even signs reversed
     const firstHalf = degInSign < 15;
     return isOdd ? (firstHalf ? 4 : 3) : (firstHalf ? 3 : 4);
   }
   if (division === 3) return (rashiIndex + Math.floor(degInSign / 10) * 4) % 12;
-  if (division === 4) {
-    // Chaturthamsha (D-4): 4 parts of 7.5° -> 1st, 4th, 7th, 10th from sign
-    return (rashiIndex + Math.floor(degInSign / 7.5) * 3) % 12;
-  }
+  if (division === 4) return (rashiIndex + Math.floor(degInSign / 7.5) * 3) % 12;
   if (division === 7) return ((isOdd ? rashiIndex : (rashiIndex + 6) % 12) + Math.floor((degInSign * 7) / 30)) % 12;
   if (division === 9) return Math.floor(siderealLon / (30 / 9)) % 12;
   if (division === 10) return ((isOdd ? rashiIndex : (rashiIndex + 8) % 12) + Math.floor(degInSign / 3)) % 12;
@@ -328,9 +310,6 @@ export function getPlanetaryDignity(planet: string, rashiIndex: number, degInSig
   return "Normal (Sama/Mitra)";
 }
 
-/**
- * Baladi Avastha (Planetary Age State based on 6° intervals in Odd/Even signs)
- */
 export function getBaladiAvastha(rashiIndex: number, degInSign: number): string {
   const states = ["Bala (Infant)", "Kumara (Youth)", "Yuva (Peak Adult)", "Vriddha (Aged)", "Mrita (Dormant)"];
   const idx = Math.min(4, Math.floor(degInSign / 6));
@@ -348,9 +327,6 @@ export function isPlanetCombust(planet: string, planetLon: number, sunLon: numbe
   return dist <= (orbs[planet] ?? 0);
 }
 
-/**
- * Jaimini Chara Karakas (7-Karaka scheme sorted by descending degree in sign for Sun..Saturn)
- */
 export function computeJaiminiKarakas(planets: { key: string; degInSign: number }[]): Record<string, string> {
   const karakaTitles = [
     "Atmakaraka (AK — Soul)",
@@ -372,9 +348,6 @@ export function computeJaiminiKarakas(planets: { key: string; degInSign: number 
   return map;
 }
 
-/**
- * Parashari Shadbala Summary (Sthana, Dig, Kala, Cheshta, Naisargika, Drik in Rupas)
- */
 export function computeShadbalaSummary(planets: {
   key: string;
   siderealLon: number;
@@ -388,7 +361,6 @@ export function computeShadbalaSummary(planets: {
   const minRequiredRupas: Record<string, number> = {
     Sun: 6.5, Moon: 6.0, Mars: 5.0, Mercury: 7.0, Jupiter: 6.5, Venus: 5.5, Saturn: 5.0,
   };
-  // Directional strength (Digbala) peak houses: Jup/Merc=1, Moon/Ven=4, Sat=7, Sun/Mars=10
   const digPeakHouse: Record<string, number> = {
     Jupiter: 1, Mercury: 1, Moon: 4, Venus: 4, Saturn: 7, Sun: 10, Mars: 10,
   };
@@ -427,20 +399,15 @@ export function computeShadbalaSummary(planets: {
     });
 }
 
-/**
- * Sarvashtakavarga (SAV) 12-House Bindu Matrix (Total 337 Bindus across 12 Signs)
- */
 export function computeSarvashtakavarga(
   ascRashiIndex: number,
   planets: { key: string; rashiIndex: number }[]
 ): { rashiIndex: number; rashiName: string; house: number; bindus: number; status: string }[] {
-  // Classical Parashari SAV distribution anchored on planetary positions relative to each sign
   const rawWeights = Array.from({ length: 12 }, (_, signIdx) => {
     let score = 24;
     planets.forEach((p) => {
       if (p.key === "Rahu" || p.key === "Ketu") return;
       const relHouse = ((signIdx - p.rashiIndex + 12) % 12) + 1;
-      // Upachaya houses (3, 6, 10, 11) and Trikonas/Kendras receive higher benefic bindus
       if ([3, 6, 10, 11].includes(relHouse)) score += 1.2;
       else if ([1, 4, 5, 7, 9].includes(relHouse)) score += 0.6;
       else score -= 0.4;
@@ -448,10 +415,8 @@ export function computeSarvashtakavarga(
     return Math.max(19, Math.min(38, Math.round(score)));
   });
 
-  // Normalize sum to classical 337 total Sarvashtakavarga bindus
   const currentSum = rawWeights.reduce((a, b) => a + b, 0);
-  const diff = 337 - currentSum;
-  rawWeights[ascRashiIndex] += diff;
+  rawWeights[ascRashiIndex] += 337 - currentSum;
 
   return Array.from({ length: 12 }, (_, idx) => {
     const houseNum = ((idx - ascRashiIndex + 12) % 12) + 1;
@@ -466,10 +431,6 @@ export function computeSarvashtakavarga(
   }).sort((a, b) => a.house - b.house);
 }
 
-/**
- * Personalized Vedic Gemstone (Ratna), Rudraksha & Beej Mantra Recommendation Engine
- * Based on Parashari Lagna (1st), Panchama (5th), and Bhagya (9th) Trikona Lords
- */
 export function computeVedicRemedies(ascRashiIndex: number) {
   const REMEDY_MAP: Record<
     string,
@@ -540,374 +501,4 @@ export function computeVedicRemedies(ascRashiIndex: number) {
   return [
     { role: `Life Stone (Lagna Lord — ${lagnaLord})`, ...REMEDY_MAP[lagnaLord] },
     { role: `Intelligence & Purva Punya Stone (5th Lord — ${fifthLord})`, ...REMEDY_MAP[fifthLord] },
-    { role: `Fortune & Bhagya Stone (9th Lord — ${ninthLord})`, ...REMEDY_MAP[ninthLord] },
-  ];
-}
-
-const TITHI_NAMES = [
-  "Pratipada", "Dwitiya", "Tritiya", "Chaturthi", "Panchami",
-  "Shashthi", "Saptami", "Ashtami", "Navami", "Dashami",
-  "Ekadashi", "Dwadashi", "Trayodashi", "Chaturdashi", "Purnima / Amavasya",
-];
-const YOGA_NAMES = [
-  "Vishkumbha", "Priti", "Ayushman", "Saubhagya", "Shobhana", "Atiganda", "Sukarma", "Dhriti", "Shula",
-  "Ganda", "Vriddhi", "Dhruva", "Vyaghata", "Harshana", "Vajra", "Siddhi", "Vyatipata", "Variyan",
-  "Parigha", "Shiva", "Siddha", "Sadhya", "Shubha", "Shukla", "Brahma", "Indra", "Vaidhriti",
-];
-const VARA_NAMES = [
-  "Ravivara (Sunday)", "Somavara (Monday)", "Mangalavara (Tuesday)",
-  "Budhavara (Wednesday)", "Guruvara (Thursday)", "Shukravara (Friday)", "Shanivara (Saturday)",
-];
-
-export function computePanchang(utcDate: Date, sunLon: number, moonLon: number, moonRashiIdx: number, moonHouse: number) {
-  const vara = VARA_NAMES[utcDate.getUTCDay()];
-  const elongation = normalizeDeg(moonLon - sunLon);
-  const tithiIdx = Math.floor(elongation / 12);
-  const paksha = tithiIdx < 15 ? "Shukla Paksha" : "Krishna Paksha";
-  const tithiName = tithiIdx === 14 ? "Purnima" : tithiIdx === 29 ? "Amavasya" : TITHI_NAMES[tithiIdx % 15];
-
-  const nakSpan = 360 / 27;
-  const nakIdx = Math.floor(moonLon / nakSpan);
-  const pada = Math.floor((moonLon % nakSpan) / (nakSpan / 4)) + 1;
-  const yogaIdx = Math.floor(normalizeDeg(sunLon + moonLon) / nakSpan);
-
-  const karanaIdx = Math.floor(elongation / 6);
-  const movableKaranas = ["Bava", "Balava", "Kaulava", "Taitila", "Gara", "Vanija", "Vishti (Bhadra)"];
-  const karana =
-    karanaIdx === 0 ? "Kimstughna" : karanaIdx >= 57 ? "Shakuni/Naga" : movableKaranas[(karanaIdx - 1) % 7];
-
-  const paya = [1, 6, 11].includes(moonHouse)
-    ? "Swarna (Gold)"
-    : [2, 5, 9].includes(moonHouse)
-    ? "Rajata (Silver)"
-    : [3, 7, 10].includes(moonHouse)
-    ? "Tamra (Copper)"
-    : "Loha (Iron)";
-
-  const devaNaks = [0, 4, 6, 7, 12, 14, 16, 21, 26];
-  const manushyaNaks = [1, 3, 5, 10, 11, 19, 20, 24, 25];
-  const gana = devaNaks.includes(nakIdx) ? "Deva (Divine)" : manushyaNaks.includes(nakIdx) ? "Manushya (Human)" : "Rakshasa (Intense)";
-
-  const adiNaks = [0, 5, 6, 11, 12, 17, 18, 23, 24];
-  const madhyaNaks = [1, 4, 7, 10, 13, 16, 19, 22, 25];
-  const nadi = adiNaks.includes(nakIdx) ? "Adi (Vata)" : madhyaNaks.includes(nakIdx) ? "Madhya (Pitta)" : "Antya (Kapha)";
-
-  const varnaList = ["Kshatriya", "Vaishya", "Shudra", "Brahmin"];
-  const varna = varnaList[moonRashiIdx % 4];
-
-  return {
-    vara,
-    tithi: `${paksha} ${tithiName}`,
-    nakshatra: NAKSHATRA_NAMES[nakIdx],
-    nakshatraIndex: nakIdx,
-    pada,
-    yoga: YOGA_NAMES[yogaIdx],
-    karana,
-    paya,
-    gana,
-    nadi,
-    varna,
-  };
-}
-
-export function computeVimshottariDasha(utcBirthDate: Date, moonSiderealLon: number) {
-  const nakSpan = 360 / 27;
-  const nakIdx = Math.floor(moonSiderealLon / nakSpan);
-  const fractionRemaining = 1.0 - (moonSiderealLon % nakSpan) / nakSpan;
-  const startSeqIdx = nakIdx % 9;
-  const DAYS_PER_YEAR = 365.2425;
-  const nowMs = Date.now();
-
-  let cursorMs = utcBirthDate.getTime();
-  return Array.from({ length: 9 }, (_, i) => {
-    const seqIdx = (startSeqIdx + i) % 9;
-    const { lord, years } = VIMSHOTTARI_SEQ[seqIdx];
-    const fullMs = years * DAYS_PER_YEAR * 86400000;
-    const actualMs = i === 0 ? fullMs * fractionRemaining : fullMs;
-    const startMs = i === 0 ? utcBirthDate.getTime() : cursorMs;
-    const endMs = startMs + actualMs;
-    cursorMs = endMs;
-
-    let antarCursor = endMs - fullMs;
-    const antardashas = VIMSHOTTARI_SEQ.map((_, j) => {
-      const aIdx = (seqIdx + j) % 9;
-      const aLord = VIMSHOTTARI_SEQ[aIdx];
-      const aMs = ((years * aLord.years) / 120.0) * DAYS_PER_YEAR * 86400000;
-      const aStart = antarCursor;
-      const aEnd = aStart + aMs;
-      antarCursor = aEnd;
-      return {
-        lord: `${lord} – ${aLord.lord}`,
-        startDate: new Date(Math.max(aStart, utcBirthDate.getTime())).toISOString().split("T")[0],
-        endDate: new Date(aEnd).toISOString().split("T")[0],
-        isCurrent: nowMs >= aStart && nowMs < aEnd,
-        valid: aEnd > utcBirthDate.getTime(),
-      };
-    }).filter((a) => a.valid);
-
-    return {
-      lord,
-      years,
-      startDate: new Date(startMs).toISOString().split("T")[0],
-      endDate: new Date(endMs).toISOString().split("T")[0],
-      isCurrent: nowMs >= startMs && nowMs < endMs,
-      antardashas,
-    };
-  });
-}
-
-export function evaluateYogas(
-  ascRashiIdx: number,
-  planets: { key: string; rashiIndex: number; house: number; dignity: string }[]
-) {
-  const byKey = Object.fromEntries(planets.map((p) => [p.key, p]));
-  const kendras = [1, 4, 7, 10];
-  const isStrong = (d: string) => d.includes("Exalted") || d.includes("Moolatrikona") || d.includes("Own Sign");
-  const yogas: { name: string; category: string; badge: string; description: string }[] = [];
-
-  if (kendras.includes(byKey.Mars.house) && isStrong(byKey.Mars.dignity)) {
-    yogas.push({ name: "Ruchaka Mahapurusha Yoga", category: "Raja Yoga", badge: "High Strength", description: "Mars strong in a Kendra house grants courage, decisive authority, and leadership." });
-  }
-  if (kendras.includes(byKey.Mercury.house) && isStrong(byKey.Mercury.dignity)) {
-    yogas.push({ name: "Bhadra Mahapurusha Yoga", category: "Raja Yoga", badge: "High Strength", description: "Mercury strong in a Kendra house bestows sharp intellect, eloquence, and commercial success." });
-  }
-  if (kendras.includes(byKey.Jupiter.house) && isStrong(byKey.Jupiter.dignity)) {
-    yogas.push({ name: "Hamsa Mahapurusha Yoga", category: "Raja Yoga", badge: "High Strength", description: "Jupiter strong in a Kendra house confers spiritual wisdom, ethical renown, and divine grace." });
-  }
-  if (kendras.includes(byKey.Venus.house) && isStrong(byKey.Venus.dignity)) {
-    yogas.push({ name: "Malavya Mahapurusha Yoga", category: "Raja Yoga", badge: "High Strength", description: "Venus strong in a Kendra house brings artistic refinement, prosperity, and marital harmony." });
-  }
-  if (kendras.includes(byKey.Saturn.house) && isStrong(byKey.Saturn.dignity)) {
-    yogas.push({ name: "Shasha Mahapurusha Yoga", category: "Raja Yoga", badge: "High Strength", description: "Saturn strong in a Kendra house grants organizational command and enduring wealth." });
-  }
-
-  const jupFromMoon = ((byKey.Jupiter.rashiIndex - byKey.Moon.rashiIndex + 12) % 12) + 1;
-  if (kendras.includes(jupFromMoon)) {
-    yogas.push({ name: "Gajakesari Yoga", category: "Dhana & Fame Yoga", badge: "Auspicious", description: "Jupiter in a Kendra from the Moon bestows emotional resilience, noble reputation, and lasting prosperity." });
-  }
-
-  if (byKey.Sun.rashiIndex === byKey.Mercury.rashiIndex) {
-    yogas.push({ name: "Budhaditya Nipuna Yoga", category: "Jnana Yoga", badge: "Auspicious", description: "Sun-Mercury conjunction enhances analytical intelligence, administrative skill, and scholarly respect." });
-  }
-
-  if (byKey.Moon.rashiIndex === byKey.Mars.rashiIndex) {
-    yogas.push({ name: "Chandra-Mangala Dhana Yoga", category: "Dhana Yoga", badge: "Wealth", description: "Moon-Mars conjunction generates strong financial acumen and entrepreneurial drive." });
-  }
-
-  const manglikHouses = [1, 2, 4, 7, 8, 12];
-  if (manglikHouses.includes(byKey.Mars.house)) {
-    const cancelled =
-      isStrong(byKey.Mars.dignity) ||
-      [3, 4].includes(ascRashiIdx) ||
-      byKey.Mars.rashiIndex === byKey.Jupiter.rashiIndex;
-    yogas.push({
-      name: cancelled ? "Mangal Dosha (Cancelled / Parihara)" : "Mangal Dosha (Kuja Dosha)",
-      category: "Marital Check",
-      badge: cancelled ? "Cancelled / Mild" : "Remedy Advised",
-      description: cancelled
-        ? `Mars is in House ${byKey.Mars.house}, but classical Parashari cancellation applies due to planetary dignity or benefic Jupiter/Lagna rulership.`
-        : `Mars occupies House ${byKey.Mars.house} from Lagna. Recommended to verify Ashtakoot & Manglik compatibility before marriage.`,
-    });
-  } else {
-    yogas.push({
-      name: "Non-Manglik Chart",
-      category: "Marital Check",
-      badge: "Clear",
-      description: `Mars is positioned in House ${byKey.Mars.house} from Lagna, rendering the chart free from Mangal Dosha.`,
-    });
-  }
-
-  return yogas;
-}
-
-```
-
-### File: `src/app/actions/kundali.ts`
-
-**Enterprise Upgrade Integrated:** Server Action for Enterprise Kundali Generation — 100% Self-Contained, Multi-Ayanamsha, Full Sidereal Output
-
-```
-"use server";
-
-import {
-  AyanamshaSystem,
-  RASHI_NAMES,
-  RASHI_LORDS,
-  NAKSHATRA_NAMES,
-  NAKSHATRA_LORDS,
-  normalizeDeg,
-  formatDMS,
-  parseBirthDateTimeToUTC,
-  getJulianDay,
-  getAyanamsha,
-  getTropicalEclipticLongitude,
-  getPlanetDailySpeed,
-  getSiderealAngles,
-  getVargaRashiIndex,
-  getPlanetaryDignity,
-  getBaladiAvastha,
-  isPlanetCombust,
-  computeJaiminiKarakas,
-  computeShadbalaSummary,
-  computeSarvashtakavarga,
-  computeVedicRemedies,
-  computePanchang,
-  computeVimshottariDasha,
-  evaluateYogas,
-} from "@/lib/astrology";
-
-export async function generateKundali(data: {
-  name: string;
-  gender: string;
-  dob: string;
-  tob: string;
-  lat: number;
-  lon: number;
-  timezone: string;
-  ayanamshaSystem?: AyanamshaSystem;
-}) {
-  if (!data.name || !data.dob || !data.tob) {
-    throw new Error("Please fill in your name, birth date, and birth time.");
-  }
-
-  const system: AyanamshaSystem = data.ayanamshaSystem || "LAHIRI";
-  const utcDate = parseBirthDateTimeToUTC(data.dob, data.tob, data.timezone || "Asia/Kolkata");
-  const jd = getJulianDay(utcDate);
-  const ayanamsha = getAyanamsha(jd, system);
-  const { ascendantSidereal, mcSidereal } = getSiderealAngles(jd, data.lat, data.lon, ayanamsha);
-
-  const ascRashiIndex = Math.floor(ascendantSidereal / 30);
-  const ascDegInSign = ascendantSidereal % 30;
-  const ascNakIndex = Math.floor(ascendantSidereal / (360 / 27));
-  const ascPada = Math.floor((ascendantSidereal % (360 / 27)) / (360 / 108)) + 1;
-  const ascNavamshaIndex = getVargaRashiIndex(ascendantSidereal, 9);
-  const ascDashamshaIndex = getVargaRashiIndex(ascendantSidereal, 10);
-
-  const bodies = [
-    { key: "Sun", label: "Sun (Surya)" },
-    { key: "Moon", label: "Moon (Chandra)" },
-    { key: "Mars", label: "Mars (Mangal)" },
-    { key: "Mercury", label: "Mercury (Budha)" },
-    { key: "Jupiter", label: "Jupiter (Guru)" },
-    { key: "Venus", label: "Venus (Shukra)" },
-    { key: "Saturn", label: "Saturn (Shani)" },
-    { key: "Rahu", label: "Rahu (North Node)" },
-    { key: "Ketu", label: "Ketu (South Node)" },
-  ];
-
-  const rahuTropical = getTropicalEclipticLongitude("Rahu", jd);
-  const sunSidereal = normalizeDeg(getTropicalEclipticLongitude("Sun", jd) - ayanamsha);
-
-  const rawPlanets = bodies.map((b) => {
-    const tropicalLon =
-      b.key === "Rahu"
-        ? rahuTropical
-        : b.key === "Ketu"
-        ? normalizeDeg(rahuTropical + 180)
-        : getTropicalEclipticLongitude(b.key, jd);
-
-    const speed = getPlanetDailySpeed(b.key, jd);
-    const siderealLon = normalizeDeg(tropicalLon - ayanamsha);
-    const rashiIndex = Math.floor(siderealLon / 30);
-    const degInSign = siderealLon % 30;
-    const nakIndex = Math.floor(siderealLon / (360 / 27));
-    const pada = Math.floor((siderealLon % (360 / 27)) / (360 / 108)) + 1;
-    const house = ((rashiIndex - ascRashiIndex + 12) % 12) + 1;
-
-    const isRetrograde = b.key === "Rahu" || b.key === "Ketu" ? true : speed < 0;
-    const isCombust = isPlanetCombust(b.key, siderealLon, sunSidereal, isRetrograde);
-    const dignity = getPlanetaryDignity(b.key, rashiIndex, degInSign);
-    const avastha = getBaladiAvastha(rashiIndex, degInSign);
-    const navamshaRashiIndex = getVargaRashiIndex(siderealLon, 9);
-    const dashamshaRashiIndex = getVargaRashiIndex(siderealLon, 10);
-
-    return {
-      key: b.key,
-      name: b.label,
-      siderealLon: Number(siderealLon.toFixed(4)),
-      degInSign,
-      rashiIndex,
-      rasi: RASHI_NAMES[rashiIndex],
-      rasiLord: RASHI_LORDS[rashiIndex],
-      degreeFormatted: formatDMS(degInSign),
-      nakshatra: NAKSHATRA_NAMES[nakIndex],
-      nakshatraLord: NAKSHATRA_LORDS[nakIndex],
-      pada,
-      house,
-      navamshaRashiIndex,
-      navamshaRasi: RASHI_NAMES[navamshaRashiIndex],
-      navamshaHouse: ((navamshaRashiIndex - ascNavamshaIndex + 12) % 12) + 1,
-      dashamshaRashiIndex,
-      dashamshaRasi: RASHI_NAMES[dashamshaRashiIndex],
-      dashamshaHouse: ((dashamshaRashiIndex - ascDashamshaIndex + 12) % 12) + 1,
-      vargas: {
-        D1: RASHI_NAMES[rashiIndex],
-        D2: RASHI_NAMES[getVargaRashiIndex(siderealLon, 2)],
-        D3: RASHI_NAMES[getVargaRashiIndex(siderealLon, 3)],
-        D4: RASHI_NAMES[getVargaRashiIndex(siderealLon, 4)],
-        D7: RASHI_NAMES[getVargaRashiIndex(siderealLon, 7)],
-        D9: RASHI_NAMES[navamshaRashiIndex],
-        D10: RASHI_NAMES[dashamshaRashiIndex],
-        D12: RASHI_NAMES[getVargaRashiIndex(siderealLon, 12)],
-      },
-      isRetrograde,
-      isCombust,
-      dignity,
-      avastha,
-    };
-  });
-
-  const jaiminiMap = computeJaiminiKarakas(rawPlanets);
-  const planets = rawPlanets.map((p) => ({
-    ...p,
-    charaKaraka: jaiminiMap[p.key] || "—",
-  }));
-
-  const moon = planets[1];
-  const panchang = computePanchang(utcDate, sunSidereal, moon.siderealLon, moon.rashiIndex, moon.house);
-  const vimshottari = computeVimshottariDasha(utcDate, moon.siderealLon);
-  const yogas = evaluateYogas(ascRashiIndex, planets);
-  const shadbala = computeShadbalaSummary(planets);
-  const ashtakavarga = computeSarvashtakavarga(ascRashiIndex, planets);
-  const remedies = computeVedicRemedies(ascRashiIndex);
-
-  return {
-    meta: {
-      name: data.name,
-      gender: data.gender,
-      dob: data.dob,
-      tob: data.tob,
-      timezone: data.timezone || "Asia/Kolkata",
-      ayanamshaName:
-        system === "LAHIRI"
-          ? "Chitra Paksha (Lahiri)"
-          : system === "RAMAN"
-          ? "B.V. Raman"
-          : system === "KP"
-          ? "KP Krishnamurti"
-          : "Suryasiddhanta",
-      ayanamshaValue: formatDMS(ayanamsha),
-    },
-    ascendant: {
-      rashiIndex: ascRashiIndex,
-      rasi: RASHI_NAMES[ascRashiIndex],
-      rasiLord: RASHI_LORDS[ascRashiIndex],
-      degreeFormatted: formatDMS(ascDegInSign),
-      nakshatra: NAKSHATRA_NAMES[ascNakIndex],
-      nakshatraLord: NAKSHATRA_LORDS[ascNakIndex],
-      pada: ascPada,
-      navamshaRashiIndex: ascNavamshaIndex,
-      navamshaRasi: RASHI_NAMES[ascNavamshaIndex],
-      dashamshaRashiIndex: ascDashamshaIndex,
-      dashamshaRasi: RASHI_NAMES[ascDashamshaIndex],
-      mcRasi: RASHI_NAMES[Math.floor(mcSidereal / 30)],
-    },
-    panchang,
-    planets,
-    vimshottari,
-    yogas,
-    shadbala,
-    ashtakavarga,
-    remedies,
-  };
-}
+    { role: `Fortune & Bhagya Stone 
