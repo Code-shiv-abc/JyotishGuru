@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Kundali Matching (Ashtakoot Guna Milan) | JyotishGuru",
-    description: "Check 36-Guna Ashtakoot & Manglik compatibility for marriage with Acharya Shri Ravindra Shukla Shatri.",
+    description: "Check compatibility for marriage using traditional Vedic Astrology Kundali Matching.",
     url: `${SITE_URL}/kundali-matching`,
   },
 };
