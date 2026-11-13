@@ -2,11 +2,11 @@
 
 import React, { useState } from "react";
 import PlaceAutoComplete from "@/app/components/PlaceAutoComplete";
-import { checkCompatibility } from "@/app/actions/matching";
-import VedicChartSVG from "@/components/astrology/VedicChartSVG";
+import { calculateEnterpriseCompatibility } from "@/lib/astrology";
+import VedicChartSVG from "@/components/astrology/KundaliForm";
 import { MessageCircle, Printer } from "lucide-react";
 
-type MatchingResponse = Awaited<ReturnType<typeof checkCompatibility>>;
+type MatchingResponse = ReturnType<typeof calculateEnterpriseCompatibility>;
 
 export default function KundaliMatchingForm() {
   const [boyData, setBoyData] = useState({ name: "", dob: "", tob: "" });
@@ -36,7 +36,7 @@ export default function KundaliMatchingForm() {
     setResult(null);
 
     try {
-      const res = await checkCompatibility({
+      const res = calculateEnterpriseCompatibility({
         boy: { ...boyData, ...boyLocation },
         girl: { ...girlData, ...girlLocation },
       });
@@ -58,7 +58,6 @@ export default function KundaliMatchingForm() {
             </div>
           </div>
 
-          {/* Boy's Details */}
           <div className="bg-[#1A1628] border border-[#C9A84C]/25 rounded-2xl p-8 relative z-10">
             <h2 className="text-2xl font-serif font-bold text-[#C9A84C] mb-6 border-b border-[#C9A84C]/20 pb-4">
               Groom&apos;s Birth Details
@@ -120,7 +119,6 @@ export default function KundaliMatchingForm() {
             </div>
           </div>
 
-          {/* Girl's Details */}
           <div className="bg-[#1A1628] border border-[#C9A84C]/25 rounded-2xl p-8 relative z-10 mt-8 lg:mt-0">
             <h2 className="text-2xl font-serif font-bold text-[#C9A84C] mb-6 border-b border-[#C9A84C]/20 pb-4">
               Bride&apos;s Birth Details
@@ -250,7 +248,6 @@ export default function KundaliMatchingForm() {
             </p>
           </div>
 
-          {/* Side-by-Side Groom & Bride SVG Birth Charts */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <VedicChartSVG
               styleType={chartStyle}
@@ -268,7 +265,6 @@ export default function KundaliMatchingForm() {
             />
           </div>
 
-          {/* 8-Koot Breakdown Grid */}
           <div>
             <h3 className="text-xl font-serif font-bold text-[#C9A84C] mb-4">
               8-Koota Ashtakoot Compatibility Breakdown
