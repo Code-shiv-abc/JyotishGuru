@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { SITE_URL } from "@/lib/constants";
-import { MapPin, Phone, MessageCircle, Award, BookOpen, Sparkles } from "lucide-react";
+import { MapPin, MessageCircle, Award, BookOpen, Sparkles } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "About Acharya Shri Ravindra Shukla Shatri | JyotishGuru",
