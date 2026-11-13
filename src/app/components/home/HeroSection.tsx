@@ -12,7 +12,6 @@ export default function HeroSection() {
     offset: ["start start", "end start"],
   });
 
-  // Parallax effects for background and content
   const yBg = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   const yContent = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const opacityContent = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
@@ -22,18 +21,18 @@ export default function HeroSection() {
       ref={containerRef}
       className="relative min-h-screen-dynamic flex flex-col items-center justify-center overflow-hidden bg-[#0D0B1A] -mt-20 pt-20"
     >
-      {/* Dynamic Background with Parallax */}
       <motion.div
         className="absolute inset-0 pointer-events-none"
         style={{ y: yBg }}
       >
-        {/* Subtle Radial Gradient to mimic deep space */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#1A1628] via-[#0D0B1A] to-[#0D0B1A] opacity-80" />
-
-        {/* Animated Particles/Stars (Performance optimized: using fewer CSS animated stars, and more static texture) */}
-        <div className="absolute inset-0 opacity-20 mix-blend-screen animate-[pulse_4s_ease-in-out_infinite]" style={{ backgroundImage: "radial-gradient(#C9A84C 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
-
-        {/* Rotating Mandala SVG Background */}
+        <div
+          className="absolute inset-0 opacity-20 mix-blend-screen animate-[pulse_4s_ease-in-out_infinite]"
+          style={{
+            backgroundImage: "radial-gradient(#C9A84C 1px, transparent 1px)",
+            backgroundSize: "32px 32px",
+          }}
+        />
         <div className="absolute inset-0 flex items-center justify-center opacity-[0.05] text-[#C9A84C] animate-[spin_120s_linear_infinite]">
           <svg viewBox="0 0 100 100" className="w-[800px] h-[800px] md:w-[1000px] md:h-[1000px] max-w-none">
             <path fill="currentColor" d="M50 0L55 45L100 50L55 55L50 100L45 55L0 50L45 45Z" />
@@ -45,12 +44,10 @@ export default function HeroSection() {
         </div>
       </motion.div>
 
-      {/* Hero Content */}
       <motion.div
         className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full"
         style={{ y: yContent, opacity: opacityContent }}
       >
-        {/* Staggered text reveal */}
         <div className="overflow-hidden mb-2">
           <motion.div
             initial={{ y: "100%" }}
@@ -86,12 +83,11 @@ export default function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.8 }}
-          className="text-lg md:text-2xl text-[#E8E4F0]/70 mb-10 font-sans max-w-2xl mx-auto leading-relaxed font-light"
+          className="text-lg md:text-2xl text-[#E8E4F0]/75 mb-10 font-sans max-w-2xl mx-auto leading-relaxed font-light"
         >
           Consult Acharya Shri Ravindra Shukla Shatri from the sacred land of Ayodhya Dham for precision Parashari Kundali analysis, Ashtakoot matching, and Vedic remedies.
         </motion.p>
 
-        {/* Action Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -114,7 +110,6 @@ export default function HeroSection() {
         </motion.div>
       </motion.div>
 
-      {/* Scroll Indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
