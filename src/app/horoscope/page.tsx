@@ -1,85 +1,431 @@
 "use client";
 
-import Link from "next/link";
-import { RASHI_NAMES, RASHI_LORDS, NAKSHATRA_NAMES, getJulianDay, getLahiriAyanamsha, getTropicalEclipticLongitude, normalizeDeg } from "@/lib/astrology";
-import { useLanguage, RASHI_HI, PLANET_HI } from "@/app/components/ServiceWorkerRegister";
+import React, { useMemo, useState } from "react";
+import {
+  Calendar, MapPin, Sunrise, Sunset, Moon, Sparkles, Clock,
+  ShieldAlert, Star, X, MessageCircle, Compass, Sun
+} from "lucide-react";
+import { useLanguage } from "@/app/components/ServiceWorkerRegister";
+import {
+  computeDailyPanchang,
+  PANCHANG_CITIES,
+  type RashiTransitPrediction,
+} from "@/lib/panchangEngine";
 
-const THEMES: Record<number, { enFocus: string; hiFocus: string; enDesc: string; hiDesc: string; enColor: string; hiColor: string }> = {
-  1:  { enFocus: "Self-Vitality & New Initiatives", hiFocus: "आत्मबल एवं नई शुरुआत", enDesc: "Chandra transiting your 1st house heightens intuition, personal magnetism, and emotional clarity. Favorable day to initiate personal goals.", hiDesc: "प्रथम भाव में चन्द्र गोचर आत्मविश्वास, अंतर्ज्ञान एवं सकारात्मक ऊर्जा बढ़ाता है। नए कार्यों के शुभारंभ हेतु उत्तम दिन।", enColor: "Saffron Gold", hiColor: "केसरिया स्वर्ण" },
-  2:  { enFocus: "Wealth, Speech & Family Harmony", hiFocus: "धन, वाणी एवं कुटुम्ब सुख", enDesc: "Planetary emphasis on your 2nd house favors financial planning, family gatherings, and diplomatic communication.", hiDesc: "द्वितीय भाव का गोचर आर्थिक बचत, मधुर वाणी एवं पारिवारिक सामंजस्य के लिए अत्यंत शुभ है।", enColor: "Cream White", hiColor: "श्वेत क्रीम" },
-  3:  { enFocus: "Courage, Short Travel & Enterprise", hiFocus: "पराक्रम, यात्रा एवं कार्य सिद्धि", enDesc: "Strong 3rd-house transit supports decisive communication, sibling cooperation, and completing pending professional tasks.", hiDesc: "तृतीय भाव का गोचर साहस, भाई-बहनों के सहयोग एवं लंबित व्यावसायिक कार्यों को पूर्ण करने में सहायक है।", enColor: "Emerald Green", hiColor: "पन्ना हरा" },
-  4:  { enFocus: "Domestic Peace & Inner Reflection", hiFocus: "गृह सुख एवं मानसिक शांति", enDesc: "Focus on home, property matters, and emotional grounding. Spend quiet evening time in spiritual mantra japa.", hiDesc: "चतुर्थ भाव का गोचर माता के आशीर्वाद, भूमि-भवन संबंधी कार्यों एवं संध्या मंत्र जप के लिए अनुकूल है।", enColor: "Pearl Silver", hiColor: "मोती श्वेत" },
-  5:  { enFocus: "Creativity, Intellect & Progeny", hiFocus: "बुद्धि, विद्या एवं संतान सुख", enDesc: "Auspicious 5th-house Purva Punya transit supports learning, creative problem-solving, and joyful news from children.", hiDesc: "पंचम पूर्वपुण्य भाव का गोचर अध्ययन, रचनात्मक निर्णय एवं संतान पक्ष से शुभ समाचार प्रदान करता है।", enColor: "Turmeric Yellow", hiColor: "हल्दी पीला" },
-  6:  { enFocus: "Discipline, Health & Routine Mastery", hiFocus: "अनुशासन, स्वास्थ्य एवं कार्य निष्ठा", enDesc: "Channel energy into structured work routines and health discipline. Avoid unnecessary debates or impulsive lending.", hiDesc: "षष्ठ भाव का गोचर नियमित दिनचर्या, स्वास्थ्य संयम एवं कार्यक्षेत्र में अनुशासन बनाए रखने की प्रेरणा देता है।", enColor: "Deep Indigo", hiColor: "गहरा नीला" },
-  7:  { enFocus: "Partnerships, Marriage & Agreements", hiFocus: "दांपत्य सामंजस्य एवं व्यापारिक अनुबंध", enDesc: "7th-house transit highlights spouse harmony, client negotiations, and collaborative relationships.", hiDesc: "सप्तम भाव का गोचर जीवनसाथी के साथ मधुरता एवं व्यापारिक साझेदारी में प्रगति लाता है।", enColor: "Lotus Pink", hiColor: "कमल गुलाबी" },
-  8:  { enFocus: "Patience, Research & Spiritual Depth", hiFocus: "धैर्य, शोध एवं आध्यात्मिक चिंतन", enDesc: "Chandra in the 8th house calls for calm mindfulness, avoiding hasty financial risks, and practicing Rudra or Hanuman stotra.", hiDesc: "अष्टम भाव में चन्द्र गोचर के कारण धैर्य रखें, जल्दबाजी में निवेश न करें एवं श्री हनुमान चालीसा का पाठ करें।", enColor: "Sandalwood", hiColor: "चंदन" },
-  9:  { enFocus: "Dharma, Fortune & Higher Guidance", hiFocus: "धर्म, भाग्य एवं गुरु कृपा", enDesc: "Blessed 9th-house Bhagya transit brings mentor support, spiritual upliftment, and long-term optimism.", hiDesc: "नवम भाग्य भाव का गोचर धर्म-कर्म, वरिष्ठजनों के मार्गदर्शन एवं भाग्योदय के नए अवसर लाता है।", enColor: "Royal Gold", hiColor: "स्वर्ण" },
-  10: { enFocus: "Career Authority & Public Recognition", hiFocus: "कर्म क्षेत्र, पदोन्नति एवं यश", enDesc: "10th-house Karma transit energizes professional leadership, executive decisions, and recognition from seniors.", hiDesc: "दशम कर्म भाव का गोचर कार्यक्षेत्र में नेतृत्व, मान-सम्मान एवं उच्चाधिकारियों के सहयोग को प्रबल करता है।", enColor: "Sky Blue", hiColor: "आसमानी नीला" },
-  11: { enFocus: "Gains, Network & Fulfilled Aspirations", hiFocus: "आर्थिक लाभ एवं मनोकामना पूर्ति", enDesc: "Highly favorable 11th-house Labha transit supports income growth, social alliances, and long-awaited rewards.", hiDesc: "एकादश लाभ भाव का गोचर आय वृद्धि, मित्रों से सहयोग एवं रुके हुए कार्यों की सिद्धि कराता है।", enColor: "Vermilion", hiColor: "सिंदूरी" },
-  12: { enFocus: "Meditation, Charity & Mindful Rest", hiFocus: "ध्यान, दान-पुण्य एवं आत्मचिंतन", enDesc: "12th-house transit favors spiritual retreat, charitable giving (Dana), and restful recuperation before new cycles begin.", hiDesc: "द्वादश भाव का गोचर ईश्वरीय ध्यान, सात्विक दान एवं अनावश्यक व्यय पर नियंत्रण रखने का संकेत देता है।", enColor: "Lavender", hiColor: "हल्का बैंगनी" },
-};
+function getTodayDateString(): string {
+  const now = new Date();
+  const ist = new Date(now.getTime() + 330 * 60000);
+  return ist.toISOString().slice(0, 10);
+}
 
 export default function HoroscopePage() {
   const { lang } = useLanguage();
   const isHi = lang === "hi";
-  const now = new Date();
-  const jd = getJulianDay(now);
-  const ayan = getLahiriAyanamsha(jd);
-  const moonSid = normalizeDeg(getTropicalEclipticLongitude("Moon", jd) - ayan);
-  const sunSid = normalizeDeg(getTropicalEclipticLongitude("Sun", jd) - ayan);
-  const jupSid = normalizeDeg(getTropicalEclipticLongitude("Jupiter", jd) - ayan);
-  const curMoonRashi = Math.floor(moonSid / 30);
-  const curNak = Math.floor(moonSid / (360 / 27));
+
+  const [dateStr, setDateStr] = useState<string>(getTodayDateString);
+  const [cityId, setCityId] = useState<string>("ayodhya");
+  const [choghadiyaTab, setChoghadiyaTab] = useState<"day" | "night">("day");
+  const [selectedRashi, setSelectedRashi] = useState<RashiTransitPrediction | null>(null);
+
+  const report = useMemo(() => computeDailyPanchang(dateStr, cityId), [dateStr, cityId]);
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: isHi
+      ? `आज का पंचांग, शुभ मुहूर्त एवं दैनिक राशिफल (${report.dateStr}) - आचार्य श्री रविन्द्र शुक्ल शास्त्री`
+      : `Daily Drik Panchang, Shubh Muhurat & Rashifal (${report.dateStr}) - Acharya Shri Ravindra Shukla Shatri`,
+    description: `Exact sunrise/sunset, Tithi Samapti Kaal, Choghadiya, Rahu Kaal, Vrats, and live Chandra Gochara horoscope for ${report.city.nameEn}.`,
+    provider: {
+      "@type": "LocalBusiness",
+      name: "JyotishGuru — Acharya Shri Ravindra Shukla Shatri",
+      telephone: "+91-80091-24454",
+      address: { "@type": "PostalAddress", addressLocality: "Ayodhya Dham", addressRegion: "UP", addressCountry: "IN" },
+    },
+  };
+
+  const qualityBadge = (q: string) => {
+    if (q === "best") return "bg-emerald-500/20 text-emerald-300 border-emerald-500/40";
+    if (q === "good") return "bg-green-500/15 text-green-300 border-green-500/30";
+    if (q === "neutral") return "bg-amber-500/15 text-amber-300 border-amber-500/30";
+    return "bg-rose-500/15 text-rose-300 border-rose-500/30";
+  };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="text-center mb-12">
-        <span className="inline-block text-xs uppercase tracking-widest text-[#C9A84C] font-bold bg-[#1A1628] border border-[#C9A84C]/30 px-4 py-1.5 rounded-full mb-4">
-          {now.toLocaleDateString(isHi ? "hi-IN" : "en-IN", { weekday: "long", year: "numeric", month: "long", day: "numeric" })} • {isHi ? `चन्द्र: ${RASHI_HI[curMoonRashi]}` : `Moon in ${RASHI_NAMES[curMoonRashi]}`} ({NAKSHATRA_NAMES[curNak]})
-        </span>
-        <h1 className="text-4xl md:text-5xl font-serif font-bold text-[#C9A84C] mb-4">
-          {isHi ? "दैनिक वैदिक राशिफल (राशि भविष्य)" : "Daily Vedic Horoscope (Rashi Bhavishya)"}
-        </h1>
-        <p className="text-lg text-[#E8E4F0]/80 max-w-2xl mx-auto">
-          {isHi
-            ? "आचार्य श्री रविन्द्र शुक्ल शास्त्री द्वारा चित्रपक्ष लाहिरि अयनांश पर आधारित आज का सटीक दैनिक गोचर फल।"
-            : "Live daily Gochara (planetary transit) predictions calculated using Chitra Paksha Lahiri Ayanamsha by Acharya Shri Ravindra Shukla Shatri."}
-        </p>
-      </div>
+    <main className="min-h-screen bg-[#0D0B1A] text-amber-50 pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {RASHI_NAMES.map((rashi, idx) => {
-          const mHouse = ((curMoonRashi - idx + 12) % 12) + 1;
-          const jHouse = ((Math.floor(jupSid / 30) - idx + 12) % 12) + 1;
-          const sHouse = ((Math.floor(sunSid / 30) - idx + 12) % 12) + 1;
-          const t = THEMES[mHouse];
-          const lordKey = RASHI_LORDS[idx];
+      <div className="max-w-7xl mx-auto space-y-8">
+        {/* Header & City/Date Controls */}
+        <section className="rounded-3xl bg-gradient-to-br from-[#1A1040] via-[#140E30] to-[#0D0B1A] border border-amber-500/25 p-6 sm:p-8 shadow-2xl">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            <div>
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/15 text-amber-300 border border-amber-500/30 mb-3">
+                <Sparkles className="w-3.5 h-3.5" />
+                {isHi ? "दृक् गणित आधारित पंचांग एवं चन्द्र गोचर राशिफल" : "Drik Ganita Panchang & Live Chandra Gochara Horoscope"}
+              </span>
+              <h1 className="text-3xl sm:text-4xl font-bold text-amber-100">
+                {isHi ? "दैनिक पंचांग, शुभ मुहूर्त एवं राशिफल" : "Daily Panchang, Auspicious Muhurat & Horoscope"}
+              </h1>
+              <p className="text-amber-200/75 mt-2 text-sm sm:text-base">
+                {isHi
+                  ? "आचार्य श्री रविन्द्र शुक्ल शास्त्री (अयोध्या धाम) • लाहिड़ी अयनांश एवं सटीक स्थानीय सूर्योदय गणना"
+                  : "By Acharya Shri Ravindra Shukla Shatri (Ayodhya Dham) • Chitra Paksha Lahiri Ayanamsha & Local Topocentric Sunrise"}
+              </p>
+            </div>
 
-          return (
-            <div key={rashi} className="bg-[#1A1628] border border-[#C9A84C]/25 rounded-2xl p-6 flex flex-col justify-between hover:border-[#C9A84C]/60 transition-all shadow-lg">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-10 h-10 bg-[#0D0B1A] rounded-full flex items-center justify-center border border-[#C9A84C]/30 text-[#C9A84C]">✧</div>
-                  <span className="text-xs font-semibold text-[#C9A84C] bg-[#0D0B1A] px-3 py-1 rounded-full border border-[#C9A84C]/20">
-                    {isHi ? `स्वामी: ${PLANET_HI[lordKey]?.split(" ")[0] || lordKey}` : `Lord: ${lordKey}`}
-                  </span>
-                </div>
-                <h2 className="text-xl font-serif font-bold text-[#E8E4F0] mb-1">{isHi ? RASHI_HI[idx] : rashi}</h2>
-                <div className="text-xs font-semibold text-[#C9A84C] mb-3">{isHi ? t.hiFocus : t.enFocus}</div>
-                <p className="text-sm text-[#E8E4F0]/75 leading-relaxed mb-6">
-                  {isHi
-                    ? `${t.hiDesc} वर्तमान में गुरु आपके ${jHouse}वें भाव में एवं सूर्य ${sHouse}वें भाव में गोचरस्थ हैं।`
-                    : `${t.enDesc} Jupiter transits your ${jHouse}th house while Sun illuminates your ${sHouse}th house.`}
-                </p>
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="flex items-center gap-2 bg-black/40 border border-amber-500/30 rounded-xl px-3 py-2">
+                <Calendar className="w-4 h-4 text-amber-400" />
+                <input
+                  type="date"
+                  value={dateStr}
+                  onChange={(e) => e.target.value && setDateStr(e.target.value)}
+                  className="bg-transparent text-sm text-amber-50 focus:outline-none"
+                  aria-label="Select Panchang Date"
+                />
               </div>
-              <div className="border-t border-[#C9A84C]/15 pt-4 flex items-center justify-between text-xs">
-                <span className="text-[#E8E4F0]/70">{isHi ? "शुभ रंग" : "Shubh Color"}: <strong className="text-[#C9A84C]">{isHi ? t.hiColor : t.enColor}</strong></span>
-                <Link href="/book?service=kundali" className="text-[#C9A84C] font-bold hover:underline">{isHi ? "परामर्श →" : "Consult →"}</Link>
+
+              <div className="flex items-center gap-2 bg-black/40 border border-amber-500/30 rounded-xl px-3 py-2">
+                <MapPin className="w-4 h-4 text-amber-400" />
+                <select
+                  value={cityId}
+                  onChange={(e) => setCityId(e.target.value)}
+                  className="bg-[#140E30] text-sm text-amber-50 focus:outline-none"
+                  aria-label="Select City"
+                >
+                  {PANCHANG_CITIES.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {isHi ? c.nameHi : c.nameEn}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setDateStr(getTodayDateString())}
+                className="px-4 py-2 rounded-xl text-sm font-semibold bg-amber-500 text-black hover:bg-amber-400 transition"
+              >
+                {isHi ? "आज" : "Today"}
+              </button>
+            </div>
+          </div>
+
+          {/* Automated Vrats, Festivals & Special Yogas */}
+          {report.events.length > 0 && (
+            <div className="mt-6 pt-5 border-t border-amber-500/20 flex flex-wrap items-center gap-2.5">
+              <span className="text-xs font-semibold uppercase tracking-wider text-amber-300">
+                {isHi ? "आज के प्रमुख व्रत / पर्व / योग:" : "Today's Important Vrats & Yogas:"}
+              </span>
+              {report.events.map((ev, idx) => (
+                <span
+                  key={idx}
+                  className="px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-200 border border-amber-400/40"
+                >
+                  ✦ {isHi ? ev.titleHi : ev.titleEn}
+                </span>
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* Sun/Moon Timings + 5 Panchang Angas with Exact End Times */}
+        <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="rounded-2xl bg-[#15112A] border border-amber-500/20 p-5 space-y-4">
+            <h2 className="text-lg font-bold text-amber-200 flex items-center gap-2">
+              <Sun className="w-5 h-5 text-amber-400" />
+              {isHi ? "सूर्योदय एवं चन्द्रोदय" : "Sun & Moon Timings"} ({report.city.tzLabel})
+            </h2>
+            <div className="grid grid-cols-2 gap-3 text-sm">
+              <div className="p-3 rounded-xl bg-black/30 border border-white/5">
+                <div className="text-xs text-amber-300/70 flex items-center gap-1"><Sunrise className="w-3.5 h-3.5" /> {isHi ? "सूर्योदय" : "Sunrise"}</div>
+                <div className="font-bold text-amber-50 mt-1">{report.sunrise}</div>
+              </div>
+              <div className="p-3 rounded-xl bg-black/30 border border-white/5">
+                <div className="text-xs text-amber-300/70 flex items-center gap-1"><Sunset className="w-3.5 h-3.5" /> {isHi ? "सूर्यास्त" : "Sunset"}</div>
+                <div className="font-bold text-amber-50 mt-1">{report.sunset}</div>
+              </div>
+              <div className="p-3 rounded-xl bg-black/30 border border-white/5">
+                <div className="text-xs text-amber-300/70 flex items-center gap-1"><Moon className="w-3.5 h-3.5" /> {isHi ? "चन्द्रोदय" : "Moonrise"}</div>
+                <div className="font-bold text-amber-50 mt-1">{report.moonrise}</div>
+              </div>
+              <div className="p-3 rounded-xl bg-black/30 border border-white/5">
+                <div className="text-xs text-amber-300/70 flex items-center gap-1"><Moon className="w-3.5 h-3.5" /> {isHi ? "चन्द्रास्त" : "Moonset"}</div>
+                <div className="font-bold text-amber-50 mt-1">{report.moonset}</div>
               </div>
             </div>
-          );
-        })}
+            <div className="text-xs text-amber-200/70 flex justify-between pt-2 border-t border-white/10">
+              <span>{isHi ? "सूर्य राशि:" : "Sun Sign:"} <strong className="text-amber-100">{isHi ? report.sunRashi.hi : report.sunRashi.en}</strong></span>
+              <span>{isHi ? "चन्द्र राशि:" : "Moon Sign:"} <strong className="text-amber-100">{isHi ? report.moonRashi.hi : report.moonRashi.en}</strong></span>
+            </div>
+          </div>
+
+          <div className="lg:col-span-2 rounded-2xl bg-[#15112A] border border-amber-500/20 p-5">
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+              <h2 className="text-lg font-bold text-amber-200 flex items-center gap-2">
+                <Compass className="w-5 h-5 text-amber-400" />
+                {isHi ? "पंचांग के पाँच अंग (सटीक समाप्ति काल सहित)" : "Five Panchang Angas (With Exact End Times)"}
+              </h2>
+              <span className="text-xs text-amber-300/70">
+                {isHi ? `अयनांश: ${report.ayanamshaDeg}` : `Lahiri Ayanamsha: ${report.ayanamshaDeg}`}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-sm">
+              <div className="p-3.5 rounded-xl bg-black/30 border border-white/5">
+                <div className="text-xs text-amber-300/70">{isHi ? "वार एवं पक्ष" : "Vara & Paksha"}</div>
+                <div className="font-bold text-amber-50 mt-1">{isHi ? report.vara.hi : report.vara.en}</div>
+                <div className="text-xs text-amber-300 mt-0.5">{isHi ? report.paksha.hi : report.paksha.en}</div>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-black/30 border border-white/5">
+                <div className="text-xs text-amber-300/70">{isHi ? "तिथि (उदया)" : "Tithi (Udaya)"}</div>
+                <div className="font-bold text-amber-50 mt-1">{isHi ? report.tithi.hi : report.tithi.en}</div>
+                <div className="text-xs text-emerald-300 mt-0.5">{isHi ? "तक:" : "Upto:"} {report.tithi.endTime}</div>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-black/30 border border-white/5">
+                <div className="text-xs text-amber-300/70">{isHi ? "नक्षत्र एवं चरण" : "Nakshatra & Pada"}</div>
+                <div className="font-bold text-amber-50 mt-1">
+                  {isHi ? report.nakshatra.hi : report.nakshatra.en} ({isHi ? `चरण ${report.nakshatra.pada}` : `Pada ${report.nakshatra.pada}`})
+                </div>
+                <div className="text-xs text-emerald-300 mt-0.5">{isHi ? "तक:" : "Upto:"} {report.nakshatra.endTime}</div>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-black/30 border border-white/5">
+                <div className="text-xs text-amber-300/70">{isHi ? "योग" : "Yoga"}</div>
+                <div className="font-bold text-amber-50 mt-1">{isHi ? report.yoga.hi : report.yoga.en}</div>
+                <div className="text-xs text-emerald-300 mt-0.5">{isHi ? "तक:" : "Upto:"} {report.yoga.endTime}</div>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-black/30 border border-white/5 sm:col-span-2">
+                <div className="text-xs text-amber-300/70">{isHi ? "करण" : "Karana"}</div>
+                <div className="font-bold text-amber-50 mt-1">{isHi ? report.karana.hi : report.karana.en}</div>
+                <div className="text-xs text-emerald-300 mt-0.5">{isHi ? "तक:" : "Upto:"} {report.karana.endTime}</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Auspicious Muhurat & Inauspicious Kaal */}
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="rounded-2xl bg-[#11201C] border border-emerald-500/30 p-5 space-y-3">
+            <h2 className="text-lg font-bold text-emerald-300 flex items-center gap-2">
+              <Clock className="w-5 h-5" />
+              {isHi ? "शुभ मुहूर्त (Auspicious Muhurat)" : "Auspicious Muhurat (Shubh Kaal)"}
+            </h2>
+            <div className="space-y-2.5 text-sm">
+              <div className="flex justify-between py-1.5 border-b border-emerald-500/15">
+                <span className="text-emerald-100/80">{isHi ? "ब्रह्म मुहूर्त" : "Brahma Muhurat"}</span>
+                <span className="font-semibold text-emerald-200">{report.auspicious.brahmaMuhurat}</span>
+              </div>
+              <div className="flex justify-between py-1.5 border-b border-emerald-500/15">
+                <span className="text-emerald-100/80">
+                  {isHi ? "अभिजित मुहूर्त" : "Abhijit Muhurat"}
+                  {report.auspicious.abhijitAvoided && (
+                    <span className="ml-2 text-xs text-amber-300">({isHi ? "बुधवार को वर्ज्य" : "Avoid on Wed"})</span>
+                  )}
+                </span>
+                <span className="font-semibold text-emerald-200">{report.auspicious.abhijitMuhurat}</span>
+              </div>
+              <div className="flex justify-between py-1.5 border-b border-emerald-500/15">
+                <span className="text-emerald-100/80">{isHi ? "विजय मुहूर्त" : "Vijay Muhurat"}</span>
+                <span className="font-semibold text-emerald-200">{report.auspicious.vijayMuhurat}</span>
+              </div>
+              <div className="flex justify-between py-1.5">
+                <span className="text-emerald-100/80">{isHi ? "गोधूलि मुहूर्त" : "Godhuli Muhurat"}</span>
+                <span className="font-semibold text-emerald-200">{report.auspicious.godhuliMuhurat}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-2xl bg-[#22121A] border border-rose-500/30 p-5 space-y-3">
+            <h2 className="text-lg font-bold text-rose-300 flex items-center gap-2">
+              <ShieldAlert className="w-5 h-5" />
+              {isHi ? "अशुभ काल (त्याज्य समय)" : "Inauspicious Timings (Ashubh Kaal)"}
+            </h2>
+            <div className="space-y-2.5 text-sm">
+              <div className="flex justify-between py-1.5 border-b border-rose-500/15">
+                <span className="text-rose-100/80">{isHi ? "राहु काल" : "Rahu Kaal"}</span>
+                <span className="font-semibold text-rose-200">{report.inauspicious.rahuKaal}</span>
+              </div>
+              <div className="flex justify-between py-1.5 border-b border-rose-500/15">
+                <span className="text-rose-100/80">{isHi ? "यमगण्ड काल" : "Yamaganda Kaal"}</span>
+                <span className="font-semibold text-rose-200">{report.inauspicious.yamaganda}</span>
+              </div>
+              <div className="flex justify-between py-1.5">
+                <span className="text-rose-100/80">{isHi ? "गुलिक काल" : "Gulika Kaal"}</span>
+                <span className="font-semibold text-rose-200">{report.inauspicious.gulika}</span>
+              </div>
+            </div>
+            <p className="text-xs text-rose-200/70 pt-2">
+              {isHi
+                ? "नोट: सभी मुहूर्त चुने गए शहर के वास्तविक सूर्योदय व सूर्यास्त के अनुसार गतिशील रूप से गणना किए गए हैं।"
+                : "Note: All Muhurats are dynamically divided from your selected city's exact local Sunrise and Sunset."}
+            </p>
+          </div>
+        </section>
+
+        {/* Day & Night Choghadiya */}
+        <section className="rounded-2xl bg-[#15112A] border border-amber-500/20 p-5 sm:p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5">
+            <h2 className="text-xl font-bold text-amber-200">
+              {isHi ? "आज का चौघड़िया मुहूर्त (Choghadiya)" : "Today's Choghadiya Muhurat"}
+            </h2>
+            <div className="inline-flex rounded-xl bg-black/40 p-1 border border-amber-500/20">
+              <button
+                type="button"
+                onClick={() => setChoghadiyaTab("day")}
+                className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition ${
+                  choghadiyaTab === "day" ? "bg-amber-500 text-black" : "text-amber-200 hover:text-white"
+                }`}
+              >
+                {isHi ? "दिन का चौघड़िया" : "Day Choghadiya"}
+              </button>
+              <button
+                type="button"
+                onClick={() => setChoghadiyaTab("night")}
+                className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition ${
+                  choghadiyaTab === "night" ? "bg-amber-500 text-black" : "text-amber-200 hover:text-white"
+                }`}
+              >
+                {isHi ? "रात्रि का चौघड़िया" : "Night Choghadiya"}
+              </button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            {(choghadiyaTab === "day" ? report.dayChoghadiya : report.nightChoghadiya).map((slot, i) => (
+              <div key={i} className={`rounded-xl border p-3.5 ${qualityBadge(slot.quality)}`}>
+                <div className="font-bold text-sm">{isHi ? slot.nameHi : slot.nameEn}</div>
+                <div className="text-xs opacity-90 mt-1">{slot.start} – {slot.end}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Live Chandra Gochara 12 Rashi Grid */}
+        <section className="space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2">
+            <div>
+              <h2 className="text-2xl font-bold text-amber-100">
+                {isHi ? "आज का राशिफल (सटीक चन्द्र गोचर पर आधारित)" : "Daily Vedic Horoscope (Live Chandra Gochara)"}
+              </h2>
+              <p className="text-sm text-amber-200/70">
+                {isHi
+                  ? `आज चन्द्रमा ${report.moonRashi.hi} राशि में गोचर कर रहे हैं। विस्तृत फलादेश हेतु अपनी राशि चुनें:`
+                  : `Moon transits ${report.moonRashi.en} today. Click your Moon sign (Rashi) for 4-pillar guidance & remedy:`}
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {report.horoscopes.map((item) => (
+              <button
+                key={item.rashi.id}
+                type="button"
+                onClick={() => setSelectedRashi(item)}
+                className="text-left rounded-2xl bg-[#15112A] hover:bg-[#1D163A] border border-amber-500/20 hover:border-amber-400/50 p-5 transition group"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">{item.rashi.symbol}</span>
+                    <div>
+                      <div className="font-bold text-amber-100 group-hover:text-amber-300">
+                        {isHi ? item.rashi.hi : item.rashi.en}
+                      </div>
+                      <div className="text-xs text-amber-300/70">
+                        {isHi ? `चन्द्र गोचर: ${item.transitHouse}वां भाव` : `Moon Transit: House ${item.transitHouse}`}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-0.5 text-amber-400">
+                    {Array.from({ length: item.score }).map((_, s) => (
+                      <Star key={s} className="w-3.5 h-3.5 fill-amber-400" />
+                    ))}
+                  </div>
+                </div>
+
+                {item.isChandrashtama && (
+                  <span className="inline-block mt-2.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/40">
+                    ⚠ {isHi ? "चन्द्राष्टम सावधानी" : "Chandrashtama Caution"}
+                  </span>
+                )}
+
+                <p className="text-xs text-amber-100/80 mt-3 line-clamp-2 leading-relaxed">
+                  {isHi ? item.summaryHi : item.summaryEn}
+                </p>
+              </button>
+            ))}
+          </div>
+        </section>
       </div>
-    </div>
+
+      {/* 4-Pillar Rashi Detail Modal */}
+      {selectedRashi && (
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-[#16112E] border border-amber-500/35 rounded-3xl max-w-xl w-full p-6 sm:p-7 space-y-5 max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <div className="text-2xl font-bold text-amber-100 flex items-center gap-2">
+                  <span>{selectedRashi.rashi.symbol}</span>
+                  <span>{isHi ? selectedRashi.rashi.hi : selectedRashi.rashi.en}</span>
+                </div>
+                <div className="text-xs text-amber-300/80 mt-1">
+                  {isHi
+                    ? `स्वामी: ${selectedRashi.rashi.lordHi} • आज का चन्द्र गोचर: ${selectedRashi.transitHouse}वां भाव`
+                    : `Ruler: ${selectedRashi.rashi.lordEn} • Today's Moon Transit: House ${selectedRashi.transitHouse}`}
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSelectedRashi(null)}
+                className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-amber-100"
+                aria-label="Close modal"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+              <div className="p-3.5 rounded-xl bg-black/30 border border-white/10">
+                <div className="text-xs font-semibold text-amber-300">{isHi ? "करियर एवं धन" : "Career & Finance"}</div>
+                <p className="text-amber-50/90 mt-1 text-xs leading-relaxed">{isHi ? selectedRashi.careerHi : selectedRashi.careerEn}</p>
+              </div>
+              <div className="p-3.5 rounded-xl bg-black/30 border border-white/10">
+                <div className="text-xs font-semibold text-amber-300">{isHi ? "प्रेम एवं परिवार" : "Love & Family"}</div>
+                <p className="text-amber-50/90 mt-1 text-xs leading-relaxed">{isHi ? selectedRashi.loveHi : selectedRashi.loveEn}</p>
+              </div>
+              <div className="p-3.5 rounded-xl bg-black/30 border border-white/10">
+                <div className="text-xs font-semibold text-amber-300">{isHi ? "स्वास्थ्य" : "Health & Energy"}</div>
+                <p className="text-amber-50/90 mt-1 text-xs leading-relaxed">{isHi ? selectedRashi.healthHi : selectedRashi.healthEn}</p>
+              </div>
+              <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30">
+                <div className="text-xs font-semibold text-amber-300">{isHi ? "वैदिक उपाय (आचार्य जी)" : "Vedic Remedy (Upay)"}</div>
+                <p className="text-amber-50/90 mt-1 text-xs leading-relaxed">{isHi ? selectedRashi.remedyHi : selectedRashi.remedyEn}</p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-white/10 text-xs">
+              <span>{isHi ? "शुभ रंग:" : "Lucky Color:"} <strong className="text-amber-200">{isHi ? selectedRashi.luckyColorHi : selectedRashi.luckyColorEn}</strong></span>
+              <span>{isHi ? "शुभ अंक:" : "Lucky Number:"} <strong className="text-amber-200">{selectedRashi.luckyNumber}</strong></span>
+              <a
+                href={`https://wa.me/918009124454?text=${encodeURIComponent(
+                  `Namaste Acharya Shri Ravindra Shukla Shatri Ji, I checked today's ${selectedRashi.rashi.en} Panchang & Horoscope (${report.dateStr}) and want a personal consultation.`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-semibold transition"
+              >
+                <MessageCircle className="w-4 h-4" />
+                {isHi ? "आचार्य जी से परामर्श लें" : "Consult Acharya Ji"}
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+    </main>
   );
 }
+// END OF FILE
