@@ -12,24 +12,72 @@ export interface PanchangCity {
 }
 
 export const PANCHANG_CITIES: PanchangCity[] = [
+  // Uttar Pradesh & Sacred Teerthas
   { id: "ayodhya", nameEn: "Ayodhya Dham, UP", nameHi: "अयोध्या धाम, उ.प्र.", lat: 26.7922, lon: 82.1998, elevation: 93, utcOffsetMin: 330, tzLabel: "IST" },
-  { id: "varanasi", nameEn: "Varanasi (Kashi)", nameHi: "वाराणसी (काशी)", lat: 25.3176, lon: 82.9739, elevation: 81, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "varanasi", nameEn: "Varanasi (Kashi), UP", nameHi: "वाराणसी (काशी), उ.प्र.", lat: 25.3176, lon: 82.9739, elevation: 81, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "prayagraj", nameEn: "Prayagraj, UP", nameHi: "प्रयागराज, उ.प्र.", lat: 25.4358, lon: 81.8463, elevation: 98, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "lucknow", nameEn: "Lucknow, UP", nameHi: "लखनऊ, उ.प्र.", lat: 26.8467, lon: 80.9462, elevation: 123, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "kanpur", nameEn: "Kanpur, UP", nameHi: "कानपुर, उ.प्र.", lat: 26.4499, lon: 80.3319, elevation: 126, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "mathura", nameEn: "Mathura / Vrindavan, UP", nameHi: "मथुरा / वृन्दावन, उ.प्र.", lat: 27.4924, lon: 77.6737, elevation: 174, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "gorakhpur", nameEn: "Gorakhpur, UP", nameHi: "गोरखपुर, उ.प्र.", lat: 26.7606, lon: 83.3732, elevation: 84, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "agra", nameEn: "Agra, UP", nameHi: "आगरा, उ.प्र.", lat: 27.1767, lon: 78.0081, elevation: 171, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "noida", nameEn: "Noida / Ghaziabad, UP", nameHi: "नोएडा / गाजियाबाद, उ.प्र.", lat: 28.5355, lon: 77.391, elevation: 200, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "meerut", nameEn: "Meerut, UP", nameHi: "मेरठ, उ.प्र.", lat: 28.9845, lon: 77.7064, elevation: 225, utcOffsetMin: 330, tzLabel: "IST" },
+  // North India & Uttarakhand
   { id: "delhi", nameEn: "New Delhi", nameHi: "नई दिल्ली", lat: 28.6139, lon: 77.209, elevation: 216, utcOffsetMin: 330, tzLabel: "IST" },
-  { id: "prayagraj", nameEn: "Prayagraj", nameHi: "प्रयागराज", lat: 25.4358, lon: 81.8463, elevation: 98, utcOffsetMin: 330, tzLabel: "IST" },
-  { id: "ujjain", nameEn: "Ujjain (Mahakal)", nameHi: "उज्जैन (महाकाल)", lat: 23.1765, lon: 75.7885, elevation: 494, utcOffsetMin: 330, tzLabel: "IST" },
-  { id: "haridwar", nameEn: "Haridwar", nameHi: "हरिद्वार", lat: 29.9457, lon: 78.1642, elevation: 314, utcOffsetMin: 330, tzLabel: "IST" },
-  { id: "mumbai", nameEn: "Mumbai", nameHi: "मुंबई", lat: 19.076, lon: 72.8777, elevation: 14, utcOffsetMin: 330, tzLabel: "IST" },
-  { id: "bengaluru", nameEn: "Bengaluru", nameHi: "बेंगलुरु", lat: 12.9716, lon: 77.5946, elevation: 920, utcOffsetMin: 330, tzLabel: "IST" },
-  { id: "jaipur", nameEn: "Jaipur", nameHi: "जयपुर", lat: 26.9124, lon: 75.7873, elevation: 431, utcOffsetMin: 330, tzLabel: "IST" },
-  { id: "kolkata", nameEn: "Kolkata", nameHi: "कोलकाता", lat: 22.5726, lon: 88.3639, elevation: 9, utcOffsetMin: 330, tzLabel: "IST" },
-  { id: "chennai", nameEn: "Chennai", nameHi: "चेन्नई", lat: 13.0827, lon: 80.2707, elevation: 6, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "gurugram", nameEn: "Gurugram, Haryana", nameHi: "गुरुग्राम, हरियाणा", lat: 28.4595, lon: 77.0266, elevation: 217, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "haridwar", nameEn: "Haridwar, Uttarakhand", nameHi: "हरिद्वार, उत्तराखंड", lat: 29.9457, lon: 78.1642, elevation: 314, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "rishikesh", nameEn: "Rishikesh, Uttarakhand", nameHi: "ऋषिकेश, उत्तराखंड", lat: 30.0869, lon: 78.2676, elevation: 372, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "dehradun", nameEn: "Dehradun, Uttarakhand", nameHi: "देहरादून, उत्तराखंड", lat: 30.3165, lon: 78.0322, elevation: 640, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "chandigarh", nameEn: "Chandigarh", nameHi: "चंडीगढ़", lat: 30.7333, lon: 76.7794, elevation: 321, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "amritsar", nameEn: "Amritsar, Punjab", nameHi: "अमृतसर, पंजाब", lat: 31.634, lon: 74.8723, elevation: 234, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "jammu", nameEn: "Jammu, J&K", nameHi: "जम्मू, जम्मू-कश्मीर", lat: 32.7266, lon: 74.857, elevation: 327, utcOffsetMin: 330, tzLabel: "IST" },
+  // Central & West India
+  { id: "ujjain", nameEn: "Ujjain (Mahakal), MP", nameHi: "उज्जैन (महाकाल), म.प्र.", lat: 23.1765, lon: 75.7885, elevation: 494, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "indore", nameEn: "Indore, MP", nameHi: "इंदौर, म.प्र.", lat: 22.7196, lon: 75.8577, elevation: 553, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "bhopal", nameEn: "Bhopal, MP", nameHi: "भोपाल, म.प्र.", lat: 23.2599, lon: 77.4126, elevation: 527, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "jabalpur", nameEn: "Jabalpur, MP", nameHi: "जबलपुर, म.प्र.", lat: 23.1815, lon: 79.9864, elevation: 412, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "jaipur", nameEn: "Jaipur, Rajasthan", nameHi: "जयपुर, राजस्थान", lat: 26.9124, lon: 75.7873, elevation: 431, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "jodhpur", nameEn: "Jodhpur, Rajasthan", nameHi: "जोधपुर, राजस्थान", lat: 26.2389, lon: 73.0243, elevation: 231, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "udaipur", nameEn: "Udaipur, Rajasthan", nameHi: "उदयपुर, राजस्थान", lat: 24.5854, lon: 73.7125, elevation: 598, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "mumbai", nameEn: "Mumbai, Maharashtra", nameHi: "मुंबई, महाराष्ट्र", lat: 19.076, lon: 72.8777, elevation: 14, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "pune", nameEn: "Pune, Maharashtra", nameHi: "पुणे, महाराष्ट्र", lat: 18.5204, lon: 73.8567, elevation: 560, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "nagpur", nameEn: "Nagpur, Maharashtra", nameHi: "नागपुर, महाराष्ट्र", lat: 21.1458, lon: 79.0882, elevation: 310, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "nashik", nameEn: "Nashik, Maharashtra", nameHi: "नासिक, महाराष्ट्र", lat: 19.9975, lon: 73.7898, elevation: 584, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "ahmedabad", nameEn: "Ahmedabad, Gujarat", nameHi: "अहमदाबाद, गुजरात", lat: 23.0225, lon: 72.5714, elevation: 53, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "surat", nameEn: "Surat, Gujarat", nameHi: "सूरत, गुजरात", lat: 21.1702, lon: 72.8311, elevation: 13, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "vadodara", nameEn: "Vadodara, Gujarat", nameHi: "वडोदरा, गुजरात", lat: 22.3072, lon: 73.1812, elevation: 39, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "dwarka", nameEn: "Dwarka, Gujarat", nameHi: "द्वारका, गुजरात", lat: 22.2442, lon: 68.9685, elevation: 5, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "somnath", nameEn: "Somnath, Gujarat", nameHi: "सोमनाथ, गुजरात", lat: 20.888, lon: 70.4012, elevation: 10, utcOffsetMin: 330, tzLabel: "IST" },
+  // East & Northeast India
+  { id: "patna", nameEn: "Patna, Bihar", nameHi: "पटना, बिहार", lat: 25.5941, lon: 85.1376, elevation: 53, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "gaya", nameEn: "Gaya, Bihar", nameHi: "गया, बिहार", lat: 24.7914, lon: 85.0002, elevation: 111, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "ranchi", nameEn: "Ranchi, Jharkhand", nameHi: "रांची, झारखंड", lat: 23.3441, lon: 85.3096, elevation: 651, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "raipur", nameEn: "Raipur, Chhattisgarh", nameHi: "रायपुर, छत्तीसगढ़", lat: 21.2514, lon: 81.6296, elevation: 298, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "kolkata", nameEn: "Kolkata, West Bengal", nameHi: "कोलकाता, पश्चिम बंगाल", lat: 22.5726, lon: 88.3639, elevation: 9, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "puri", nameEn: "Jagannath Puri, Odisha", nameHi: "जगन्नाथ पुरी, ओडिशा", lat: 19.8135, lon: 85.8312, elevation: 10, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "bhubaneswar", nameEn: "Bhubaneswar, Odisha", nameHi: "भुवनेश्वर, ओडिशा", lat: 20.2961, lon: 85.8245, elevation: 45, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "guwahati", nameEn: "Guwahati (Kamakhya), Assam", nameHi: "गुवाहाटी (कामाख्या), असम", lat: 26.1445, lon: 91.7362, elevation: 55, utcOffsetMin: 330, tzLabel: "IST" },
+  // South India
+  { id: "bengaluru", nameEn: "Bengaluru, Karnataka", nameHi: "बेंगलुरु, कर्नाटक", lat: 12.9716, lon: 77.5946, elevation: 920, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "mysuru", nameEn: "Mysuru, Karnataka", nameHi: "मैसूरु, कर्नाटक", lat: 12.2958, lon: 76.6394, elevation: 763, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "hyderabad", nameEn: "Hyderabad, Telangana", nameHi: "हैदराबाद, तेलंगाना", lat: 17.385, lon: 78.4867, elevation: 542, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "tirupati", nameEn: "Tirupati, Andhra Pradesh", nameHi: "तिरुपति, आंध्र प्रदेश", lat: 13.6288, lon: 79.4192, elevation: 162, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "chennai", nameEn: "Chennai, Tamil Nadu", nameHi: "चेन्नई, तमिलनाडु", lat: 13.0827, lon: 80.2707, elevation: 6, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "madurai", nameEn: "Madurai, Tamil Nadu", nameHi: "मदुरै, तमिलनाडु", lat: 9.9252, lon: 78.1198, elevation: 134, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "rameshwaram", nameEn: "Rameswaram, Tamil Nadu", nameHi: "रामेश्वरम, तमिलनाडु", lat: 9.2876, lon: 79.3129, elevation: 10, utcOffsetMin: 330, tzLabel: "IST" },
+  { id: "kochi", nameEn: "Kochi, Kerala", nameHi: "कोच्चि, केरल", lat: 9.9312, lon: 76.2673, elevation: 5, utcOffsetMin: 330, tzLabel: "IST" },
+  // Global NRI Hubs
+  { id: "dubai", nameEn: "Dubai, UAE", nameHi: "दुबई, यूएई", lat: 25.2048, lon: 55.2708, elevation: 5, utcOffsetMin: 240, tzLabel: "GST" },
+  { id: "singapore", nameEn: "Singapore", nameHi: "सिंगापुर", lat: 1.3521, lon: 103.8198, elevation: 15, utcOffsetMin: 480, tzLabel: "SGT" },
   { id: "london", nameEn: "London, UK", nameHi: "लंदन, यूके", lat: 51.5072, lon: -0.1276, elevation: 11, utcOffsetMin: 0, tzLabel: "UTC" },
   { id: "newyork", nameEn: "New York, USA", nameHi: "न्यूयॉर्क, यूएसए", lat: 40.7128, lon: -74.006, elevation: 10, utcOffsetMin: -300, tzLabel: "EST" },
+  { id: "toronto", nameEn: "Toronto, Canada", nameHi: "टोरंटो, कनाडा", lat: 43.6532, lon: -79.3832, elevation: 76, utcOffsetMin: -300, tzLabel: "EST" },
+  { id: "sydney", nameEn: "Sydney, Australia", nameHi: "सिडनी, ऑस्ट्रेलिया", lat: -33.8688, lon: 151.2093, elevation: 19, utcOffsetMin: 600, tzLabel: "AEST" },
 ];
 
 const norm360 = (deg: number) => ((deg % 360) + 360) % 360;
 
-// Chitra Paksha Lahiri Ayanamsha (degrees)
 export function getLahiriAyanamsha(date: Date): number {
   const jd = date.getTime() / 86400000 + 2440587.5;
   const T = (jd - 2451545.0) / 36525.0;
@@ -38,7 +86,6 @@ export function getLahiriAyanamsha(date: Date): number {
   return 23.8570922 + (5028.796195 * T + 1.1054348 * T * T + nutation) / 3600.0;
 }
 
-// Adapter: Swap only this function to switch to Swiss Ephemeris later
 export function getSiderealSunMoon(date: Date) {
   const ayanamsha = getLahiriAyanamsha(date);
   const sunTrop = Astronomy.SunPosition(date).elon;
@@ -49,6 +96,21 @@ export function getSiderealSunMoon(date: Date) {
     moonSid: norm360(moonTrop - ayanamsha),
   };
 }
+
+const MASAS = [
+  { en: "Chaitra", hi: "चैत्र" },
+  { en: "Vaishakha", hi: "वैशाख" },
+  { en: "Jyeshtha", hi: "ज्येष्ठ" },
+  { en: "Ashadha", hi: "आषाढ़" },
+  { en: "Shravana", hi: "श्रावण" },
+  { en: "Bhadrapada", hi: "भाद्रपद" },
+  { en: "Ashwin", hi: "आश्विन" },
+  { en: "Kartika", hi: "कार्तिक" },
+  { en: "Margashirsha", hi: "मार्गशीर्ष" },
+  { en: "Pausha", hi: "पौष" },
+  { en: "Magha", hi: "माघ" },
+  { en: "Phalguna", hi: "फाल्गुन" },
+];
 
 const VARA = [
   { en: "Sunday", hi: "रविवार" }, { en: "Monday", hi: "सोमवार" },
@@ -140,9 +202,8 @@ function getIndexAt(ms: number, kind: "tithi" | "nakshatra" | "yoga" | "karana")
   return Math.floor(norm360(moonSid - sunSid) / 6);
 }
 
-// Binary search for exact Samapti Kaal (end time) within next 36 hours
 function findEndTime(startMs: number, currentIdx: number, kind: "tithi" | "nakshatra" | "yoga" | "karana"): number {
-  const stepMs = 60 * 60 * 1000; // 1 hour coarse scan
+  const stepMs = 60 * 60 * 1000;
   let lo = startMs;
   let hi = startMs + stepMs;
   for (let i = 0; i < 36; i++) {
@@ -156,6 +217,47 @@ function findEndTime(startMs: number, currentIdx: number, kind: "tithi" | "naksh
     else hi = mid;
   }
   return hi;
+}
+
+// Compute exact Drik Siddhanta Purnimanta & Amanta Masa + Vikram & Shaka Samvat
+function computeSamvatAndMasa(sunriseMs: number, year: number, month: number, tithiIdx30: number) {
+  const isShukla = tithiIdx30 < 15;
+  // Find previous & next New Moon (Moon phase 0 deg) using Astronomy.SearchMoonPhase
+  const approxStart = new Date(sunriseMs - 30 * 86400000);
+  let prevNm = Astronomy.SearchMoonPhase(0, approxStart, 35);
+  let nextNm = prevNm ? Astronomy.SearchMoonPhase(0, new Date(prevNm.date.getTime() + 1000000), 35) : null;
+
+  // Ensure prevNm <= sunriseMs < nextNm
+  if (nextNm && nextNm.date.getTime() <= sunriseMs) {
+    prevNm = nextNm;
+    nextNm = Astronomy.SearchMoonPhase(0, new Date(prevNm.date.getTime() + 1000000), 35);
+  }
+
+  const prevSunRashi = prevNm ? Math.floor(getSiderealSunMoon(prevNm.date).sunSid / 30) : Math.floor(getSiderealSunMoon(new Date(sunriseMs)).sunSid / 30);
+  const nextSunRashi = nextNm ? Math.floor(getSiderealSunMoon(nextNm.date).sunSid / 30) : prevSunRashi;
+
+  const isAdhika = prevSunRashi === nextSunRashi;
+  const amantaIdx = isAdhika ? (nextSunRashi + 1) % 12 : nextSunRashi;
+  // In North Indian Purnimanta system, Krishna Paksha belongs to the next lunar month name
+  const purnimantaIdx = isAdhika || isShukla ? amantaIdx : (amantaIdx + 1) % 12;
+
+  const amantaBase = MASAS[amantaIdx];
+  const purnimantaBase = MASAS[purnimantaIdx];
+
+  // Chaitradi Vikram Samvat & Shaka Samvat rollover occurs at Chaitra Shukla Pratipada (Mar–Apr)
+  const beforeHinduNewYear = month <= 4 && (amantaIdx >= 9 || (amantaIdx === 0 && !isShukla));
+  const vikramSamvat = beforeHinduNewYear ? year + 56 : year + 57;
+  const shakaSamvat = beforeHinduNewYear ? year - 79 : year - 78;
+
+  return {
+    vikramSamvat,
+    shakaSamvat,
+    isAdhika,
+    purnimantaEn: isAdhika ? `Adhika ${purnimantaBase.en}` : purnimantaBase.en,
+    purnimantaHi: isAdhika ? `अधिक ${purnimantaBase.hi}` : purnimantaBase.hi,
+    amantaEn: isAdhika ? `Adhika ${amantaBase.en}` : amantaBase.en,
+    amantaHi: isAdhika ? `अधिक ${amantaBase.hi}` : amantaBase.hi,
+  };
 }
 
 export function formatLocalTime(ms: number | null, utcOffsetMin: number, baseDayMs: number): string {
@@ -209,6 +311,15 @@ export interface RashiTransitPrediction {
 export interface DailyPanchangReport {
   dateStr: string;
   city: PanchangCity;
+  samvat: {
+    vikramSamvat: number;
+    shakaSamvat: number;
+    isAdhika: boolean;
+    purnimantaEn: string;
+    purnimantaHi: string;
+    amantaEn: string;
+    amantaHi: string;
+  };
   vara: { en: string; hi: string };
   sunrise: string;
   sunset: string;
@@ -251,26 +362,25 @@ const CHOGHADIYA_META: Record<string, { hi: string; quality: ChoghadiyaSlot["qua
 };
 
 const DAY_CHOGHADIYA_ORDER = [
-  ["Udveg", "Char", "Labh", "Amrit", "Kaal", "Shubh", "Rog", "Udveg"], // Sun
-  ["Amrit", "Kaal", "Shubh", "Rog", "Udveg", "Char", "Labh", "Amrit"], // Mon
-  ["Rog", "Udveg", "Char", "Labh", "Amrit", "Kaal", "Shubh", "Rog"], // Tue
-  ["Labh", "Amrit", "Kaal", "Shubh", "Rog", "Udveg", "Char", "Labh"], // Wed
-  ["Shubh", "Rog", "Udveg", "Char", "Labh", "Amrit", "Kaal", "Shubh"], // Thu
-  ["Char", "Labh", "Amrit", "Kaal", "Shubh", "Rog", "Udveg", "Char"], // Fri
-  ["Kaal", "Shubh", "Rog", "Udveg", "Char", "Labh", "Amrit", "Kaal"], // Sat
+  ["Udveg", "Char", "Labh", "Amrit", "Kaal", "Shubh", "Rog", "Udveg"],
+  ["Amrit", "Kaal", "Shubh", "Rog", "Udveg", "Char", "Labh", "Amrit"],
+  ["Rog", "Udveg", "Char", "Labh", "Amrit", "Kaal", "Shubh", "Rog"],
+  ["Labh", "Amrit", "Kaal", "Shubh", "Rog", "Udveg", "Char", "Labh"],
+  ["Shubh", "Rog", "Udveg", "Char", "Labh", "Amrit", "Kaal", "Shubh"],
+  ["Char", "Labh", "Amrit", "Kaal", "Shubh", "Rog", "Udveg", "Char"],
+  ["Kaal", "Shubh", "Rog", "Udveg", "Char", "Labh", "Amrit", "Kaal"],
 ];
 
 const NIGHT_CHOGHADIYA_ORDER = [
-  ["Shubh", "Amrit", "Char", "Rog", "Kaal", "Labh", "Udveg", "Shubh"], // Sun
-  ["Char", "Rog", "Kaal", "Labh", "Udveg", "Shubh", "Amrit", "Char"], // Mon
-  ["Kaal", "Labh", "Udveg", "Shubh", "Amrit", "Char", "Rog", "Kaal"], // Tue
-  ["Udveg", "Shubh", "Amrit", "Char", "Rog", "Kaal", "Labh", "Udveg"], // Wed
-  ["Amrit", "Char", "Rog", "Kaal", "Labh", "Udveg", "Shubh", "Amrit"], // Thu
-  ["Rog", "Kaal", "Labh", "Udveg", "Shubh", "Amrit", "Char", "Rog"], // Fri
-  ["Labh", "Udveg", "Shubh", "Amrit", "Char", "Rog", "Kaal", "Labh"], // Sat
+  ["Shubh", "Amrit", "Char", "Rog", "Kaal", "Labh", "Udveg", "Shubh"],
+  ["Char", "Rog", "Kaal", "Labh", "Udveg", "Shubh", "Amrit", "Char"],
+  ["Kaal", "Labh", "Udveg", "Shubh", "Amrit", "Char", "Rog", "Kaal"],
+  ["Udveg", "Shubh", "Amrit", "Char", "Rog", "Kaal", "Labh", "Udveg"],
+  ["Amrit", "Char", "Rog", "Kaal", "Labh", "Udveg", "Shubh", "Amrit"],
+  ["Rog", "Kaal", "Labh", "Udveg", "Shubh", "Amrit", "Char", "Rog"],
+  ["Labh", "Udveg", "Shubh", "Amrit", "Char", "Rog", "Kaal", "Labh"],
 ];
 
-// Classical 1/8th daytime slot indices (0-based) for Rahu, Yamaganda, Gulika (Sun..Sat)
 const RAHU_SLOT = [7, 1, 6, 4, 5, 3, 2];
 const YAMA_SLOT = [4, 3, 2, 1, 0, 6, 5];
 const GULIKA_SLOT = [6, 5, 4, 3, 2, 1, 0];
@@ -298,10 +408,13 @@ const GOCHARA_TEMPLATES: Record<number, {
   12: { score: 3, summaryEn: "Moon in the 12th house favors rest, spiritual reflection, and mindful spending.", summaryHi: "द्वादश भाव का चन्द्रमा व्यय बढ़ा सकता है—आध्यात्मिक चिंतन और संयमित बजट रखें।", careerEn: "Good for behind-the-scenes planning, foreign links, and quiet research.", careerHi: "गोपनीय योजना, शोध और विदेश संबंधी कार्यों के लिए उपयुक्त समय है।", loveEn: "Give yourself and loved ones gentle space to recharge.", loveHi: "रिश्तों में धैर्य रखें और व्यर्थ के तर्क से बचें।", healthEn: "Prioritize eye rest and early sleep tonight.", healthHi: "आँखों को विश्राम दें और समय पर शयन करें।", remedyEn: "Light a diya in the evening and recite Vishnu Sahasranama.", remedyHi: "संध्या समय दीपक जलाएं और भगवान का स्मरण करें।", colorEn: "Soft Lavender", colorHi: "हल्का बैंगनी" },
 };
 
-export function computeDailyPanchang(dateStr: string, cityId: string): DailyPanchangReport {
-  const city = PANCHANG_CITIES.find((c) => c.id === cityId) ?? PANCHANG_CITIES[0];
+export function computeDailyPanchang(dateStr: string, cityOrId: string | PanchangCity): DailyPanchangReport {
+  const city =
+    typeof cityOrId === "string"
+      ? PANCHANG_CITIES.find((c) => c.id === cityOrId) ?? PANCHANG_CITIES[0]
+      : cityOrId;
+
   const [y, m, d] = dateStr.split("-").map(Number);
-  // Local midnight expressed in UTC ms
   const localMidnightUtcMs = Date.UTC(y, m - 1, d, 0, 0, 0) - city.utcOffsetMin * 60000;
   const baseDayLocalMs = Date.UTC(y, m - 1, d, 0, 0, 0);
   const observer = new Astronomy.Observer(city.lat, city.lon, city.elevation);
@@ -321,11 +434,12 @@ export function computeDailyPanchang(dateStr: string, cityId: string): DailyPanc
   const sunRashiIdx = Math.floor(sunSid / 30);
   const moonRashiIdx = Math.floor(moonSid / 30);
 
-  // Panchang Angas at Sunrise (Udaya Tithi standard)
   const tithiIdx30 = Math.floor(norm360(moonSid - sunSid) / 12);
   const isShukla = tithiIdx30 < 15;
   const tithiName = tithiIdx30 === 14 ? TITHIS[14] : tithiIdx30 === 29 ? TITHIS[15] : TITHIS[tithiIdx30 % 15];
   const tithiEndMs = findEndTime(sunriseMs, tithiIdx30, "tithi");
+
+  const samvat = computeSamvatAndMasa(sunriseMs, y, m, tithiIdx30);
 
   const nakIdx = Math.floor(moonSid / (360 / 27));
   const nakPada = Math.floor((moonSid % (360 / 27)) / (360 / 108)) + 1;
@@ -338,16 +452,13 @@ export function computeDailyPanchang(dateStr: string, cityId: string): DailyPanc
   const karanaName = getKaranaName(karanaIdx);
   const karanaEndMs = findEndTime(sunriseMs, karanaIdx, "karana");
 
-  // Dynamic Solar Muhurats
   const dayLen = sunsetMs - sunriseMs;
   const nightLen = nextSunriseMs - sunsetMs;
   const muhurtaLen = dayLen / 15;
   const fmtRange = (a: number, b: number) =>
     `${formatLocalTime(a, city.utcOffsetMin, baseDayLocalMs)} – ${formatLocalTime(b, city.utcOffsetMin, baseDayLocalMs)}`;
-
   const slot8 = (slotIdx: number) => fmtRange(sunriseMs + (dayLen / 8) * slotIdx, sunriseMs + (dayLen / 8) * (slotIdx + 1));
 
-  // Day & Night Choghadiya
   const dayChoghadiya: ChoghadiyaSlot[] = DAY_CHOGHADIYA_ORDER[weekday].map((nameEn, i) => ({
     nameEn,
     nameHi: CHOGHADIYA_META[nameEn].hi,
@@ -364,7 +475,6 @@ export function computeDailyPanchang(dateStr: string, cityId: string): DailyPanc
     end: formatLocalTime(sunsetMs + (nightLen / 8) * (i + 1), city.utcOffsetMin, baseDayLocalMs),
   }));
 
-  // Automated Vrats, Festivals & Auspicious Yogas
   const events: DailyVratEvent[] = [];
   const tithiAtSunset = getIndexAt(sunsetMs, "tithi");
   const nextSunRashiIdx = Math.floor(getSiderealSunMoon(new Date(nextSunriseMs)).sunSid / 30);
@@ -387,7 +497,6 @@ export function computeDailyPanchang(dateStr: string, cityId: string): DailyPanc
   if (nakIdx === 7 && weekday === 0) events.push({ titleEn: "Ravi Pushya Auspicious Yoga", titleHi: "रवि पुष्य महायोग", type: "yoga" });
   if (nakIdx === 7 && weekday === 4) events.push({ titleEn: "Guru Pushya Auspicious Yoga", titleHi: "गुरु पुष्य महायोग", type: "yoga" });
 
-  // Live Chandra Gochara Horoscopes for all 12 Rashis
   const horoscopes: RashiTransitPrediction[] = RASHIS.map((rashi, idx) => {
     const transitHouse = ((moonRashiIdx - idx + 12) % 12) + 1;
     const tpl = GOCHARA_TEMPLATES[transitHouse];
@@ -416,6 +525,7 @@ export function computeDailyPanchang(dateStr: string, cityId: string): DailyPanc
   return {
     dateStr,
     city,
+    samvat,
     vara: VARA[weekday],
     sunrise: formatLocalTime(sunriseMs, city.utcOffsetMin, baseDayLocalMs),
     sunset: formatLocalTime(sunsetMs, city.utcOffsetMin, baseDayLocalMs),
