@@ -3,12 +3,13 @@
 import React, { useMemo, useState } from "react";
 import {
   Calendar, MapPin, Sunrise, Sunset, Moon, Sparkles, Clock,
-  ShieldAlert, Star, X, MessageCircle, Compass, Sun
+  ShieldAlert, Star, X, MessageCircle, Compass, Sun, LocateFixed, Search, Loader2
 } from "lucide-react";
 import { useLanguage } from "@/app/components/ServiceWorkerRegister";
 import {
   computeDailyPanchang,
   PANCHANG_CITIES,
+  type PanchangCity,
   type RashiTransitPrediction,
 } from "@/lib/panchangEngine";
 import UpcomingEventsAndHora from "@/components/astrology/UpcomingEventsAndHora";
@@ -24,19 +25,105 @@ export default function HoroscopePage() {
   const isHi = lang === "hi";
 
   const [dateStr, setDateStr] = useState<string>(getTodayDateString);
-  const [cityId, setCityId] = useState<string>("ayodhya");
+  const [selectedCity, setSelectedCity] = useState<PanchangCity>(PANCHANG_CITIES[0]);
+  const [cityQuery, setCityQuery] = useState<string>("");
+  const [showCityMenu, setShowCityMenu] = useState<boolean>(false);
+  const [geoLoading, setGeoLoading] = useState<boolean>(false);
+  const [searchLoading, setSearchLoading] = useState<boolean>(false);
+  const [remoteResults, setRemoteResults] = useState<PanchangCity[]>([]);
+  const [locationMsg, setLocationMsg] = useState<string>("");
   const [choghadiyaTab, setChoghadiyaTab] = useState<"day" | "night">("day");
   const [selectedRashi, setSelectedRashi] = useState<RashiTransitPrediction | null>(null);
 
-  const report = useMemo(() => computeDailyPanchang(dateStr, cityId), [dateStr, cityId]);
+  const report = useMemo(() => computeDailyPanchang(dateStr, selectedCity), [dateStr, selectedCity]);
+
+  const filteredPresetCities = useMemo(() => {
+    const q = cityQuery.trim().toLowerCase();
+    if (!q) return PANCHANG_CITIES.slice(0, 12);
+    return PANCHANG_CITIES.filter(
+      (c) => c.nameEn.toLowerCase().includes(q) || c.nameHi.includes(q)
+    ).slice(0, 12);
+  }, [cityQuery]);
+
+  const handleUseGPS = () => {
+    if (typeof navigator === "undefined" || !navigator.geolocation) {
+      setLocationMsg(isHi ? "आपके ब्राउज़र में GPS उपलब्ध नहीं है।" : "GPS is not supported in this browser.");
+      return;
+    }
+    setGeoLoading(true);
+    setLocationMsg("");
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const lat = Number(pos.coords.latitude.toFixed(4));
+        const lon = Number(pos.coords.longitude.toFixed(4));
+        const offsetMin = -new Date().getTimezoneOffset();
+        const tzLabel = offsetMin === 330 ? "IST" : `UTC${offsetMin >= 0 ? "+" : ""}${(offsetMin / 60).toFixed(1)}`;
+        setSelectedCity({
+          id: `gps-${lat}-${lon}`,
+          nameEn: `My GPS Location (${lat}°, ${lon}°)`,
+          nameHi: `मेरा GPS स्थान (${lat}°, ${lon}°)`,
+          lat,
+          lon,
+          elevation: 100,
+          utcOffsetMin: offsetMin,
+          tzLabel,
+        });
+        setShowCityMenu(false);
+        setGeoLoading(false);
+      },
+      () => {
+        setLocationMsg(isHi ? "कृपया ब्राउज़र में लोकेशन अनुमति (Allow) दें।" : "Please allow location access in your browser.");
+        setGeoLoading(false);
+      },
+      { enableHighAccuracy: false, timeout: 8000 }
+    );
+  };
+
+  const handleSearchAnyCity = async () => {
+    const q = cityQuery.trim();
+    if (q.length < 2) return;
+    setSearchLoading(true);
+    setLocationMsg("");
+    try {
+      const res = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&limit=6&q=${encodeURIComponent(q)}`
+      );
+      const data: Array<{ display_name: string; lat: string; lon: string }> = await res.json();
+      const mapped: PanchangCity[] = data.map((item, idx) => {
+        const lat = Number(parseFloat(item.lat).toFixed(4));
+        const lon = Number(parseFloat(item.lon).toFixed(4));
+        const isIndia = item.display_name.toLowerCase().includes("india") || (lat >= 6 && lat <= 37 && lon >= 68 && lon <= 98);
+        const offsetMin = isIndia ? 330 : Math.round(lon / 15) * 60;
+        const shortName = item.display_name.split(",").slice(0, 2).join(", ");
+        return {
+          id: `custom-${idx}-${lat}-${lon}`,
+          nameEn: shortName,
+          nameHi: shortName,
+          lat,
+          lon,
+          elevation: 100,
+          utcOffsetMin: offsetMin,
+          tzLabel: isIndia ? "IST" : `UTC${offsetMin >= 0 ? "+" : ""}${offsetMin / 60}`,
+        };
+      });
+      setRemoteResults(mapped);
+      if (mapped.length === 0) {
+        setLocationMsg(isHi ? "कोई शहर नहीं मिला। कृपया वर्तनी जांचें।" : "No city found. Try another spelling.");
+      }
+    } catch {
+      setLocationMsg(isHi ? "ऑनलाइन शहर खोज उपलब्ध नहीं है; सूची से चुनें।" : "Live search unavailable; choose from the 55+ built-in cities.");
+    } finally {
+      setSearchLoading(false);
+    }
+  };
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: isHi
-      ? `आज का पंचांग, शुभ मुहूर्त एवं दैनिक राशिफल (${report.dateStr}) - आचार्य श्री रविन्द्र शुक्ल शास्त्री`
-      : `Daily Drik Panchang, Shubh Muhurat & Rashifal (${report.dateStr}) - Acharya Shri Ravindra Shukla Shatri`,
-    description: `Exact sunrise/sunset, Tithi Samapti Kaal, Choghadiya, Rahu Kaal, Vrats, and live Chandra Gochara horoscope for ${report.city.nameEn}.`,
+      ? `आज का पंचांग (${report.samvat.purnimantaHi}, विक्रम संवत् ${report.samvat.vikramSamvat}) - आचार्य श्री रविन्द्र शुक्ल शास्त्री`
+      : `Daily Drik Panchang (${report.samvat.purnimantaEn}, Vikram Samvat ${report.samvat.vikramSamvat}) - Acharya Shri Ravindra Shukla Shatri`,
+    description: `Exact sunrise/sunset, Samvat & Masa, Tithi Samapti Kaal, Choghadiya, Hora, Rahu Kaal, Vrats, and live Chandra Gochara horoscope for ${report.city.nameEn}.`,
     provider: {
       "@type": "LocalBusiness",
       name: "JyotishGuru — Acharya Shri Ravindra Shukla Shatri",
@@ -57,25 +144,36 @@ export default function HoroscopePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <div className="max-w-7xl mx-auto space-y-8">
-        {/* Header & City/Date Controls */}
+        {/* Header, Samvat/Masa Strip & GPS/City Controls */}
         <section className="rounded-3xl bg-gradient-to-br from-[#1A1040] via-[#140E30] to-[#0D0B1A] border border-amber-500/25 p-6 sm:p-8 shadow-2xl">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
             <div>
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/15 text-amber-300 border border-amber-500/30 mb-3">
-                <Sparkles className="w-3.5 h-3.5" />
-                {isHi ? "दृक् गणित आधारित पंचांग एवं चन्द्र गोचर राशिफल" : "Drik Ganita Panchang & Live Chandra Gochara Horoscope"}
-              </span>
+              <div className="flex flex-wrap items-center gap-2 mb-3">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/15 text-amber-300 border border-amber-500/30">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  {isHi
+                    ? `विक्रम संवत् ${report.samvat.vikramSamvat} • शक संवत् ${report.samvat.shakaSamvat}`
+                    : `Vikram Samvat ${report.samvat.vikramSamvat} • Shaka Samvat ${report.samvat.shakaSamvat}`}
+                </span>
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/20 text-indigo-200 border border-indigo-400/30">
+                  {isHi
+                    ? `मास: ${report.samvat.purnimantaHi} (पूर्णिमांत) / ${report.samvat.amantaHi} (अमांत)`
+                    : `Masa: ${report.samvat.purnimantaEn} (Purnimanta) / ${report.samvat.amantaEn} (Amanta)`}
+                </span>
+              </div>
+
               <h1 className="text-3xl sm:text-4xl font-bold text-amber-100">
                 {isHi ? "दैनिक पंचांग, शुभ मुहूर्त एवं राशिफल" : "Daily Panchang, Auspicious Muhurat & Horoscope"}
               </h1>
               <p className="text-amber-200/75 mt-2 text-sm sm:text-base">
                 {isHi
-                  ? "आचार्य श्री रविन्द्र शुक्ल शास्त्री (अयोध्या धाम) • लाहिड़ी अयनांश एवं सटीक स्थानीय सूर्योदय गणना"
-                  : "By Acharya Shri Ravindra Shukla Shatri (Ayodhya Dham) • Chitra Paksha Lahiri Ayanamsha & Local Topocentric Sunrise"}
+                  ? `आचार्य श्री रविन्द्र शुक्ल शास्त्री (अयोध्या धाम) • स्थान: ${report.city.nameHi}`
+                  : `By Acharya Shri Ravindra Shukla Shatri (Ayodhya Dham) • Location: ${report.city.nameEn}`}
               </p>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2.5">
+              {/* Date Picker */}
               <div className="flex items-center gap-2 bg-black/40 border border-amber-500/30 rounded-xl px-3 py-2">
                 <Calendar className="w-4 h-4 text-amber-400" />
                 <input
@@ -87,21 +185,74 @@ export default function HoroscopePage() {
                 />
               </div>
 
-              <div className="flex items-center gap-2 bg-black/40 border border-amber-500/30 rounded-xl px-3 py-2">
-                <MapPin className="w-4 h-4 text-amber-400" />
-                <select
-                  value={cityId}
-                  onChange={(e) => setCityId(e.target.value)}
-                  className="bg-[#140E30] text-sm text-amber-50 focus:outline-none"
-                  aria-label="Select City"
+              {/* Searchable Indian & Custom City Picker */}
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setShowCityMenu((s) => !s)}
+                  className="flex items-center gap-2 bg-black/40 border border-amber-500/30 hover:border-amber-400 rounded-xl px-3 py-2 text-sm text-amber-50 max-w-[230px]"
                 >
-                  {PANCHANG_CITIES.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {isHi ? c.nameHi : c.nameEn}
-                    </option>
-                  ))}
-                </select>
+                  <MapPin className="w-4 h-4 text-amber-400 shrink-0" />
+                  <span className="truncate">{isHi ? selectedCity.nameHi : selectedCity.nameEn}</span>
+                </button>
+
+                {showCityMenu && (
+                  <div className="absolute right-0 mt-2 w-80 max-w-[90vw] rounded-2xl bg-[#16112E] border border-amber-500/35 shadow-2xl p-3 z-40 space-y-2.5">
+                    <div className="flex items-center gap-1.5 bg-black/40 border border-amber-500/30 rounded-xl px-2.5 py-1.5">
+                      <Search className="w-4 h-4 text-amber-400 shrink-0" />
+                      <input
+                        type="text"
+                        value={cityQuery}
+                        onChange={(e) => { setCityQuery(e.target.value); setRemoteResults([]); }}
+                        onKeyDown={(e) => e.key === "Enter" && handleSearchAnyCity()}
+                        placeholder={isHi ? "कोई भी भारतीय शहर खोजें..." : "Search any Indian or global city..."}
+                        className="w-full bg-transparent text-xs text-amber-50 placeholder:text-amber-200/45 focus:outline-none"
+                      />
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={handleSearchAnyCity}
+                      disabled={searchLoading || cityQuery.trim().length < 2}
+                      className="w-full py-1.5 px-3 rounded-lg text-xs font-semibold bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 border border-amber-500/30 disabled:opacity-40 flex items-center justify-center gap-1.5"
+                    >
+                      {searchLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Search className="w-3.5 h-3.5" />}
+                      {isHi ? "अन्य शहर / गाँव ऑनलाइन खोजें" : "Search Any Town / City Online"}
+                    </button>
+
+                    <div className="max-h-56 overflow-y-auto divide-y divide-white/5 text-xs">
+                      {(remoteResults.length > 0 ? remoteResults : filteredPresetCities).map((c) => (
+                        <button
+                          key={c.id}
+                          type="button"
+                          onClick={() => {
+                            setSelectedCity(c);
+                            setShowCityMenu(false);
+                            setCityQuery("");
+                            setRemoteResults([]);
+                          }}
+                          className="w-full text-left px-2.5 py-2 hover:bg-amber-500/15 rounded-lg flex items-center justify-between gap-2 text-amber-100"
+                        >
+                          <span className="truncate">{isHi ? c.nameHi : c.nameEn}</span>
+                          <span className="text-[10px] text-amber-300/70 shrink-0">{c.tzLabel}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
+
+              {/* 1-Click GPS Button */}
+              <button
+                type="button"
+                onClick={handleUseGPS}
+                disabled={geoLoading}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-200 border border-emerald-500/40 transition"
+                title="Use My Current GPS Location"
+              >
+                {geoLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <LocateFixed className="w-4 h-4" />}
+                {isHi ? "मेरा GPS" : "Use GPS"}
+              </button>
 
               <button
                 type="button"
@@ -112,6 +263,8 @@ export default function HoroscopePage() {
               </button>
             </div>
           </div>
+
+          {locationMsg && <p className="mt-3 text-xs text-rose-300">{locationMsg}</p>}
 
           {/* Automated Vrats, Festivals & Special Yogas */}
           {report.events.length > 0 && (
@@ -262,8 +415,8 @@ export default function HoroscopePage() {
             </div>
             <p className="text-xs text-rose-200/70 pt-2">
               {isHi
-                ? "नोट: सभी मुहूर्त चुने गए शहर के वास्तविक सूर्योदय व सूर्यास्त के अनुसार गतिशील रूप से गणना किए गए हैं।"
-                : "Note: All Muhurats are dynamically divided from your selected city's exact local Sunrise and Sunset."}
+                ? "नोट: सभी मुहूर्त आपके चुने गए शहर / GPS के वास्तविक सूर्योदय व सूर्यास्त के अनुसार गणना किए गए हैं।"
+                : "Note: All Muhurats are dynamically divided from your selected city / GPS local Sunrise and Sunset."}
             </p>
           </div>
         </section>
@@ -308,17 +461,15 @@ export default function HoroscopePage() {
 
         {/* Live Chandra Gochara 12 Rashi Grid */}
         <section className="space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2">
-            <div>
-              <h2 className="text-2xl font-bold text-amber-100">
-                {isHi ? "आज का राशिफल (सटीक चन्द्र गोचर पर आधारित)" : "Daily Vedic Horoscope (Live Chandra Gochara)"}
-              </h2>
-              <p className="text-sm text-amber-200/70">
-                {isHi
-                  ? `आज चन्द्रमा ${report.moonRashi.hi} राशि में गोचर कर रहे हैं। विस्तृत फलादेश हेतु अपनी राशि चुनें:`
-                  : `Moon transits ${report.moonRashi.en} today. Click your Moon sign (Rashi) for 4-pillar guidance & remedy:`}
-              </p>
-            </div>
+          <div>
+            <h2 className="text-2xl font-bold text-amber-100">
+              {isHi ? "आज का राशिफल (सटीक चन्द्र गोचर पर आधारित)" : "Daily Vedic Horoscope (Live Chandra Gochara)"}
+            </h2>
+            <p className="text-sm text-amber-200/70">
+              {isHi
+                ? `आज चन्द्रमा ${report.moonRashi.hi} राशि में गोचर कर रहे हैं। विस्तृत फलादेश हेतु अपनी राशि चुनें:`
+                : `Moon transits ${report.moonRashi.en} today. Click your Moon sign (Rashi) for 4-pillar guidance & remedy:`}
+            </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -365,7 +516,7 @@ export default function HoroscopePage() {
         {/* Planetary Hora, Upcoming 30-Day Vrats, Eclipses & Bilingual SEO FAQ */}
         <UpcomingEventsAndHora
           dateStr={dateStr}
-          cityId={cityId}
+          city={selectedCity}
           isHi={isHi}
           onSelectDate={(newDate) => {
             setDateStr(newDate);
