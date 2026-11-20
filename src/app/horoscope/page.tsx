@@ -11,6 +11,7 @@ import {
   PANCHANG_CITIES,
   type RashiTransitPrediction,
 } from "@/lib/panchangEngine";
+import UpcomingEventsAndHora from "@/components/astrology/UpcomingEventsAndHora";
 
 function getTodayDateString(): string {
   const now = new Date();
@@ -360,6 +361,17 @@ export default function HoroscopePage() {
             ))}
           </div>
         </section>
+
+        {/* Planetary Hora, Upcoming 30-Day Vrats, Eclipses & Bilingual SEO FAQ */}
+        <UpcomingEventsAndHora
+          dateStr={dateStr}
+          cityId={cityId}
+          isHi={isHi}
+          onSelectDate={(newDate) => {
+            setDateStr(newDate);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        />
       </div>
 
       {/* 4-Pillar Rashi Detail Modal */}
