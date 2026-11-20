@@ -6,17 +6,16 @@ import { CalendarDays, Clock, Sparkles, ChevronDown, Eclipse } from "lucide-reac
 import {
   computeDailyPanchang,
   formatLocalTime,
-  PANCHANG_CITIES,
+  type PanchangCity,
 } from "@/lib/panchangEngine";
 
 interface Props {
   dateStr: string;
-  cityId: string;
+  city: PanchangCity;
   isHi: boolean;
   onSelectDate: (newDate: string) => void;
 }
 
-// Classical Vedic Hora planetary sequence (Chaldean order)
 const HORA_PLANETS = [
   { key: "Sun", en: "Sun (Surya)", hi: "सूर्य होरा", bestEn: "Govt. work, leadership, vitality", bestHi: "राजकीय कार्य, नेतृत्व, मान-सम्मान", tone: "amber" },
   { key: "Venus", en: "Venus (Shukra)", hi: "शुक्र होरा", bestEn: "Marriage, arts, luxury, shopping", bestHi: "विवाह, कला, वाहन व शुभ खरीदारी", tone: "emerald" },
@@ -27,21 +26,20 @@ const HORA_PLANETS = [
   { key: "Mars", en: "Mars (Mangal)", hi: "मंगल होरा", bestEn: "Courage, legal, technical, property", bestHi: "साहस, भूमि, तकनीक व वाद-विवाद विजय", tone: "rose" },
 ];
 
-// First Hora of each weekday (Sun=0, Mon=1, Tue=2, Wed=3, Thu=4, Fri=5, Sat=6) -> index in HORA_PLANETS
 const WEEKDAY_START_HORA = [0, 3, 6, 2, 5, 1, 4];
 
 const FAQS = [
   {
     qEn: "How are Tithi, Nakshatra, and Rahu Kaal calculated on JyotishGuru?",
     qHi: "ज्योतिषगुरु पर तिथि, नक्षत्र और राहु काल की गणना कैसे की जाती है?",
-    aEn: "We calculate topocentric Sunrise and Sunset for your exact selected city using Drik Ganita (astronomical ephemeris) with Chitra Paksha Lahiri Ayanamsha, then divide the actual daytime duration into 8 equal segments for Rahu Kaal, Yamaganda, Gulika, and Choghadiya.",
-    aHi: "हम आपके चुने गए शहर के सटीक स्थानीय सूर्योदय और सूर्यास्त की गणना दृक् गणित एवं चित्रपक्ष लाहिड़ी अयनांश से करते हैं, फिर वास्तविक दिनमान को 8 भागों में विभाजित कर राहु काल, यमगण्ड, गुलिक और चौघड़िया निकालते हैं।",
+    aEn: "We calculate topocentric Sunrise and Sunset for your exact selected city or GPS coordinates using Drik Ganita with Chitra Paksha Lahiri Ayanamsha, then divide the actual daytime duration into 8 equal segments for Rahu Kaal, Yamaganda, Gulika, and Choghadiya.",
+    aHi: "हम आपके चुने गए शहर या GPS स्थान के सटीक स्थानीय सूर्योदय और सूर्यास्त की गणना दृक् गणित एवं चित्रपक्ष लाहिड़ी अयनांश से करते हैं, फिर वास्तविक दिनमान को 8 भागों में विभाजित कर राहु काल, यमगण्ड, गुलिक और चौघड़िया निकालते हैं।",
   },
   {
-    qEn: "What is Abhijit Muhurat and why is it avoided on Wednesdays?",
-    qHi: "अभिजित मुहूर्त क्या है और बुधवार को इसे क्यों त्याज्य माना जाता है?",
-    aEn: "Abhijit Muhurat is the 8th of the 15 daytime Muhurtas centered around local solar noon—traditionally considered auspicious for starting important tasks. Classical Muhurta texts advise avoiding Abhijit Muhurat on Wednesdays.",
-    aHi: "अभिजित मुहूर्त दिन के 15 मुहूर्तों में से 8वां (मध्याह्न) मुहूर्त होता है, जो शुभ कार्यों के लिए अत्यंत उत्तम माना जाता है। शास्त्रों के अनुसार बुधवार को अभिजित मुहूर्त का त्याग किया जाता है।",
+    qEn: "What is the difference between Purnimanta and Amanta Masa?",
+    qHi: "पूर्णिमांत और अमांत हिंदू मास में क्या अंतर है?",
+    aEn: "North Indian Panchangs (Ayodhya, Kashi, UP, Delhi, MP, Rajasthan) follow Purnimanta Masa where a lunar month ends on Purnima, while Maharashtra, Gujarat, and South India follow Amanta Masa ending on Amavasya. Both are shown here.",
+    aHi: "उत्तर भारतीय पंचांग (अयोध्या, काशी, उ.प्र., दिल्ली, म.प्र., राजस्थान) पूर्णिमांत मास मानते हैं जो पूर्णिमा को समाप्त होता है, जबकि महाराष्ट्र, गुजरात व दक्षिण भारत में अमांत मास प्रचलित है। यहाँ दोनों प्रदर्शित हैं।",
   },
   {
     qEn: "What does Chandrashtama mean in the Daily Horoscope?",
@@ -51,16 +49,10 @@ const FAQS = [
   },
 ];
 
-export default function UpcomingEventsAndHora({ dateStr, cityId, isHi, onSelectDate }: Props) {
+export default function UpcomingEventsAndHora({ dateStr, city, isHi, onSelectDate }: Props) {
   const [horaTab, setHoraTab] = useState<"day" | "night">("day");
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
-  const city = useMemo(
-    () => PANCHANG_CITIES.find((c) => c.id === cityId) ?? PANCHANG_CITIES[0],
-    [cityId]
-  );
-
-  // 1. Dynamic 24-Hour Planetary Hora (12 Day + 12 Night)
   const horas = useMemo(() => {
     const [y, m, d] = dateStr.split("-").map(Number);
     const localMidnightUtcMs = Date.UTC(y, m - 1, d, 0, 0, 0) - city.utcOffsetMin * 60000;
@@ -94,7 +86,6 @@ export default function UpcomingEventsAndHora({ dateStr, cityId, isHi, onSelectD
     return { dayHoras, nightHoras };
   }, [dateStr, city]);
 
-  // 2. Upcoming 30-Day Vrat, Ekadashi, Pradosh, Purnima, Amavasya & Sankranti Calendar
   const upcomingEvents = useMemo(() => {
     const [y, m, d] = dateStr.split("-").map(Number);
     const baseUtc = Date.UTC(y, m - 1, d, 12, 0, 0);
@@ -102,7 +93,7 @@ export default function UpcomingEventsAndHora({ dateStr, cityId, isHi, onSelectD
 
     for (let i = 0; i < 30; i++) {
       const targetStr = new Date(baseUtc + i * 86400000).toISOString().slice(0, 10);
-      const rep = computeDailyPanchang(targetStr, city.id);
+      const rep = computeDailyPanchang(targetStr, city);
       if (rep.events.length > 0) {
         list.push({
           date: targetStr,
@@ -114,9 +105,8 @@ export default function UpcomingEventsAndHora({ dateStr, cityId, isHi, onSelectD
       }
     }
     return list;
-  }, [dateStr, city.id]);
+  }, [dateStr, city]);
 
-  // 3. Next Upcoming Solar & Lunar Eclipse (Grahan)
   const eclipses = useMemo(() => {
     const startDate = new Date(`${dateStr}T00:00:00Z`);
     const solar = Astronomy.SearchGlobalSolarEclipse(startDate);
@@ -156,7 +146,6 @@ export default function UpcomingEventsAndHora({ dateStr, cityId, isHi, onSelectD
     <div className="space-y-8 pt-4">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
-      {/* Dynamic 24-Hour Vedic Planetary Hora */}
       <section className="rounded-2xl bg-[#15112A] border border-amber-500/20 p-5 sm:p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5">
           <div>
@@ -205,7 +194,6 @@ export default function UpcomingEventsAndHora({ dateStr, cityId, isHi, onSelectD
         </div>
       </section>
 
-      {/* Upcoming 30-Day Vrats, Festivals & Next Grahan */}
       <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 rounded-2xl bg-[#15112A] border border-amber-500/20 p-5 sm:p-6">
           <h2 className="text-xl font-bold text-amber-200 flex items-center gap-2 mb-4">
@@ -263,7 +251,6 @@ export default function UpcomingEventsAndHora({ dateStr, cityId, isHi, onSelectD
         </div>
       </section>
 
-      {/* Bilingual SEO FAQ Accordion */}
       <section className="rounded-2xl bg-[#15112A] border border-amber-500/20 p-5 sm:p-6">
         <h2 className="text-xl font-bold text-amber-200 flex items-center gap-2 mb-4">
           <Sparkles className="w-5 h-5 text-amber-400" />
