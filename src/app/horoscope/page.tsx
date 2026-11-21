@@ -12,6 +12,7 @@ import {
   type PanchangCity,
   type RashiTransitPrediction,
 } from "@/lib/panchangEngine";
+import LiveStatusAndDishaBar from "@/components/astrology/LiveStatusAndDishaBar";
 import UpcomingEventsAndHora from "@/components/astrology/UpcomingEventsAndHora";
 
 function getTodayDateString(): string {
@@ -123,7 +124,7 @@ export default function HoroscopePage() {
     name: isHi
       ? `आज का पंचांग (${report.samvat.purnimantaHi}, विक्रम संवत् ${report.samvat.vikramSamvat}) - आचार्य श्री रविन्द्र शुक्ल शास्त्री`
       : `Daily Drik Panchang (${report.samvat.purnimantaEn}, Vikram Samvat ${report.samvat.vikramSamvat}) - Acharya Shri Ravindra Shukla Shatri`,
-    description: `Exact sunrise/sunset, Samvat & Masa, Tithi Samapti Kaal, Choghadiya, Hora, Rahu Kaal, Vrats, and live Chandra Gochara horoscope for ${report.city.nameEn}.`,
+    description: `Exact sunrise/sunset, Samvat & Masa, Tithi Samapti Kaal, Choghadiya, Hora, Rahu Kaal, Disha Shool, Vrats, and live Chandra Gochara horoscope for ${report.city.nameEn}.`,
     provider: {
       "@type": "LocalBusiness",
       name: "JyotishGuru — Acharya Shri Ravindra Shukla Shatri",
@@ -162,7 +163,7 @@ export default function HoroscopePage() {
                 </span>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl font-bold text-amber-100">
+              <h1 className="text-3xl sm:text-4xl font-bold text-amber-100 tracking-tight">
                 {isHi ? "दैनिक पंचांग, शुभ मुहूर्त एवं राशिफल" : "Daily Panchang, Auspicious Muhurat & Horoscope"}
               </h1>
               <p className="text-amber-200/75 mt-2 text-sm sm:text-base">
@@ -283,6 +284,9 @@ export default function HoroscopePage() {
             </div>
           )}
         </section>
+
+        {/* Live Active Muhurat/Rahu Kaal Pill, Disha Shool, Panchak & WhatsApp Share */}
+        <LiveStatusAndDishaBar report={report} isHi={isHi} />
 
         {/* Sun/Moon Timings + 5 Panchang Angas with Exact End Times */}
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
